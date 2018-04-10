@@ -57,3 +57,6 @@ xcuserdata/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
 
+## User settings
+xcuserdata/
+
