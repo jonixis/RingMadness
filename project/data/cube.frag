@@ -10,7 +10,7 @@ highp   // offset gets very big, needs to be highp on iOS
 #endif
 float offset;
 
-uniform samplerCube textureCube;
+uniform samplerCube texCube;
 
 varying vec4 fragPos;
 
@@ -20,5 +20,5 @@ void main()
     
     vec4 lightColor = vec4(1.0, 0.0, 0.0, 1.0);
     
-    gl_FragColor = texture(textureCube, vec3(fragPos.x, fragPos.z + 0.00, fragPos.y));
+    gl_FragColor = textureCube(texCube, vec3(fragPos.x, fragPos.z + 0.00, fragPos.y));
 }

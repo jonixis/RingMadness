@@ -45,7 +45,7 @@ void RenderProject::initFunction()
     
     
     ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile_o("cube",0,AMBIENT_LIGHTING);
-    skyShader->setUniform("textureCube", bRenderer().getObjects()->loadCubeMap("textureCube", std::vector<std::string>({ "TropicalSunnyDay_bk.png", "TropicalSunnyDay_dn.png", "TropicalSunnyDay_ft.png", "TropicalSunnyDay_lf.png", "TropicalSunnyDay_rt.png", "TropicalSunnyDay_up.png" })));
+    skyShader->setUniform("texCube", bRenderer().getObjects()->loadCubeMap("textureCube", std::vector<std::string>({ "TropicalSunnyDay_bk.png", "TropicalSunnyDay_dn.png", "TropicalSunnyDay_ft.png", "TropicalSunnyDay_lf.png", "TropicalSunnyDay_rt.png", "TropicalSunnyDay_up.png" })));
    
     
     
