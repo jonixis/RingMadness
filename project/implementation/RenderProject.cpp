@@ -35,8 +35,6 @@ void RenderProject::initFunction()
 	bRenderer().getObjects()->setShaderVersionDesktop("#version 120");
 	bRenderer().getObjects()->setShaderVersionES("#version 100");
     
-    //bRenderer().getObjects()->loadCubeMap("textureCube", std::vector<std::string>({ "TropicalSunnyDay_bk.png", "TropicalSunnyDay_dn.png", "TropicalSunnyDay_ft.png", "TropicalSunnyDay_lf.png", "TropicalSunnyDay_rt.png", "TropicalSunnyDay_up.png" }));
-
 	// load materials and shaders before loading the model
 	ShaderPtr customShader = bRenderer().getObjects()->generateShader("customShader", { 2, true, true, true, true, true, true, true, true, true, false, false, false });	// automatically generates a shader with a maximum of 2 lights
 	//ShaderPtr flameShader = bRenderer().getObjects()->loadShaderFile("flame", 0, false, true, true, false, false);				// load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
@@ -56,6 +54,9 @@ void RenderProject::initFunction()
     //Cube Fabio:
     
     bRenderer().getObjects()->loadObjModel_o("cube.obj",skyShader,FLIP_Z);
+    
+    
+    
     
     
 	// create additional properties for a model
@@ -204,13 +205,24 @@ void RenderProject::terminateFunction()
 /* Update render queue */
 void RenderProject::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
-    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(1.0f, 1.0f, 1.0f)) * vmml::create_scaling(vmml::Vector3f(20.0f));
+    vmml::Matrix4f modelMatrix = vmml::create_translation(-1.0f*(bRenderer().getObjects()->getCamera(camera)->getPosition())) * vmml::create_scaling(vmml::Vector3f(2000.0f));
     
     //cube
 
-    glDepthFunc(GL_FALSE);
+    glClear(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
+    glDepthMask(false);
+    
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+    
     bRenderer().getModelRenderer()->queueModelInstance("cube", "cube_instance", camera, modelMatrix, std::vector<std::string>({ "torchLight", "firstLight", "secondLight", "thirdLight" }));
-    glDepthFunc(GL_TRUE);
+    
+    glDisable(GL_CULL_FACE);
+    
+    glDepthMask(true);
+    glEnable(GL_DEPTH_TEST);
+    
     
 	/*** Cave ***/
 	// translate and scale 
