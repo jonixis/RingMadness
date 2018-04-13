@@ -44,8 +44,10 @@ void RenderProject::initFunction()
 	MaterialPtr flameMaterial = bRenderer().getObjects()->loadObjMaterial("flame.mtl", "flame", flameShader);				// load material from file using the shader created above
     
     
-    ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile_o("cube",0,AMBIENT_LIGHTING);
-    skyShader->setUniform("texCube", bRenderer().getObjects()->loadCubeMap("textureCube", std::vector<std::string>({ "TropicalSunnyDay_bk.png", "TropicalSunnyDay_dn.png", "TropicalSunnyDay_ft.png", "TropicalSunnyDay_lf.png", "TropicalSunnyDay_rt.png", "TropicalSunnyDay_up.png" })));
+    ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile_o("cube");
+    
+    //left, right, bottom, top, front,  back
+    skyShader->setUniform("texCube", bRenderer().getObjects()->loadCubeMap("textureCube", std::vector<std::string>({ "TropicalSunnyDay_lf.png", "TropicalSunnyDay_rt.png", "TropicalSunnyDay_dn.png", "TropicalSunnyDay_up.png", "TropicalSunnyDay_ft.png", "TropicalSunnyDay_bk.png" })));
    
     
     
@@ -202,15 +204,13 @@ void RenderProject::terminateFunction()
 /* Update render queue */
 void RenderProject::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
-    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(2.0f));
+    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(1.0f, 1.0f, 1.0f)) * vmml::create_scaling(vmml::Vector3f(20.0f));
     
     //cube
-    
-    glDepthFunc(GL_LEQUAL);
+
+    glDepthFunc(GL_FALSE);
     bRenderer().getModelRenderer()->queueModelInstance("cube", "cube_instance", camera, modelMatrix, std::vector<std::string>({ "torchLight", "firstLight", "secondLight", "thirdLight" }));
-    
-    glDepthFunc(GL_LESS);
-    
+    glDepthFunc(GL_TRUE);
     
 	/*** Cave ***/
 	// translate and scale 
