@@ -132,6 +132,16 @@
 		B59A67991ACC8BCC00E3EB9B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59A67981ACC8BCC00E3EB9B /* UIKit.framework */; };
 		B59A679B1ACC99F900E3EB9B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59A679A1ACC99F900E3EB9B /* CoreGraphics.framework */; };
 		B59A679D1ACC9A0400E3EB9B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59A679C1ACC9A0400E3EB9B /* QuartzCore.framework */; };
+		E535CCE12080DB2C00FB0BB4 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = E535CCDF2080DB2B00FB0BB4 /* cube.obj */; };
+		E535CCE22080DB2C00FB0BB4 /* cube.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E535CCE02080DB2C00FB0BB4 /* cube.mtl */; };
+		E535CCE52080DC3300FB0BB4 /* cube.vert in Resources */ = {isa = PBXBuildFile; fileRef = E535CCE32080DC3300FB0BB4 /* cube.vert */; };
+		E535CCE62080DC3300FB0BB4 /* cube.frag in Resources */ = {isa = PBXBuildFile; fileRef = E535CCE42080DC3300FB0BB4 /* cube.frag */; };
+		E535CCED2080E46D00FB0BB4 /* TropicalSunnyDay_lf.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCE72080E46D00FB0BB4 /* TropicalSunnyDay_lf.png */; };
+		E535CCEE2080E46D00FB0BB4 /* TropicalSunnyDay_bk.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCE82080E46D00FB0BB4 /* TropicalSunnyDay_bk.png */; };
+		E535CCEF2080E46D00FB0BB4 /* TropicalSunnyDay_dn.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCE92080E46D00FB0BB4 /* TropicalSunnyDay_dn.png */; };
+		E535CCF02080E46D00FB0BB4 /* TropicalSunnyDay_ft.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEA2080E46D00FB0BB4 /* TropicalSunnyDay_ft.png */; };
+		E535CCF12080E46D00FB0BB4 /* TropicalSunnyDay_rt.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEB2080E46D00FB0BB4 /* TropicalSunnyDay_rt.png */; };
+		E535CCF22080E46D00FB0BB4 /* TropicalSunnyDay_up.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */; };
 		F85FEE372080AFF300482603 /* SkyBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F85FEE362080AFF300482603 /* SkyBox.cpp */; };
 /* End PBXBuildFile section */
 
@@ -317,6 +327,16 @@
 		B59A67981ACC8BCC00E3EB9B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B59A679A1ACC99F900E3EB9B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B59A679C1ACC9A0400E3EB9B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		E535CCDF2080DB2B00FB0BB4 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
+		E535CCE02080DB2C00FB0BB4 /* cube.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.mtl; sourceTree = "<group>"; };
+		E535CCE32080DC3300FB0BB4 /* cube.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = cube.vert; sourceTree = "<group>"; };
+		E535CCE42080DC3300FB0BB4 /* cube.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = cube.frag; sourceTree = "<group>"; };
+		E535CCE72080E46D00FB0BB4 /* TropicalSunnyDay_lf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_lf.png; sourceTree = "<group>"; };
+		E535CCE82080E46D00FB0BB4 /* TropicalSunnyDay_bk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_bk.png; sourceTree = "<group>"; };
+		E535CCE92080E46D00FB0BB4 /* TropicalSunnyDay_dn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_dn.png; sourceTree = "<group>"; };
+		E535CCEA2080E46D00FB0BB4 /* TropicalSunnyDay_ft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_ft.png; sourceTree = "<group>"; };
+		E535CCEB2080E46D00FB0BB4 /* TropicalSunnyDay_rt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_rt.png; sourceTree = "<group>"; };
+		E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_up.png; sourceTree = "<group>"; };
 		F85FEE362080AFF300482603 /* SkyBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SkyBox.cpp; sourceTree = "<group>"; };
 		F85FEE382080B03100482603 /* SkyBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkyBox.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -384,6 +404,16 @@
 		B47949841BA6742B00B5E9DC /* data */ = {
 			isa = PBXGroup;
 			children = (
+				E535CCE82080E46D00FB0BB4 /* TropicalSunnyDay_bk.png */,
+				E535CCE92080E46D00FB0BB4 /* TropicalSunnyDay_dn.png */,
+				E535CCEA2080E46D00FB0BB4 /* TropicalSunnyDay_ft.png */,
+				E535CCE72080E46D00FB0BB4 /* TropicalSunnyDay_lf.png */,
+				E535CCEB2080E46D00FB0BB4 /* TropicalSunnyDay_rt.png */,
+				E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */,
+				E535CCE42080DC3300FB0BB4 /* cube.frag */,
+				E535CCE32080DC3300FB0BB4 /* cube.vert */,
+				E535CCE02080DB2C00FB0BB4 /* cube.mtl */,
+				E535CCDF2080DB2B00FB0BB4 /* cube.obj */,
 				B47949851BA6742B00B5E9DC /* arial.ttf */,
 				B47949861BA6742B00B5E9DC /* basicTitle_light.png */,
 				B47949871BA6742B00B5E9DC /* blurShader.frag */,
@@ -737,9 +767,12 @@
 				B47949A91BA6742B00B5E9DC /* cave_n.png in Resources */,
 				B47949AB1BA6742B00B5E9DC /* cave_stream.mtl in Resources */,
 				B47949B61BA6742B00B5E9DC /* flame.mtl in Resources */,
+				E535CCE22080DB2C00FB0BB4 /* cube.mtl in Resources */,
+				E535CCE12080DB2C00FB0BB4 /* cube.obj in Resources */,
 				B47949AE1BA6742B00B5E9DC /* cave_stream_n.png in Resources */,
 				B47949B51BA6742B00B5E9DC /* flame.frag in Resources */,
 				B47949AC1BA6742B00B5E9DC /* cave_stream.obj in Resources */,
+				E535CCE62080DC3300FB0BB4 /* cube.frag in Resources */,
 				B47949A61BA6742B00B5E9DC /* cave.mtl in Resources */,
 				B47949B21BA6742B00B5E9DC /* crystal_d.png in Resources */,
 				B47949A21BA6742B00B5E9DC /* arial.ttf in Resources */,
@@ -749,17 +782,24 @@
 				B47949A51BA6742B00B5E9DC /* blurShader.vert in Resources */,
 				B47949AA1BA6742B00B5E9DC /* cave_stream.frag in Resources */,
 				B47949AD1BA6742B00B5E9DC /* cave_stream.vert in Resources */,
+				E535CCF22080E46D00FB0BB4 /* TropicalSunnyDay_up.png in Resources */,
 				B47949AF1BA6742B00B5E9DC /* config.json in Resources */,
+				E535CCED2080E46D00FB0BB4 /* TropicalSunnyDay_lf.png in Resources */,
 				B47949BD1BA6742B00B5E9DC /* torch.obj in Resources */,
+				E535CCF12080E46D00FB0BB4 /* TropicalSunnyDay_rt.png in Resources */,
 				B47949A71BA6742B00B5E9DC /* cave.obj in Resources */,
 				B47949B81BA6742B00B5E9DC /* flame.png in Resources */,
 				B47949BE1BA6742B00B5E9DC /* torchSurface_Color.png in Resources */,
 				B47949B91BA6742B00B5E9DC /* flame.vert in Resources */,
+				E535CCEF2080E46D00FB0BB4 /* TropicalSunnyDay_dn.png in Resources */,
 				B47949A31BA6742B00B5E9DC /* basicTitle_light.png in Resources */,
+				E535CCE52080DC3300FB0BB4 /* cube.vert in Resources */,
+				E535CCEE2080E46D00FB0BB4 /* TropicalSunnyDay_bk.png in Resources */,
 				B47949BC1BA6742B00B5E9DC /* torch.mtl in Resources */,
 				B47949A41BA6742B00B5E9DC /* blurShader.frag in Resources */,
 				B47949BB1BA6742B00B5E9DC /* sparks.png in Resources */,
 				B47949BA1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf in Resources */,
+				E535CCF02080E46D00FB0BB4 /* TropicalSunnyDay_ft.png in Resources */,
 				B4794A301BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				B47949B31BA6742B00B5E9DC /* crystal_n.png in Resources */,
 				B47949B11BA6742B00B5E9DC /* crystal.obj in Resources */,
