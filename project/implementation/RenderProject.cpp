@@ -36,47 +36,67 @@ void RenderProject::initFunction()
     
 	// load materials and shaders before loading the model
 	ShaderPtr customShader = bRenderer().getObjects()->generateShader("customShader", { 2, true, true, true, true, true, true, true, true, true, false, false, false });	// automatically generates a shader with a maximum of 2 lights
-	//ShaderPtr flameShader = bRenderer().getObjects()->loadShaderFile("flame", 0, false, true, true, false, false);				// load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
-	ShaderPtr flameShader = bRenderer().getObjects()->loadShaderFile_o("flame", 0, AMBIENT_LIGHTING);				// load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
-	MaterialPtr flameMaterial = bRenderer().getObjects()->loadObjMaterial("flame.mtl", "flame", flameShader);				// load material from file using the shader created above
+	
+    // load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
+    //ShaderPtr flameShader = bRenderer().getObjects()->loadShaderFile("flame", 0, false, true, true, false, false);
+    
+    // load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
+	ShaderPtr flameShader = bRenderer().getObjects()->loadShaderFile_o("flame", 0, AMBIENT_LIGHTING);
+    
+    // load material from file using the shader created above
+	MaterialPtr flameMaterial = bRenderer().getObjects()->loadObjMaterial("flame.mtl", "flame", flameShader);
     
     
+    //Load cube.frag & cube.vert for the skyCube
     ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile_o("cube");
     
-    //left, right, bottom, top, front,  back
+    // Order of pictures to generate cubematp. left, right, bottom, top, front,  back
     skyShader->setUniform("texCube", bRenderer().getObjects()->loadCubeMap("textureCube", std::vector<std::string>({ "TropicalSunnyDay_lf.png", "TropicalSunnyDay_rt.png", "TropicalSunnyDay_dn.png", "TropicalSunnyDay_up.png", "TropicalSunnyDay_ft.png", "TropicalSunnyDay_bk.png" })));
    
+    //Load Skycube object cube.obj. Name of shader used.
+    bRenderer().getObjects()->loadObjModel_o("cube.obj", skyShader);
     
     
-    //bRenderer().getObjects()->cre
-    
-    //Cube Fabio:
-    
-    bRenderer().getObjects()->loadObjModel_o("cube.obj",skyShader,FLIP_Z);
-    
-    
-    
-    
+
     
 	// create additional properties for a model
 	PropertiesPtr flameProperties = bRenderer().getObjects()->createProperties("flameProperties");
 	PropertiesPtr streamProperties = bRenderer().getObjects()->createProperties("streamProperties");
-
-	// load models
-	//bRenderer().getObjects()->loadObjModel("cave.obj", true, true, false, 4, true, false);								// automatically generates a shader with a maximum of 4 lights (number of lights may vary between 0 and 4 during rendering without performance loss)
-	bRenderer().getObjects()->loadObjModel_o("cave.obj", 4, FLIP_T | FLIP_Z | VARIABLE_NUMBER_OF_LIGHTS);								// automatically generates a shader with a maximum of 4 lights (number of lights may vary between 0 and 4 during rendering without performance loss)
-	//bRenderer().getObjects()->loadObjModel("cave_stream.obj", true, true, true, 4, false, false, streamProperties);		// automatically loads shader files according to the name of the material
-	bRenderer().getObjects()->loadObjModel_o("cave_stream.obj", 4, FLIP_T | FLIP_Z | SHADER_FROM_FILE, streamProperties);		// automatically loads shader files according to the name of the material
-	//bRenderer().getObjects()->loadObjModel("crystal.obj", false, true, customShader);									// the custom shader created above is used
-	bRenderer().getObjects()->loadObjModel_o("crystal.obj", customShader, FLIP_Z);									// the custom shader created above is used
-	//bRenderer().getObjects()->loadObjModel("torch.obj", false, true, false, 1, false, true);							// create custom shader with a maximum of 1 light
-	bRenderer().getObjects()->loadObjModel_o("torch.obj", 1, FLIP_Z | AMBIENT_LIGHTING);							// create custom shader with a maximum of 1 light
+    
+    // automatically generates a shader with a maximum of 4 lights (number of lights may vary between 0 and 4 during rendering without performance loss)
+	//bRenderer().getObjects()->loadObjModel("cave.obj", true, true, false, 4, true, false);
+    
+    // automatically generates a shader with a maximum of 4 lights (number of lights may vary between 0 and 4 during rendering without performance loss)
+	bRenderer().getObjects()->loadObjModel_o("cave.obj", 4, FLIP_T | FLIP_Z | VARIABLE_NUMBER_OF_LIGHTS);
+    
+    // automatically loads shader files according to the name of the material
+	//bRenderer().getObjects()->loadObjModel("cave_stream.obj", true, true, true, 4, false, false, streamProperties);
+    
+    // automatically loads shader files according to the name of the material
+	bRenderer().getObjects()->loadObjModel_o("cave_stream.obj", 4, FLIP_T | FLIP_Z | SHADER_FROM_FILE, streamProperties);
+    
+    // the custom shader created above is used
+	//bRenderer().getObjects()->loadObjModel("crystal.obj", false, true, customShader);
+    
+    // the custom shader created above is used
+	bRenderer().getObjects()->loadObjModel_o("crystal.obj", customShader, FLIP_Z);
+    
+    // create custom shader with a maximum of 1 light
+	//bRenderer().getObjects()->loadObjModel("torch.obj", false, true, false, 1, false, true);
+    
+    // create custom shader with a maximum of 1 light
+	bRenderer().getObjects()->loadObjModel_o("torch.obj", 1, FLIP_Z | AMBIENT_LIGHTING);
 
     
 	// create sprites
-	bRenderer().getObjects()->createSprite_o("flame", flameMaterial, NO_OPTION, flameProperties);				// create a sprite using the material created above, to pass additional properties a Properties object is used
-	bRenderer().getObjects()->createSprite("sparks", "sparks.png");										// create a sprite displaying sparks as a texture
-	bRenderer().getObjects()->createSprite("bTitle", "basicTitle_light.png");							// create a sprite displaying the title as a texture
+    // create a sprite using the material created above, to pass additional properties a Properties object is used
+	bRenderer().getObjects()->createSprite_o("flame", flameMaterial, NO_OPTION, flameProperties);
+    
+    // create a sprite displaying sparks as a texture
+	bRenderer().getObjects()->createSprite("sparks", "sparks.png");
+    
+    // create a sprite displaying the title as a texture
+	bRenderer().getObjects()->createSprite("bTitle", "basicTitle_light.png");
 
 	// create text sprites
 	FontPtr font = bRenderer().getObjects()->loadFont("KozGoPro-ExtraLight.otf", 50);
@@ -85,8 +105,12 @@ void RenderProject::initFunction()
 	else
 		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.f, 1.f), "Press space to start", font);
 
+    
+    
 	// create camera
 	bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(-33.0, 0.f, -13.0), vmml::Vector3f(0.f, -M_PI_F / 2, 0.f));
+    
+    
     
 	// create lights
 	bRenderer().getObjects()->createLight("firstLight", vmml::Vector3f(78.0f, -3.0f, 0.0f), vmml::Vector3f(0.5f, 0.5f, 1.0f), vmml::Vector3f(1.0f, 1.0f, 1.0f), 100.0f, 0.4f, 100.0f);
@@ -94,6 +118,7 @@ void RenderProject::initFunction()
 	bRenderer().getObjects()->createLight("thirdLight", vmml::Vector3f(218.0f, -3.0f, 0.0f), vmml::Vector3f(0.8f, 0.2f, 0.2f), vmml::Vector3f(1.0f, 1.0f, 1.0f), 100.0f, 0.8f, 100.0f);
 	bRenderer().getObjects()->createLight("torchLight", -bRenderer().getObjects()->getCamera("camera")->getPosition(), vmml::Vector3f(1.0f, 0.45f, -0.4f), vmml::Vector3f(1.0f, 1.0f, 1.0f), 1400.0f, 0.9f, 280.0f);
 
+    
 	// postprocessing
 	bRenderer().getObjects()->createFramebuffer("fbo");					// create framebuffer object
 	bRenderer().getObjects()->createTexture("fbo_texture1", 0.f, 0.f);	// create texture to bind to the fbo
@@ -103,9 +128,13 @@ void RenderProject::initFunction()
 	MaterialPtr blurMaterial = bRenderer().getObjects()->createMaterial("blurMaterial", blurShader);								// create an empty material to assign either texture1 or texture2 to
 	bRenderer().getObjects()->createSprite("blurSprite", blurMaterial);																// create a sprite using the material created above
 
+    
 	// Update render queue
 	updateRenderQueue("camera", 0.0f);
 }
+
+
+
 
 /* Draw your scene here */
 void RenderProject::loopFunction(const double &deltaTime, const double &elapsedTime)
