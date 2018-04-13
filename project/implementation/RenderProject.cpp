@@ -1,4 +1,5 @@
 #include "RenderProject.h"
+#include "SkyBox.h"
 
 /* Initialize the Project */
 void RenderProject::init()
