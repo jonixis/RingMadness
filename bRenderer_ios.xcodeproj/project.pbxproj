@@ -142,7 +142,6 @@
 		E535CCF02080E46D00FB0BB4 /* TropicalSunnyDay_ft.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEA2080E46D00FB0BB4 /* TropicalSunnyDay_ft.png */; };
 		E535CCF12080E46D00FB0BB4 /* TropicalSunnyDay_rt.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEB2080E46D00FB0BB4 /* TropicalSunnyDay_rt.png */; };
 		E535CCF22080E46D00FB0BB4 /* TropicalSunnyDay_up.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */; };
-		F85FEE372080AFF300482603 /* SkyBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F85FEE362080AFF300482603 /* SkyBox.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -337,8 +336,6 @@
 		E535CCEA2080E46D00FB0BB4 /* TropicalSunnyDay_ft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_ft.png; sourceTree = "<group>"; };
 		E535CCEB2080E46D00FB0BB4 /* TropicalSunnyDay_rt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_rt.png; sourceTree = "<group>"; };
 		E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_up.png; sourceTree = "<group>"; };
-		F85FEE362080AFF300482603 /* SkyBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SkyBox.cpp; sourceTree = "<group>"; };
-		F85FEE382080B03100482603 /* SkyBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkyBox.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -387,7 +384,6 @@
 			isa = PBXGroup;
 			children = (
 				B44186941BA331E300604D7F /* RenderProject.h */,
-				F85FEE382080B03100482603 /* SkyBox.h */,
 			);
 			path = headers;
 			sourceTree = "<group>";
@@ -396,7 +392,6 @@
 			isa = PBXGroup;
 			children = (
 				B44186961BA331E300604D7F /* RenderProject.cpp */,
-				F85FEE362080AFF300482603 /* SkyBox.cpp */,
 			);
 			path = implementation;
 			sourceTree = "<group>";
@@ -861,7 +856,6 @@
 				B47AD6F31B82800400AFC632 /* ftcache.c in Sources */,
 				B47AD6FD1B82806900AFC632 /* ftgzip.c in Sources */,
 				B47AD6CF1B827E7100AFC632 /* ftwinfnt.c in Sources */,
-				F85FEE372080AFF300482603 /* SkyBox.cpp in Sources */,
 				B44186971BA331E300604D7F /* RenderProject.cpp in Sources */,
 				B4794A421BA6743D00B5E9DC /* OBJLoader.cpp in Sources */,
 				B4794A401BA6743D00B5E9DC /* ModelRenderer.cpp in Sources */,
