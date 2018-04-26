@@ -160,7 +160,7 @@ GLint Shader::findUniformLocation(const std::string &name)
     }
     if (loc < 0)
     {
-		bRenderer::log("Couldn't find uniform '" + name + "'.", bRenderer::LM_WARNING);
+		//bRenderer::log("Couldn't find uniform '" + name + "'.", bRenderer::LM_WARNING);
     }
     return loc;
 }
