@@ -22,6 +22,8 @@ Camera::Camera(const vmml::Vector3f &position, const vmml::Vector3f &rotationAxe
 
 /* Public Functions */
 
+vmml::Matrix4f view;
+
 void Camera::moveCameraForward(GLfloat camSpeed)
 {
 	_position -= camSpeed * getForward();
@@ -51,7 +53,7 @@ void Camera::resetCamera()
 }
 
 vmml::Matrix4f Camera::getViewMatrix(){
-	return getRotation() * vmml::create_translation(getPosition());
+    return getRotation(); // * vmml::create_translation(getPosition());
 }
 
 vmml::Matrix4f Camera::getInverseViewMatrix(){
@@ -65,7 +67,8 @@ vmml::Matrix4f Camera::getProjectionMatrix()
 
 vmml::Matrix4f Camera::getRotation()
 {
-	return  vmml::create_rotation(_rotationAxes[2], vmml::Vector3f::UNIT_Z) * vmml::create_rotation(_rotationAxes[0], vmml::Vector3f::UNIT_X) * vmml::create_rotation(_rotationAxes[1], vmml::Vector3f::UNIT_Y);
+	//return  vmml::create_rotation(_rotationAxes[2], vmml::Vector3f::UNIT_Z) * vmml::create_rotation(_rotationAxes[0], vmml::Vector3f::UNIT_X) * vmml::create_rotation(_rotationAxes[1], vmml::Vector3f::UNIT_Y);
+    return view;
 }
 
 vmml::Matrix4f Camera::getInverseRotation()
@@ -121,10 +124,9 @@ vmml::Matrix4f Camera::lookAt(const vmml::Vector3f &eye, const vmml::Vector3f &t
 	vmml::Vector3f xaxis = vmml::normalize(vmml::cross<3>(up, zaxis));
 	vmml::Vector3f yaxis = vmml::cross<3>(zaxis, xaxis);
 
-	vmml::Matrix4f view;
 	view.set_row(0, vmml::Vector4f(xaxis.x(), xaxis.y(), xaxis.z(), -vmml::dot(xaxis, eye)));
 	view.set_row(1, vmml::Vector4f(yaxis.x(), yaxis.y(), yaxis.z(), -vmml::dot(yaxis, eye)));
-	view.set_row(2, vmml::Vector4f(zaxis.x(), zaxis.y(), zaxis.z(), -vmml::dot(zaxis, eye)));
+	view.set_row(2, -vmml::Vector4f(zaxis.x(), zaxis.y(), zaxis.z(), -vmml::dot(zaxis, eye)));
 	view.set_row(3, vmml::Vector4f(0, 0, 0, 1.0));
 
 	return view;
