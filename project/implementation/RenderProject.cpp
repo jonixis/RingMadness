@@ -20,7 +20,10 @@ vmml::Matrix4f planeModelMatrix;
 vmml::Matrix4f planeRotationMatrix;
 vmml::Matrix4f planeTransaltionMatrix;
 vmml::Vector3f planePosition;
-vmml::Vector3f PLANESPEED = vmml::Vector3f(0.0f,0.0f,10.0f); 
+vmml::Vector3f PLANESPEED = vmml::Vector3f(0.0f,0.0f,1.0f);
+
+vmml::Matrix4f cameraModelMatrix;
+vmml::Vector3f cameraPosition;
 
 double planeCurrentPitch = 0;
 double planeCurrentYaw = 0;
@@ -70,7 +73,7 @@ void RenderProject::initFunction()
     bRenderer().getObjects()->loadObjModel_o("cube.obj", skyShader);
     bRenderer().getObjects()->loadObjModel("plane.obj");
     
-    planeModelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(0.03f)) * vmml::create_rotation(M_PI_F * 0.5f, vmml::Vector3f::UNIT_Y);
+    planeModelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_rotation(M_PI_F * 0.5f, vmml::Vector3f::UNIT_Y);
     
     
 
@@ -211,7 +214,7 @@ void RenderProject::loopFunction(const double &deltaTime, const double &elapsedT
 
 	//// Camera Movement ////
     updatePlane("camera", deltaTime);
-	updateCamera("camera", deltaTime);
+	//updateCamera("camera", deltaTime);
 	
 	//// Torch Light ////
 	if (_running){
@@ -250,7 +253,7 @@ void RenderProject::terminateFunction()
 /* Update render queue */
 void RenderProject::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
-    vmml::Matrix4f modelMatrix = vmml::create_translation(-1.0f*(bRenderer().getObjects()->getCamera(camera)->getPosition())) * vmml::create_scaling(vmml::Vector3f(2000.0f));
+    vmml::Matrix4f modelMatrix = vmml::create_translation(-1.0f*(bRenderer().getObjects()->getCamera(camera)->getPosition())) * vmml::create_scaling(vmml::Vector3f(20000.0f));
     
     //cube
 
@@ -480,6 +483,12 @@ void RenderProject::updatePlane(const std::string &camera, const double &deltaTi
         planeTransaltionMatrix = planeModelMatrix * vmml::create_translation(PLANESPEED);
         
         planeModelMatrix = planeTransaltionMatrix * planeRotationMatrix;
+        
+        cameraModelMatrix = planeModelMatrix * vmml::create_translation(vmml::Vector3f(0.0f,0.0f,-30.0f));
+        cameraPosition = vmml::Vector3f(cameraModelMatrix[0][3],cameraModelMatrix[1][3], cameraModelMatrix[2][3]);
+        
+        bRenderer().getObjects()->getCamera(camera)->lookAt(cameraPosition, planePosition, vmml::Vector3f::UNIT_Y);
+        
         
     }
 }
