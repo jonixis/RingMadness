@@ -144,6 +144,7 @@
 		E535CCF02080E46D00FB0BB4 /* TropicalSunnyDay_ft.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEA2080E46D00FB0BB4 /* TropicalSunnyDay_ft.png */; };
 		E535CCF12080E46D00FB0BB4 /* TropicalSunnyDay_rt.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEB2080E46D00FB0BB4 /* TropicalSunnyDay_rt.png */; };
 		E535CCF22080E46D00FB0BB4 /* TropicalSunnyDay_up.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */; };
+		E5F256F320909AB800BEE425 /* PlaneTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F256F220909AB800BEE425 /* PlaneTexture.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -340,6 +341,7 @@
 		E535CCEA2080E46D00FB0BB4 /* TropicalSunnyDay_ft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_ft.png; sourceTree = "<group>"; };
 		E535CCEB2080E46D00FB0BB4 /* TropicalSunnyDay_rt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_rt.png; sourceTree = "<group>"; };
 		E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_up.png; sourceTree = "<group>"; };
+		E5F256F220909AB800BEE425 /* PlaneTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlaneTexture.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -403,6 +405,7 @@
 		B47949841BA6742B00B5E9DC /* data */ = {
 			isa = PBXGroup;
 			children = (
+				E5F256F220909AB800BEE425 /* PlaneTexture.png */,
 				E524AD9D20812C90005F8188 /* plane.mtl */,
 				E524AD9E20812C91005F8188 /* plane.obj */,
 				E535CCE82080E46D00FB0BB4 /* TropicalSunnyDay_bk.png */,
@@ -792,6 +795,7 @@
 				B47949B81BA6742B00B5E9DC /* flame.png in Resources */,
 				B47949BE1BA6742B00B5E9DC /* torchSurface_Color.png in Resources */,
 				B47949B91BA6742B00B5E9DC /* flame.vert in Resources */,
+				E5F256F320909AB800BEE425 /* PlaneTexture.png in Resources */,
 				E535CCEF2080E46D00FB0BB4 /* TropicalSunnyDay_dn.png in Resources */,
 				B47949A31BA6742B00B5E9DC /* basicTitle_light.png in Resources */,
 				E524ADA020812C91005F8188 /* plane.obj in Resources */,
