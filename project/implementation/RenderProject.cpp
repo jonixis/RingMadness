@@ -16,19 +16,23 @@ void RenderProject::init()
 	bRenderer().runRenderer();
 }
 
+//plane Variables
 vmml::Matrix4f planeModelMatrix;
+vmml::Matrix4f planeModelMatrixTwo;
 vmml::Matrix4f planeRotationMatrix;
 vmml::Matrix4f planeTransaltionMatrix;
 vmml::Vector3f planePosition;
 vmml::Vector3f PLANESPEED = vmml::Vector3f(0.0f,0.0f,1.0f);
+float planeCurrentPitch = 0;
+float planeCurrentYaw = 0;
+float planeMaxMinPitch = 0;
+float planeCurrentRoll = 0;
+float planeLastRoll = 0;
 
+
+//camera Variables
 vmml::Matrix4f cameraModelMatrix;
 vmml::Vector3f cameraPosition;
-
-double planeCurrentPitch = 0;
-double planeCurrentYaw = 0;
-double planeMaxMinPitch = 0;
-double planeMaxMinYaw = 0;
 
 /* This function is executed when initializing the renderer */
 void RenderProject::initFunction()
@@ -129,6 +133,7 @@ void RenderProject::initFunction()
 	// create camera
 	//bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(-33.0, 0.f, -13.0), vmml::Vector3f(0.f, -M_PI_F / 2, 0.f));
     bRenderer().getObjects()->createCamera("camera");
+    bRenderer().getObjects()->getCamera("camera")->lookAt(vmml::Vector3f(-30.0f,0.0f,0.0f), vmml::Vector3f::ZERO, vmml::Vector3f::UNIT_Y);
     
 	// create lights
 	bRenderer().getObjects()->createLight("firstLight", vmml::Vector3f(78.0f, -3.0f, 0.0f), vmml::Vector3f(0.5f, 0.5f, 1.0f), vmml::Vector3f(1.0f, 1.0f, 1.0f), 100.0f, 0.4f, 100.0f);
@@ -353,7 +358,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
 		//bRenderer().getModelRenderer()->queueModelInstance(bRenderer().getObjects()->getModel("sparks"), ("sparks_instance" + std::to_string(z)), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false, false, true, GL_SRC_ALPHA, GL_ONE, (-2.0f - 0.01f*z)); // negative distance because always in foreground
 	}
     //plane //
-    bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrix, std::vector<std::string>({ "torchLight", "firstLight", "secondLight", "thirdLight" }), true, true);
+    bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrixTwo, std::vector<std::string>({ "torchLight", "firstLight", "secondLight", "thirdLight" }), true, true);
     
 
 }
@@ -362,10 +367,8 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
 
 void RenderProject::updatePlane(const std::string &camera, const double &deltaTime){
     
-    int planeTargetPitch = 0;
-    int planeTargetYaw = 0;
-    
-    planePosition = vmml::Vector3f(planeModelMatrix[0][3],planeModelMatrix[1][3],planeModelMatrix[2][3]);
+    float planeTargetPitch = 0;
+    float planeTargetYaw = 0;
     
     //Double tap to stop game only on the left half of the screen.
     if (bRenderer().getInput()->doubleTapRecognized()){
@@ -381,68 +384,59 @@ void RenderProject::updatePlane(const std::string &camera, const double &deltaTi
         for (auto t = touchMap.begin(); t != touchMap.end(); ++t)
         {
             Touch touch = t->second;
-            // If touch is in left half of the view: move around
-            if (touch.startPositionX < bRenderer().getView()->getWidth() / 2){
-                //cameraForward = -(touch.currentPositionY - touch.startPositionY) / 100;
-                //cameraSideward = (touch.currentPositionX - touch.startPositionX) / 100;
-                
-            }
-            // if touch is in right half of the view: look around
-            else
-            {
-                planeTargetYaw= (touch.currentPositionX - touch.startPositionX) / 20;
-                planeTargetPitch = (touch.currentPositionY - touch.startPositionY) / 20;
+            // If touch is on the right half, steer plane
+            if (touch.startPositionX > bRenderer().getView()->getWidth() / 2){
+                planeTargetYaw = -(touch.currentPositionX - touch.startPositionX) * 0.0001f;
+                planeTargetPitch = (touch.currentPositionY - touch.startPositionY) * 0.0001f;
             }
             if (++i > 2)
                 break;
             
         }
         
-        if(planeTargetPitch > 0){
-            if(planeMaxMinPitch > 4)
-                planeCurrentPitch = 0;
-            else{
-                planeCurrentPitch = 0.1;
-                planeMaxMinPitch +=0.1;
-            }
-        }
-        if(planeTargetPitch < 0){
-            if(planeMaxMinPitch < -4)
-                planeCurrentPitch = 0;
-            else{
-                planeCurrentPitch = -0.1;
-                planeMaxMinPitch -=0.1;
-            }
-        }
+        //pitch of plane
         if(planeTargetPitch == 0){
             planeCurrentPitch = 0;
+        }else{
+            planeCurrentPitch = fmax(fmin(planeTargetPitch, 0.01f),-0.01);
         }
         
-        if(planeTargetYaw > 0){
-            planeCurrentYaw = 0.1;
-        }
-        if(planeTargetYaw < 0){
-            planeCurrentYaw = -0.1;
-        }
+        //Roll and yaw of plane with automatical leveling of roll
         if(planeTargetYaw == 0){
+            if (planeCurrentRoll > 0) {
+                planeCurrentRoll = planeCurrentRoll - (planeCurrentRoll * 0.1f);
+            } else if(planeCurrentRoll < 0){
+                planeCurrentRoll  = planeCurrentRoll - (planeCurrentRoll * 0.1f);
+            } else{
+                planeCurrentRoll = 0;
+            }
             planeCurrentYaw = 0;
+        }else{
+            planeCurrentYaw = planeTargetYaw;
+            planeCurrentRoll = fmax(fmin(planeTargetYaw * 200.0, 1.4),-1.4);
         }
         
-        planeRotationMatrix = vmml::create_rotation((float)planeCurrentPitch*0.1f, vmml::Vector3f::UNIT_X) * vmml::create_rotation((float)planeCurrentYaw*0.1f, vmml::Vector3f::UNIT_Y);
+        //PlaneRotation
+        planeRotationMatrix = vmml::create_rotation(0.0f, vmml::Vector3f::UNIT_Z) * vmml::create_rotation(planeCurrentPitch, vmml::Vector3f::UNIT_X) * vmml::create_rotation(planeCurrentYaw, vmml::Vector3f::UNIT_Y);
+        
+        //Plane translation
         planeTransaltionMatrix = planeModelMatrix * vmml::create_translation(PLANESPEED);
         
+        //Plane Movement form rotation and translation
         planeModelMatrix = planeTransaltionMatrix * planeRotationMatrix;
+        
+        //planePosition
+        planePosition = vmml::Vector3f(planeModelMatrix[0][3],planeModelMatrix[1][3],planeModelMatrix[2][3]);
+        
+        //calcualte camera Position from planeModelMatrix translated 30.f behind the plane.
         
         cameraModelMatrix = planeModelMatrix * vmml::create_translation(vmml::Vector3f(0.0f,0.0f,-30.0f));
         cameraPosition = vmml::Vector3f(cameraModelMatrix[0][3],cameraModelMatrix[1][3], cameraModelMatrix[2][3]);
         
-        std::cout << "CameraPosition" << std::endl;
-        std::cout << cameraPosition << std::endl;
-        
-        std::cout << "PlanePosition" << std::endl;
-        std::cout << planePosition << std::endl;
-        
+        //Camera view direction and
         bRenderer().getObjects()->getCamera(camera)->lookAt(cameraPosition, planePosition, vmml::Vector3f::UNIT_Y);
+        
+        planeModelMatrixTwo = planeModelMatrix * vmml::create_rotation(-planeCurrentRoll, vmml::Vector3f::UNIT_Z);
         
         
     }
