@@ -308,7 +308,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
 	modelMatrix = bRenderer().getObjects()->getCamera(camera)->getInverseViewMatrix();		// position and orient to match camera
 	modelMatrix *= vmml::create_translation(vmml::Vector3f(0.75f, -1.1f, 0.8f)) * vmml::create_scaling(vmml::Vector3f(1.2f)) * vmml::create_rotation(1.64f, vmml::Vector3f::UNIT_Y); // now position it relative to the camera
 	// submit to render queue
-	bRenderer().getModelRenderer()->queueModelInstance("torch", "torch_instance", camera, modelMatrix, std::vector<std::string>({ "torchLight" }));
+	//bRenderer().getModelRenderer()->queueModelInstance("torch", "torch_instance", camera, modelMatrix, std::vector<std::string>({ "torchLight" }));
 
 	/*** Flame ***/
 	// pass additional properties to the shader
@@ -330,7 +330,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
 		// model matrix
 		modelMatrix = translation * scaling * rotation;
 		// submit to render queue
-		bRenderer().getModelRenderer()->queueModelInstance(bRenderer().getObjects()->getModel("flame"), ("flame_instance" + std::to_string(z)), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false, false, true, GL_SRC_ALPHA, GL_ONE, (-1.0f - 0.01f*z));  // negative distance because always in foreground
+		//bRenderer().getModelRenderer()->queueModelInstance(bRenderer().getObjects()->getModel("flame"), ("flame_instance" + std::to_string(z)), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false, false, true, GL_SRC_ALPHA, GL_ONE, (-1.0f - 0.01f*z));  // negative distance because always in foreground
 	}
 
 	/*** Sparks ***/
@@ -350,7 +350,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
 		modelMatrix = translation * scaling * rotation;
 
 		// submit to render queue
-		bRenderer().getModelRenderer()->queueModelInstance(bRenderer().getObjects()->getModel("sparks"), ("sparks_instance" + std::to_string(z)), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false, false, true, GL_SRC_ALPHA, GL_ONE, (-2.0f - 0.01f*z)); // negative distance because always in foreground
+		//bRenderer().getModelRenderer()->queueModelInstance(bRenderer().getObjects()->getModel("sparks"), ("sparks_instance" + std::to_string(z)), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false, false, true, GL_SRC_ALPHA, GL_ONE, (-2.0f - 0.01f*z)); // negative distance because always in foreground
 	}
     //plane //
     bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrix, std::vector<std::string>({ "torchLight", "firstLight", "secondLight", "thirdLight" }), true, true);
