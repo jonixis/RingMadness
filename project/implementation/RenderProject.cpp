@@ -46,7 +46,7 @@ void RenderProject::initFunction()
 	_randomOffset = 0.0f;
 	_cameraSpeed = 40.0f;
 	_running = false; _lastStateSpaceKey = bRenderer::INPUT_UNDEFINED;
-	_viewMatrixHUD = Camera::lookAt(vmml::Vector3f(0.0f, 0.0f, 0.25f), vmml::Vector3f::ZERO, vmml::Vector3f::UP);
+	_viewMatrixHUD = Camera::lookAtForHUD(vmml::Vector3f(0.0f, 0.0f, 0.25f), vmml::Vector3f::ZERO, vmml::Vector3f::UP);
 
 	// set shader versions (optional)
 	bRenderer().getObjects()->setShaderVersionDesktop("#version 120");
@@ -124,7 +124,7 @@ void RenderProject::initFunction()
 	// create text sprites
 	FontPtr font = bRenderer().getObjects()->loadFont("KozGoPro-ExtraLight.otf", 50);
 	if (Input::isTouchDevice())
-		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.f, 1.f), "Double tap to start", font);
+		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.0f, 1.f), "Double tap on the left half of the screen to start", font);
 	else
 		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.f, 1.f), "Press space to start", font);
 
@@ -211,7 +211,7 @@ void RenderProject::loopFunction(const double &deltaTime, const double &elapsedT
 		/*** Instructions ***/
 		titleScale = 0.1f;
 		scaling = vmml::create_scaling(vmml::Vector3f(titleScale / bRenderer().getView()->getAspectRatio(), titleScale, titleScale));
-		modelMatrix = vmml::create_translation(vmml::Vector3f(-0.45f / bRenderer().getView()->getAspectRatio(), -0.6f, -0.65f)) * scaling;
+		modelMatrix = vmml::create_translation(vmml::Vector3f(-1.0f / bRenderer().getView()->getAspectRatio(), -0.6f, -0.65f)) * scaling;
 		// draw
 		bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getTextSprite("instructions"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
     }

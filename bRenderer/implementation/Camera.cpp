@@ -132,6 +132,20 @@ vmml::Matrix4f Camera::lookAt(const vmml::Vector3f &eye, const vmml::Vector3f &t
 	return view;
 }
 
+vmml::Matrix4f Camera::lookAtForHUD(const vmml::Vector3f &eye, const vmml::Vector3f &target, const vmml::Vector3f &up){
+    vmml::Vector3f zaxis = vmml::normalize(eye - target);
+    vmml::Vector3f xaxis = vmml::normalize(vmml::cross<3>(up, zaxis));
+    vmml::Vector3f yaxis = vmml::cross<3>(zaxis, xaxis);
+    
+    view.set_row(0, vmml::Vector4f(xaxis.x(), xaxis.y(), xaxis.z(), -vmml::dot(xaxis, eye)));
+    view.set_row(1, vmml::Vector4f(yaxis.x(), yaxis.y(), yaxis.z(), -vmml::dot(yaxis, eye)));
+    view.set_row(2, vmml::Vector4f(zaxis.x(), zaxis.y(), zaxis.z(), -vmml::dot(zaxis, eye)));
+    view.set_row(3, vmml::Vector4f(0, 0, 0, 1.0));
+    
+    return view;
+}
+
+
 vmml::Matrix4f Camera::createPerspective(GLfloat fov, GLfloat aspect, GLfloat near, GLfloat far)
 {
 	vmml::Matrix4f perspective = vmml::Matrix4f::IDENTITY;
