@@ -127,9 +127,8 @@ void RenderProject::initFunction()
     
     
 	// create camera
-	bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(-33.0, 0.f, -13.0), vmml::Vector3f(0.f, -M_PI_F / 2, 0.f));
-    
-    
+	//bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(-33.0, 0.f, -13.0), vmml::Vector3f(0.f, -M_PI_F / 2, 0.f));
+    bRenderer().getObjects()->createCamera("camera");
     
 	// create lights
 	bRenderer().getObjects()->createLight("firstLight", vmml::Vector3f(78.0f, -3.0f, 0.0f), vmml::Vector3f(0.5f, 0.5f, 1.0f), vmml::Vector3f(1.0f, 1.0f, 1.0f), 100.0f, 0.4f, 100.0f);
@@ -214,7 +213,6 @@ void RenderProject::loopFunction(const double &deltaTime, const double &elapsedT
 
 	//// Camera Movement ////
     updatePlane("camera", deltaTime);
-	//updateCamera("camera", deltaTime);
 	
 	//// Torch Light ////
 	if (_running){
@@ -360,58 +358,6 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
 
 }
 
-/* Camera movement */
-void RenderProject::updateCamera(const std::string &camera, const double &deltaTime)
-{
-	//// Adjust aspect ratio ////
-	bRenderer().getObjects()->getCamera(camera)->setAspectRatio(bRenderer().getView()->getAspectRatio());
-
-	double deltaCameraY = 0.0;
-	double deltaCameraX = 0.0;
-	double cameraForward = 0.0;
-	double cameraSideward = 0.0;
-
-	/* iOS: control movement using touch screen */
-	if (Input::isTouchDevice()){
-
-		// pause using double tap
-		if (bRenderer().getInput()->doubleTapRecognized()){
-			_running = !_running;
-		}
-
-		if (_running){
-			// control using touch
-			TouchMap touchMap = bRenderer().getInput()->getTouches();
-			int i = 0;
-			for (auto t = touchMap.begin(); t != touchMap.end(); ++t)
-			{
-				Touch touch = t->second;
-				// If touch is in left half of the view: move around
-				if (touch.startPositionX < bRenderer().getView()->getWidth() / 2){
-					cameraForward = -(touch.currentPositionY - touch.startPositionY) / 100;
-					cameraSideward = (touch.currentPositionX - touch.startPositionX) / 100;
-
-				}
-				// if touch is in right half of the view: look around
-				else
-				{
-					//deltaCameraY = (touch.currentPositionX - touch.startPositionX) / 2000;
-					//deltaCameraX = (touch.currentPositionY - touch.startPositionY) / 2000;
-				}
-				if (++i > 2)
-					break;
-			}
-		}
-
-	}
-
-	//// Update camera ////
-	if (_running){
-		bRenderer().getObjects()->getCamera(camera)->moveCameraForward(cameraForward*_cameraSpeed*deltaTime);
-		bRenderer().getObjects()->getCamera(camera)->rotateCamera(deltaCameraX, deltaCameraY, 0.0f);
-		bRenderer().getObjects()->getCamera(camera)->moveCameraSideward(cameraSideward*_cameraSpeed*deltaTime);
-	}	
-}
 
 
 void RenderProject::updatePlane(const std::string &camera, const double &deltaTime){
@@ -421,8 +367,11 @@ void RenderProject::updatePlane(const std::string &camera, const double &deltaTi
     
     planePosition = vmml::Vector3f(planeModelMatrix[0][3],planeModelMatrix[1][3],planeModelMatrix[2][3]);
     
+    //Double tap to stop game only on the left half of the screen.
     if (bRenderer().getInput()->doubleTapRecognized()){
-        _running = !_running;
+        if(bRenderer().getInput()->getLastDoubleTapLocation().lastPositionX < bRenderer().getView()->getWidth() / 2){
+            _running = !_running;
+        }
     }
     
     if (_running){
@@ -486,6 +435,12 @@ void RenderProject::updatePlane(const std::string &camera, const double &deltaTi
         
         cameraModelMatrix = planeModelMatrix * vmml::create_translation(vmml::Vector3f(0.0f,0.0f,-30.0f));
         cameraPosition = vmml::Vector3f(cameraModelMatrix[0][3],cameraModelMatrix[1][3], cameraModelMatrix[2][3]);
+        
+        std::cout << "CameraPosition" << std::endl;
+        std::cout << cameraPosition << std::endl;
+        
+        std::cout << "PlanePosition" << std::endl;
+        std::cout << planePosition << std::endl;
         
         bRenderer().getObjects()->getCamera(camera)->lookAt(cameraPosition, planePosition, vmml::Vector3f::UNIT_Y);
         
