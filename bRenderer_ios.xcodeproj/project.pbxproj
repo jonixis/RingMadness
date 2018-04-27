@@ -135,6 +135,9 @@
 		E500C69C20934C6200041B5F /* TerrainTexture2.png in Resources */ = {isa = PBXBuildFile; fileRef = E500C69920934C6100041B5F /* TerrainTexture2.png */; };
 		E500C69D20934C6200041B5F /* terrain1.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E500C69A20934C6200041B5F /* terrain1.mtl */; };
 		E500C69E20934C6200041B5F /* terrain1.obj in Resources */ = {isa = PBXBuildFile; fileRef = E500C69B20934C6200041B5F /* terrain1.obj */; };
+		E500C6A220935EDB00041B5F /* SeaTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = E500C69F20935EDA00041B5F /* SeaTexture.png */; };
+		E500C6A320935EDB00041B5F /* untitled.obj in Resources */ = {isa = PBXBuildFile; fileRef = E500C6A020935EDA00041B5F /* untitled.obj */; };
+		E500C6A420935EDB00041B5F /* untitled.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E500C6A120935EDA00041B5F /* untitled.mtl */; };
 		E524AD9F20812C91005F8188 /* plane.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E524AD9D20812C90005F8188 /* plane.mtl */; };
 		E524ADA020812C91005F8188 /* plane.obj in Resources */ = {isa = PBXBuildFile; fileRef = E524AD9E20812C91005F8188 /* plane.obj */; };
 		E535CCE12080DB2C00FB0BB4 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = E535CCDF2080DB2B00FB0BB4 /* cube.obj */; };
@@ -335,6 +338,9 @@
 		E500C69920934C6100041B5F /* TerrainTexture2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TerrainTexture2.png; sourceTree = "<group>"; };
 		E500C69A20934C6200041B5F /* terrain1.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain1.mtl; sourceTree = "<group>"; };
 		E500C69B20934C6200041B5F /* terrain1.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain1.obj; sourceTree = "<group>"; };
+		E500C69F20935EDA00041B5F /* SeaTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SeaTexture.png; sourceTree = "<group>"; };
+		E500C6A020935EDA00041B5F /* untitled.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = untitled.obj; sourceTree = "<group>"; };
+		E500C6A120935EDA00041B5F /* untitled.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = untitled.mtl; sourceTree = "<group>"; };
 		E524AD9D20812C90005F8188 /* plane.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plane.mtl; sourceTree = "<group>"; };
 		E524AD9E20812C91005F8188 /* plane.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plane.obj; sourceTree = "<group>"; };
 		E535CCDF2080DB2B00FB0BB4 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
@@ -411,6 +417,9 @@
 		B47949841BA6742B00B5E9DC /* data */ = {
 			isa = PBXGroup;
 			children = (
+				E500C69F20935EDA00041B5F /* SeaTexture.png */,
+				E500C6A120935EDA00041B5F /* untitled.mtl */,
+				E500C6A020935EDA00041B5F /* untitled.obj */,
 				E500C69A20934C6200041B5F /* terrain1.mtl */,
 				E500C69B20934C6200041B5F /* terrain1.obj */,
 				E500C69920934C6100041B5F /* TerrainTexture2.png */,
@@ -774,10 +783,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E500C6A420935EDB00041B5F /* untitled.mtl in Resources */,
 				B4794A311BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				B47949A81BA6742B00B5E9DC /* cave_d.png in Resources */,
 				B47949B01BA6742B00B5E9DC /* crystal.mtl in Resources */,
 				B47949A91BA6742B00B5E9DC /* cave_n.png in Resources */,
+				E500C6A320935EDB00041B5F /* untitled.obj in Resources */,
 				B47949AB1BA6742B00B5E9DC /* cave_stream.mtl in Resources */,
 				B47949B61BA6742B00B5E9DC /* flame.mtl in Resources */,
 				E535CCE22080DB2C00FB0BB4 /* cube.mtl in Resources */,
@@ -795,6 +806,7 @@
 				B4794A2A1BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				B47949A51BA6742B00B5E9DC /* blurShader.vert in Resources */,
 				B47949AA1BA6742B00B5E9DC /* cave_stream.frag in Resources */,
+				E500C6A220935EDB00041B5F /* SeaTexture.png in Resources */,
 				B47949AD1BA6742B00B5E9DC /* cave_stream.vert in Resources */,
 				E535CCF22080E46D00FB0BB4 /* TropicalSunnyDay_up.png in Resources */,
 				B47949AF1BA6742B00B5E9DC /* config.json in Resources */,
