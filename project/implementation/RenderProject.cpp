@@ -79,6 +79,7 @@ void RenderProject::initFunction()
     bRenderer().getObjects()->loadObjModel_o("cube.obj", skyShader);
     bRenderer().getObjects()->loadObjModel("plane.obj");
     bRenderer().getObjects()->loadObjModel_o("terrain1.obj",flameShader);
+    bRenderer().getObjects()->loadObjModel_o("untitled.obj", flameShader);
     
     planeModelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_rotation(M_PI_F * 0.5f, vmml::Vector3f::UNIT_Y);
     
@@ -287,33 +288,36 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -150.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
     bRenderer().getModelRenderer()->queueModelInstance("terrain1", "terrain1_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
     
+    modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -145.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(1.0f));
+    bRenderer().getModelRenderer()->queueModelInstance("untitled", "untitled_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
+    
     modelMatrix = vmml::create_translation(vmml::Vector3f(30.f, -24.0, 0.0)) * vmml::create_scaling(vmml::Vector3f(0.3f));
 	
 	/*** Cave stream ***/
 	bRenderer().getObjects()->getProperties("streamProperties")->setScalar("offset", _offset);		// pass offset for wave effect
 	// submit to render queue
-	bRenderer().getModelRenderer()->queueModelInstance("cave_stream", "cave_stream_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, false, true, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, 1.0f);
+	//bRenderer().getModelRenderer()->queueModelInstance("cave_stream", "cave_stream_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, false, true, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, 1.0f);
 
 	/*** Crystal (blue) ***/
 	// translate and scale
 	modelMatrix = vmml::create_translation(vmml::Vector3f(78.0f, -17.0f, 5.5f)) * vmml::create_scaling(vmml::Vector3f(0.1f));
 	// submit to render queue
 	bRenderer().getObjects()->setAmbientColor(vmml::Vector3f(0.2f, 0.2f, 1.0f));
-	bRenderer().getModelRenderer()->queueModelInstance("crystal", "crystal_blue", camera, modelMatrix, std::vector<std::string>({ "sunLight" }), true, false, true);
+	//bRenderer().getModelRenderer()->queueModelInstance("crystal", "crystal_blue", camera, modelMatrix, std::vector<std::string>({ "sunLight" }), true, false, true);
 
 	/*** Crystal (green) ***/
 	// translate and scale 
 	modelMatrix = vmml::create_translation(vmml::Vector3f(148.0f, -17.0f, 15.0f)) * vmml::create_scaling(vmml::Vector3f(0.1f));
 	// submit to render queue
 	bRenderer().getObjects()->setAmbientColor(vmml::Vector3f(0.2f, 0.7f, 0.2f));
-	bRenderer().getModelRenderer()->queueModelInstance("crystal", "crystal_green", camera, modelMatrix, std::vector<std::string>({ "secondLight" }), true, false, true);
+	//bRenderer().getModelRenderer()->queueModelInstance("crystal", "crystal_green", camera, modelMatrix, std::vector<std::string>({ "secondLight" }), true, false, true);
 
 	/*** Crystal (red) ***/
 	// translate and scale 
 	modelMatrix = vmml::create_translation(vmml::Vector3f(218.0f, -17.0f, 4.0f)) * vmml::create_scaling(vmml::Vector3f(0.1f));
 	// submit to render queue
 	bRenderer().getObjects()->setAmbientColor(vmml::Vector3f(0.8f, 0.2f, 0.2f));
-	bRenderer().getModelRenderer()->queueModelInstance("crystal", "crystal_red", camera, modelMatrix, std::vector<std::string>({ "thirdLight" }), true, false, true);
+	//bRenderer().getModelRenderer()->queueModelInstance("crystal", "crystal_red", camera, modelMatrix, std::vector<std::string>({ "thirdLight" }), true, false, true);
 	bRenderer().getObjects()->setAmbientColor(bRenderer::DEFAULT_AMBIENT_COLOR());
 
 	///*** Torch ***/
