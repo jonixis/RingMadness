@@ -165,6 +165,7 @@ public:
 	*	@param[in] up Specifies the direction of the up vector
 	*/
 	static vmml::Matrix4f lookAt(const vmml::Vector3f &eye, const vmml::Vector3f &target, const vmml::Vector3f &up);
+    static vmml::Matrix4f lookAtForHUD(const vmml::Vector3f &eye, const vmml::Vector3f &target, const vmml::Vector3f &up);
 
 	/**	@brief Create a 3D perspective
 	*	@param[in] fov Field of view

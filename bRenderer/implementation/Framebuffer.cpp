@@ -62,6 +62,7 @@ void Framebuffer::bindCubeMap(CubeMapPtr cubeMap, GLuint cubeFace, bool preserve
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + cubeFace, cubeMap->getTextureID(), 0);
 	// Important: glClear has to be called after binding the texture
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
 
 	GLenum status;
 	if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {

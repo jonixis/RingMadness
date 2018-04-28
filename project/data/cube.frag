@@ -3,9 +3,6 @@ $B_SHADER_VERSION
 precision mediump float;
 #endif
 
-uniform vec3 ambientColor;
-
-uniform sampler2D DiffuseMap;
 
 uniform
 #ifdef GL_ES
@@ -13,12 +10,15 @@ highp   // offset gets very big, needs to be highp on iOS
 #endif
 float offset;
 
-varying vec4 texCoordVarying;
+uniform samplerCube texCube;
+
+varying vec4 fragPos;
 
 void main()
 {
     //wave effect for flame
-    vec2 texcoord = texCoordVarying.st;
     
-    gl_FragColor = texture2D(DiffuseMap, texcoord);
+    vec4 lightColor = vec4(1.0, 0.0, 0.0, 1.0);
+    
+    gl_FragColor = textureCube(texCube, vec3(-fragPos.x, -fragPos.y, -fragPos.z));
 }

@@ -51,6 +51,7 @@ private:
 
 	/* Camera movement */
 	void updateCamera(const std::string &camera, const double &deltaTime);
+    void updatePlane(const std::string &camera, const double &deltaTime);
 
 	/* Helper Functions */
 	GLfloat randomNumber(GLfloat min, GLfloat max);
