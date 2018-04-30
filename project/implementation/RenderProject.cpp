@@ -30,6 +30,9 @@ float planeCurrentRoll = 0;
 float planeLastRoll = 0;
 
 
+bool thirdPerson = true;
+
+
 //camera Variables
 vmml::Matrix4f cameraModelMatrix;
 vmml::Vector3f cameraPosition;
@@ -48,6 +51,8 @@ void RenderProject::initFunction()
 	_cameraSpeed = 40.0f;
 	_running = false; _lastStateSpaceKey = bRenderer::INPUT_UNDEFINED;
 	_viewMatrixHUD = Camera::lookAtForHUD(vmml::Vector3f(0.0f, 0.0f, 0.25f), vmml::Vector3f::ZERO, vmml::Vector3f::UP);
+    
+    thirdPerson = true;
 
 	// set shader versions (optional)
 	bRenderer().getObjects()->setShaderVersionDesktop("#version 120");
@@ -132,7 +137,7 @@ void RenderProject::initFunction()
 	// create text sprites
 	FontPtr font = bRenderer().getObjects()->loadFont("KozGoPro-ExtraLight.otf", 50);
 	if (Input::isTouchDevice())
-		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.0f, 1.f), "Double tap on the left half of the screen to start", font);
+		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.0f, 1.f), "Double tap on the upper left half of the screen to start", font);
 	else
 		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.f, 1.f), "Press space to start", font);
 
@@ -218,7 +223,7 @@ void RenderProject::loopFunction(const double &deltaTime, const double &elapsedT
 		/*** Instructions ***/
 		titleScale = 0.1f;
 		scaling = vmml::create_scaling(vmml::Vector3f(titleScale / bRenderer().getView()->getAspectRatio(), titleScale, titleScale));
-		modelMatrix = vmml::create_translation(vmml::Vector3f(-1.0f / bRenderer().getView()->getAspectRatio(), -0.6f, -0.65f)) * scaling;
+		modelMatrix = vmml::create_translation(vmml::Vector3f(-1.1f / bRenderer().getView()->getAspectRatio(), -0.6f, -0.65f)) * scaling;
 		// draw
 		bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getTextSprite("instructions"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
     }
@@ -387,8 +392,10 @@ void RenderProject::updatePlane(const std::string &camera, const double &deltaTi
     
     //Double tap to stop game only on the left half of the screen.
     if (bRenderer().getInput()->doubleTapRecognized()){
-        if(bRenderer().getInput()->getLastDoubleTapLocation().lastPositionX < bRenderer().getView()->getWidth() / 2){
+        if(bRenderer().getInput()->getLastDoubleTapLocation().lastPositionX < bRenderer().getView()->getWidth() / 2 && bRenderer().getInput()->getLastDoubleTapLocation().lastPositionY < bRenderer().getView()->getHeight() / 2){
             _running = !_running;
+        }if(bRenderer().getInput()->getLastDoubleTapLocation().lastPositionX < bRenderer().getView()->getWidth() / 2 && bRenderer().getInput()->getLastDoubleTapLocation().lastPositionY > bRenderer().getView()->getHeight() / 2){
+            thirdPerson = !thirdPerson;
         }
     }
     
@@ -416,7 +423,7 @@ void RenderProject::updatePlane(const std::string &camera, const double &deltaTi
             planeCurrentPitch = fmax(fmin(planeTargetPitch, 0.01f),-0.01);
         }
         
-        //Roll and yaw of plane with automatical leveling of roll
+        //Roll and yaw of plane with automatical leveling of roll not working atm
         if(planeTargetYaw == 0){
             if (planeCurrentRoll > 0) {
                 planeCurrentRoll = planeCurrentRoll;// - (planeCurrentRoll * 0.1f);
@@ -425,7 +432,7 @@ void RenderProject::updatePlane(const std::string &camera, const double &deltaTi
             } else{
                 planeCurrentRoll = 0;
             }
-            planeCurrentYaw = planeCurrentYaw;
+            
         }else{
             planeCurrentYaw = planeTargetYaw;
             planeCurrentRoll = fmax(fmin(planeTargetYaw * 200.0, 1.4),-1.4);
@@ -443,19 +450,13 @@ void RenderProject::updatePlane(const std::string &camera, const double &deltaTi
         //planePosition
         planePosition = vmml::Vector3f(planeModelMatrix[0][3],planeModelMatrix[1][3],planeModelMatrix[2][3]);
         
-        //calcualte camera Position from planeModelMatrix translated 30.f behind the plane.
         
-        cameraModelMatrix = planeModelMatrix * vmml::create_translation(vmml::Vector3f(0.0f,0.0f,0.0f));
+        //Setting targed wich the camera is chasing
+        cameraModelMatrix = planeModelMatrix;
         cameraTargetPosition = vmml::Vector3f(cameraModelMatrix[0][3],cameraModelMatrix[1][3], cameraModelMatrix[2][3]);
         
-        std::cout << "cameraTargetPosition.x()   cameraPosition.x()" << std::endl;
-        std::cout << cameraTargetPosition.x() << "                        " << cameraPosition.x() << std::endl;
-        
-    //    std::cout << "cameraPosition" << std::endl;
-    //    std::cout << cameraPosition << std::endl;
-        
-        
-        
+        //calcualte offset/delay of teh camera accoring to the planes rotations.
+        //X-Axis Delay
         if (cameraTargetPosition.x() > cameraPosition.x()) {
             cameraPosition.x() = cameraPosition.x() + (0.02f * (cameraTargetPosition.x() - cameraPosition.x()));
         } else if(cameraTargetPosition.x() < cameraPosition.x()){
@@ -464,8 +465,7 @@ void RenderProject::updatePlane(const std::string &camera, const double &deltaTi
         } else{
             cameraPosition.x() = cameraTargetPosition.x();
         }
-        
-
+        //Y-Axis Delay
         if (cameraTargetPosition.y() > cameraPosition.y()) {
             cameraPosition.y() = cameraPosition.y() + (0.02f * (cameraTargetPosition.y() - cameraPosition.y()));
         } else if(cameraTargetPosition.y() < cameraPosition.y()){
@@ -473,7 +473,7 @@ void RenderProject::updatePlane(const std::string &camera, const double &deltaTi
         } else{
             cameraPosition.y() = cameraTargetPosition.y();
         }
-        
+        //Z-Axis Delay
         if (cameraTargetPosition.z() > cameraPosition.z()) {
             cameraPosition.z() = cameraPosition.z() + (0.02f * (cameraTargetPosition.z() - cameraPosition.z()));
         } else if(cameraTargetPosition.z() < cameraPosition.z()){
@@ -483,10 +483,12 @@ void RenderProject::updatePlane(const std::string &camera, const double &deltaTi
         }
         
         
-        
-        
-        //Camera view direction and
-        bRenderer().getObjects()->getCamera(camera)->lookAt(cameraPosition, planePosition, vmml::Vector3f::UNIT_Y);
+        //Third Person view or view with eye at 0,0,0
+        if (thirdPerson) {
+            bRenderer().getObjects()->getCamera(camera)->lookAt(cameraPosition, planePosition, vmml::Vector3f::UNIT_Y);
+        }else{
+            bRenderer().getObjects()->getCamera(camera)->lookAt(vmml::Vector3f(0.0f,0.0f,0.0f), planePosition, vmml::Vector3f::UNIT_Y);
+        }
         
         planeModelMatrixTwo = planeModelMatrix * vmml::create_rotation(-planeCurrentRoll, vmml::Vector3f::UNIT_Z);
         
