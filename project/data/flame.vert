@@ -1,6 +1,6 @@
 $B_SHADER_VERSION
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 
 uniform mat4 ModelViewMatrix;
@@ -12,7 +12,7 @@ attribute vec3 Tangent;
 attribute vec3 Bitangent;
 attribute vec4 TexCoord;
 
-varying vec4 texCoordVarying;
+varying highp vec4 texCoordVarying;
 
 void main()
 {

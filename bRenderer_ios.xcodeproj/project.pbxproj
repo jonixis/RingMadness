@@ -132,7 +132,6 @@
 		B59A67991ACC8BCC00E3EB9B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59A67981ACC8BCC00E3EB9B /* UIKit.framework */; };
 		B59A679B1ACC99F900E3EB9B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59A679A1ACC99F900E3EB9B /* CoreGraphics.framework */; };
 		B59A679D1ACC9A0400E3EB9B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59A679C1ACC9A0400E3EB9B /* QuartzCore.framework */; };
-		E500C69C20934C6200041B5F /* TerrainTexture2.png in Resources */ = {isa = PBXBuildFile; fileRef = E500C69920934C6100041B5F /* TerrainTexture2.png */; };
 		E500C69D20934C6200041B5F /* terrain1.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E500C69A20934C6200041B5F /* terrain1.mtl */; };
 		E500C69E20934C6200041B5F /* terrain1.obj in Resources */ = {isa = PBXBuildFile; fileRef = E500C69B20934C6200041B5F /* terrain1.obj */; };
 		E500C6A220935EDB00041B5F /* SeaTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = E500C69F20935EDA00041B5F /* SeaTexture.png */; };
@@ -150,6 +149,7 @@
 		E535CCF02080E46D00FB0BB4 /* TropicalSunnyDay_ft.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEA2080E46D00FB0BB4 /* TropicalSunnyDay_ft.png */; };
 		E535CCF12080E46D00FB0BB4 /* TropicalSunnyDay_rt.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEB2080E46D00FB0BB4 /* TropicalSunnyDay_rt.png */; };
 		E535CCF22080E46D00FB0BB4 /* TropicalSunnyDay_up.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */; };
+		E53E80B12097691300EA616C /* TerrainTexture2.png in Resources */ = {isa = PBXBuildFile; fileRef = E53E80B02097691300EA616C /* TerrainTexture2.png */; };
 		E5F256F320909AB800BEE425 /* PlaneTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F256F220909AB800BEE425 /* PlaneTexture.png */; };
 /* End PBXBuildFile section */
 
@@ -335,7 +335,6 @@
 		B59A67981ACC8BCC00E3EB9B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B59A679A1ACC99F900E3EB9B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B59A679C1ACC9A0400E3EB9B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		E500C69920934C6100041B5F /* TerrainTexture2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TerrainTexture2.png; sourceTree = "<group>"; };
 		E500C69A20934C6200041B5F /* terrain1.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain1.mtl; sourceTree = "<group>"; };
 		E500C69B20934C6200041B5F /* terrain1.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain1.obj; sourceTree = "<group>"; };
 		E500C69F20935EDA00041B5F /* SeaTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SeaTexture.png; sourceTree = "<group>"; };
@@ -353,6 +352,7 @@
 		E535CCEA2080E46D00FB0BB4 /* TropicalSunnyDay_ft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_ft.png; sourceTree = "<group>"; };
 		E535CCEB2080E46D00FB0BB4 /* TropicalSunnyDay_rt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_rt.png; sourceTree = "<group>"; };
 		E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_up.png; sourceTree = "<group>"; };
+		E53E80B02097691300EA616C /* TerrainTexture2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TerrainTexture2.png; sourceTree = "<group>"; };
 		E5F256F220909AB800BEE425 /* PlaneTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlaneTexture.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -417,12 +417,12 @@
 		B47949841BA6742B00B5E9DC /* data */ = {
 			isa = PBXGroup;
 			children = (
+				E53E80B02097691300EA616C /* TerrainTexture2.png */,
 				E500C69F20935EDA00041B5F /* SeaTexture.png */,
 				E500C6A120935EDA00041B5F /* untitled.mtl */,
 				E500C6A020935EDA00041B5F /* untitled.obj */,
 				E500C69A20934C6200041B5F /* terrain1.mtl */,
 				E500C69B20934C6200041B5F /* terrain1.obj */,
-				E500C69920934C6100041B5F /* TerrainTexture2.png */,
 				E5F256F220909AB800BEE425 /* PlaneTexture.png */,
 				E524AD9D20812C90005F8188 /* plane.mtl */,
 				E524AD9E20812C91005F8188 /* plane.obj */,
@@ -801,6 +801,7 @@
 				B47949B21BA6742B00B5E9DC /* crystal_d.png in Resources */,
 				B47949A21BA6742B00B5E9DC /* arial.ttf in Resources */,
 				B47949B41BA6742B00B5E9DC /* crystal_s.png in Resources */,
+				E53E80B12097691300EA616C /* TerrainTexture2.png in Resources */,
 				B47949B71BA6742B00B5E9DC /* flame.obj in Resources */,
 				E500C69E20934C6200041B5F /* terrain1.obj in Resources */,
 				B4794A2A1BA6743D00B5E9DC /* LICENSE.txt in Resources */,
@@ -829,7 +830,6 @@
 				B47949BB1BA6742B00B5E9DC /* sparks.png in Resources */,
 				B47949BA1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf in Resources */,
 				E535CCF02080E46D00FB0BB4 /* TropicalSunnyDay_ft.png in Resources */,
-				E500C69C20934C6200041B5F /* TerrainTexture2.png in Resources */,
 				B4794A301BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				E524AD9F20812C91005F8188 /* plane.mtl in Resources */,
 				B47949B31BA6742B00B5E9DC /* crystal_n.png in Resources */,

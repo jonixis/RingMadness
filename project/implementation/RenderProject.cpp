@@ -22,7 +22,7 @@ vmml::Matrix4f planeModelMatrixTwo;
 vmml::Matrix4f planeRotationMatrix;
 vmml::Matrix4f planeTransaltionMatrix;
 vmml::Vector3f planePosition;
-vmml::Vector3f PLANESPEED = vmml::Vector3f(0.0f,0.0f,1.0f);
+vmml::Vector3f PLANESPEED = vmml::Vector3f(0.0f,0.0f, 1.0f);
 float planeCurrentPitch = 0;
 float planeCurrentYaw = 0;
 float planeMaxMinPitch = 0;
@@ -33,6 +33,7 @@ float planeLastRoll = 0;
 //camera Variables
 vmml::Matrix4f cameraModelMatrix;
 vmml::Vector3f cameraPosition;
+vmml::Vector3f cameraTargetPosition;
 
 /* This function is executed when initializing the renderer */
 void RenderProject::initFunction()
@@ -81,8 +82,11 @@ void RenderProject::initFunction()
     bRenderer().getObjects()->loadObjModel_o("terrain1.obj",flameShader);
     bRenderer().getObjects()->loadObjModel_o("untitled.obj", flameShader);
     
+    
+    //plane Start Position
     planeModelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_rotation(M_PI_F * 0.5f, vmml::Vector3f::UNIT_Y);
     
+    cameraPosition = vmml::Vector3f(-30.0f,0.0f,0.0f);
     
 
     
@@ -441,8 +445,45 @@ void RenderProject::updatePlane(const std::string &camera, const double &deltaTi
         
         //calcualte camera Position from planeModelMatrix translated 30.f behind the plane.
         
-        cameraModelMatrix = planeModelMatrix * vmml::create_translation(vmml::Vector3f(0.0f,0.0f,-30.0f));
-        cameraPosition = vmml::Vector3f(cameraModelMatrix[0][3],cameraModelMatrix[1][3], cameraModelMatrix[2][3]);
+        cameraModelMatrix = planeModelMatrix * vmml::create_translation(vmml::Vector3f(0.0f,0.0f,0.0f));
+        cameraTargetPosition = vmml::Vector3f(cameraModelMatrix[0][3],cameraModelMatrix[1][3], cameraModelMatrix[2][3]);
+        
+        std::cout << "cameraTargetPosition.x()   cameraPosition.x()" << std::endl;
+        std::cout << cameraTargetPosition.x() << "                        " << cameraPosition.x() << std::endl;
+        
+    //    std::cout << "cameraPosition" << std::endl;
+    //    std::cout << cameraPosition << std::endl;
+        
+        
+        
+        if (cameraTargetPosition.x() > cameraPosition.x()) {
+            cameraPosition.x() = cameraPosition.x() + (0.02f * (cameraTargetPosition.x() - cameraPosition.x()));
+        } else if(cameraTargetPosition.x() < cameraPosition.x()){
+            
+            cameraPosition.x() = cameraPosition.x() - (0.02f * (cameraPosition.x() - cameraTargetPosition.x()));
+        } else{
+            cameraPosition.x() = cameraTargetPosition.x();
+        }
+        
+
+        if (cameraTargetPosition.y() > cameraPosition.y()) {
+            cameraPosition.y() = cameraPosition.y() + (0.02f * (cameraTargetPosition.y() - cameraPosition.y()));
+        } else if(cameraTargetPosition.y() < cameraPosition.y()){
+            cameraPosition.y() = cameraPosition.y() - (0.02f * (cameraPosition.y() - cameraTargetPosition.y()));
+        } else{
+            cameraPosition.y() = cameraTargetPosition.y();
+        }
+        
+        if (cameraTargetPosition.z() > cameraPosition.z()) {
+            cameraPosition.z() = cameraPosition.z() + (0.02f * (cameraTargetPosition.z() - cameraPosition.z()));
+        } else if(cameraTargetPosition.z() < cameraPosition.z()){
+            cameraPosition.z() = cameraPosition.z() - (0.02f * (cameraPosition.z() - cameraTargetPosition.z()));
+        } else{
+            cameraPosition.z() = cameraTargetPosition.z();
+        }
+        
+        
+        
         
         //Camera view direction and
         bRenderer().getObjects()->getCamera(camera)->lookAt(cameraPosition, planePosition, vmml::Vector3f::UNIT_Y);

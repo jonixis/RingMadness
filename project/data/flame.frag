@@ -1,6 +1,6 @@
 $B_SHADER_VERSION
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 
 uniform vec3 ambientColor;
@@ -13,7 +13,7 @@ highp   // offset gets very big, needs to be highp on iOS
 #endif
 float offset;
 
-varying vec4 texCoordVarying;
+varying highp vec4 texCoordVarying;
 
 void main()
 {
