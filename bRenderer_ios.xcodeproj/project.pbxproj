@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B44186971BA331E300604D7F /* RenderProject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B44186961BA331E300604D7F /* RenderProject.cpp */; };
 		B47949A21BA6742B00B5E9DC /* arial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B47949851BA6742B00B5E9DC /* arial.ttf */; };
 		B47949A31BA6742B00B5E9DC /* basicTitle_light.png in Resources */ = {isa = PBXBuildFile; fileRef = B47949861BA6742B00B5E9DC /* basicTitle_light.png */; };
 		B47949A41BA6742B00B5E9DC /* blurShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = B47949871BA6742B00B5E9DC /* blurShader.frag */; };
@@ -151,11 +150,11 @@
 		E535CCF22080E46D00FB0BB4 /* TropicalSunnyDay_up.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */; };
 		E53E80B12097691300EA616C /* TerrainTexture2.png in Resources */ = {isa = PBXBuildFile; fileRef = E53E80B02097691300EA616C /* TerrainTexture2.png */; };
 		E5F256F320909AB800BEE425 /* PlaneTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F256F220909AB800BEE425 /* PlaneTexture.png */; };
+		F881EA642098714D00CB5DDB /* RingMadness.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F881EA632098714D00CB5DDB /* RingMadness.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B44186941BA331E300604D7F /* RenderProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderProject.h; sourceTree = "<group>"; };
-		B44186961BA331E300604D7F /* RenderProject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderProject.cpp; sourceTree = "<group>"; };
+		B44186941BA331E300604D7F /* RingMadness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RingMadness.h; sourceTree = "<group>"; };
 		B47949851BA6742B00B5E9DC /* arial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = arial.ttf; sourceTree = "<group>"; };
 		B47949861BA6742B00B5E9DC /* basicTitle_light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basicTitle_light.png; sourceTree = "<group>"; };
 		B47949871BA6742B00B5E9DC /* blurShader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blurShader.frag; sourceTree = "<group>"; };
@@ -354,6 +353,7 @@
 		E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_up.png; sourceTree = "<group>"; };
 		E53E80B02097691300EA616C /* TerrainTexture2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TerrainTexture2.png; sourceTree = "<group>"; };
 		E5F256F220909AB800BEE425 /* PlaneTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlaneTexture.png; sourceTree = "<group>"; };
+		F881EA632098714D00CB5DDB /* RingMadness.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RingMadness.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -401,7 +401,7 @@
 		B44186931BA331E300604D7F /* headers */ = {
 			isa = PBXGroup;
 			children = (
-				B44186941BA331E300604D7F /* RenderProject.h */,
+				B44186941BA331E300604D7F /* RingMadness.h */,
 			);
 			path = headers;
 			sourceTree = "<group>";
@@ -409,7 +409,7 @@
 		B44186951BA331E300604D7F /* implementation */ = {
 			isa = PBXGroup;
 			children = (
-				B44186961BA331E300604D7F /* RenderProject.cpp */,
+				F881EA632098714D00CB5DDB /* RingMadness.cpp */,
 			);
 			path = implementation;
 			sourceTree = "<group>";
@@ -892,7 +892,6 @@
 				B47AD6F31B82800400AFC632 /* ftcache.c in Sources */,
 				B47AD6FD1B82806900AFC632 /* ftgzip.c in Sources */,
 				B47AD6CF1B827E7100AFC632 /* ftwinfnt.c in Sources */,
-				B44186971BA331E300604D7F /* RenderProject.cpp in Sources */,
 				B4794A421BA6743D00B5E9DC /* OBJLoader.cpp in Sources */,
 				B4794A401BA6743D00B5E9DC /* ModelRenderer.cpp in Sources */,
 				B4794A461BA6743D00B5E9DC /* ShaderDataFile.cpp in Sources */,
@@ -918,6 +917,7 @@
 				B4794A441BA6743D00B5E9DC /* RenderQueue.cpp in Sources */,
 				B4794A4D1BA6743D00B5E9DC /* FileHandler_desktop.cpp in Sources */,
 				B4CB8CCE1B72E43300FE041B /* AppDelegate.m in Sources */,
+				F881EA642098714D00CB5DDB /* RingMadness.cpp in Sources */,
 				B4794A4B1BA6743D00B5E9DC /* Texture.cpp in Sources */,
 				B4794A511BA6743D00B5E9DC /* View_desktop.cpp in Sources */,
 				B47AD6EB1B827FB500AFC632 /* bdf.c in Sources */,

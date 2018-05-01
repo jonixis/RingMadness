@@ -3,12 +3,12 @@
 
 #include "bRenderer.h"
 
-class RenderProject : public IRenderProject
+class RingMadness : public IRenderProject
 {
 public:
 	/* Constructor and Destructor */
-	RenderProject() : IRenderProject(){}
-    virtual ~RenderProject(){bRenderer::log("RenderProject deleted");}
+	RingMadness() : IRenderProject(){}
+    virtual ~RingMadness(){bRenderer::log("RenderProject deleted");}
 
     /* Initialize the Project */
     void init();

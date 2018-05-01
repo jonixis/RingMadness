@@ -1,11 +1,11 @@
 
 #import "ViewController.h"
-#include "RenderProject.h"
+#include "RingMadness.h"
 
 
 @interface ViewController () {
 @private
-    RenderProject p;
+    RingMadness p;
 }
 
 @end
