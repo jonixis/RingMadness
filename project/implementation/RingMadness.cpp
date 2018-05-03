@@ -82,6 +82,7 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->loadObjModel_o("plane.obj", flameShader);
     bRenderer().getObjects()->loadObjModel_o("terrain1.obj",terrainShader);
     bRenderer().getObjects()->loadObjModel_o("untitled.obj", flameShader);
+    bRenderer().getObjects()->loadObjModel_o("testSphere.obj", terrainShader);
     
     
     //plane Start Position
@@ -228,8 +229,9 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     glDepthMask(true);
     glEnable(GL_DEPTH_TEST);
     
-    
-	modelMatrix = vmml::create_translation(vmml::Vector3f(30.f, -24.0, 0.0)) * vmml::create_scaling(vmml::Vector3f(0.3f));
+    i += 0.01;
+    modelMatrix = vmml::create_translation(vmml::Vector3f(sunPosition)) * vmml::create_rotation(i, vmml::Vector3f::UNIT_Y);
+	bRenderer().getModelRenderer()->queueModelInstance("testSphere", "testSphere_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
     
     //Terrain //
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -150.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
