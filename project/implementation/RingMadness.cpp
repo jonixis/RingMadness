@@ -76,7 +76,7 @@ void RingMadness::initFunction()
     //Load Skycube object cube.obj. Name of shader used.
     bRenderer().getObjects()->loadObjModel_o("cube.obj", skyShader);
     
-    bRenderer().getObjects()->loadObjModel("plane.obj");
+    bRenderer().getObjects()->loadObjModel_o("plane.obj", flameShader);
     bRenderer().getObjects()->loadObjModel_o("terrain1.obj",flameShader);
     bRenderer().getObjects()->loadObjModel_o("untitled.obj", flameShader);
     
@@ -263,8 +263,13 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
             Touch touch = t->second;
             // If touch is on the right half, steer plane
             if (touch.startPositionX > bRenderer().getView()->getWidth() / 2){
-                planeTargetYaw = -(touch.currentPositionX - touch.startPositionX) * 0.0001f;
-                planeTargetPitch = (touch.currentPositionY - touch.startPositionY) * 0.0001f;
+                
+                //planeTargetYaw = -(touch.currentPositionX - touch.startPositionX) * 0.0001f;
+                planeTargetYaw = -std::sin((touch.currentPositionX - touch.startPositionX) * 0.0001f) * (3.1415f/2.0f);
+                
+                //planeTargetPitch = (touch.currentPositionY - touch.startPositionY) * 0.0001f;
+                planeTargetPitch = std::sin((touch.currentPositionY - touch.startPositionY) * 0.0001f)*(3.1415f/2.0f);
+                
             }
             if (++i > 2)
                 break;
@@ -287,10 +292,10 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
             } else{
                 planeCurrentRoll = 0;
             }
-            
+            //planeCurrentYaw = 0;
         }else{
             planeCurrentYaw = planeTargetYaw;
-            planeCurrentRoll = fmax(fmin(planeTargetYaw * 200.0, 1.4),-1.4);
+            planeCurrentRoll = planeTargetYaw * 50.0f;
         }
         
         //PlaneRotation
