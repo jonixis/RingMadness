@@ -3,11 +3,7 @@ $B_SHADER_VERSION
 precision highp float;
 #endif
 
-uniform vec3 ambientColor;
-uniform vec3 Kd;
-
-
-uniform sampler2D DiffuseMap;
+uniform lowp vec3 Kd;   // diffuse material coefficient
 
 uniform
 #ifdef GL_ES
@@ -15,13 +11,12 @@ highp   // offset gets very big, needs to be highp on iOS
 #endif
 float offset;
 
-varying highp vec4 texCoordVarying;
+varying lowp vec4 ambientVarying;
+varying lowp vec4 diffuseVarying;
 
 void main()
 {
     
-    vec2 texcoord = texCoordVarying.st;
-    
-    gl_FragColor = vec4(Kd, 1.0);
+    gl_FragColor = (ambientVarying + diffuseVarying) * vec4(Kd, 1.0);
 }
 

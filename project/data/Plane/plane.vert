@@ -36,8 +36,6 @@ varying mediump vec3 normalVarying;    // normal in world space
 void main()
 {
     posVarying = ModelMatrix * Position;
-//    normalVarying = normalize(NormalMatrix * Normal);
-//    texCoordVarying = TexCoord;
     
     // Ambient
     ambientVarying = vec4(Ka * Ia, 1.0);
@@ -45,7 +43,7 @@ void main()
     // Diffuse
     diffuseVarying = vec4(0.0);
     mediump vec3 n = Normal;
-    mediump vec3 l = vec3(LightPos - posVarying);
+    mediump vec3 l = vec3(normalize(LightPos - posVarying));
     lowp float intensity = dot(n, l);
     lowp vec3 diffuse = Kd * clamp(intensity, 0.0, 1.0) * Id;
     diffuseVarying = vec4(clamp(diffuse, 0.0, 1.0), 1.0);

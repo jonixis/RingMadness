@@ -22,29 +22,24 @@ vmml::Matrix4f planeModelMatrixTwo;
 vmml::Matrix4f planeRotationMatrix;
 vmml::Matrix4f planeTransaltionMatrix;
 vmml::Vector3f planePosition;
-vmml::Vector3f PLANESPEED = vmml::Vector3f(0.0f,0.0f, 0.6f);
+vmml::Vector3f PLANESPEED = vmml::Vector3f(0.0f,0.0f, 0.3f);
 float planeCurrentPitch = 0;
 float planeCurrentYaw = 0;
 float planeMaxMinPitch = 0;
 float planeCurrentRoll = 0;
 float planeLastRoll = 0;
 
-// Sun variables
-vmml::Vector3f sunPosition = vmml::Vector3f(0.0f, 10.0f, 0.0f);
-
-
 bool thirdPerson = true;
 
-//Sun Variables
-vmml::Vector4f sunPosition;
+//Sun variables
+vmml::Vector4f sunPosition = vmml::Vector4f(-100.0f,500.0f,0.0f,1.0f);
 
-
-//camera Variables
+// Camera Variables
 vmml::Matrix4f cameraModelMatrix;
 vmml::Vector3f cameraPosition;
 vmml::Vector3f cameraTargetPosition;
 
-//Shaders
+// Shaders
 ShaderPtr terrainShader;
 
 /* This function is executed when initializing the renderer */
@@ -58,7 +53,7 @@ void RingMadness::initFunction()
 	_offset = 0.0f;
 	_randomOffset = 0.0f;
 	_cameraSpeed = 40.0f;
-	_running = true; _lastStateSpaceKey = bRenderer::INPUT_UNDEFINED;
+	_running = false; _lastStateSpaceKey = bRenderer::INPUT_UNDEFINED;
 	_viewMatrixHUD = Camera::lookAtForHUD(vmml::Vector3f(0.0f, 0.0f, 0.25f), vmml::Vector3f::ZERO, vmml::Vector3f::UP);
     
     thirdPerson = true;
@@ -79,30 +74,32 @@ void RingMadness::initFunction()
     // Terrain models
     // load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
     ShaderPtr flameShader = bRenderer().getObjects()->loadShaderFile_o("flame");
+    terrainShader = bRenderer().getObjects()->loadShaderFile_o("terrain");
+    terrainShader->setUniform("sunPosition", sunPosition);
     
-    bRenderer().getObjects()->loadObjModel_o("terrain1.obj", flameShader);
+    bRenderer().getObjects()->loadObjModel_o("terrain1.obj",terrainShader);
     bRenderer().getObjects()->loadObjModel_o("untitled.obj", flameShader);
     
     // Sun model
     ShaderPtr sunShader = bRenderer().getObjects()->loadShaderFile("sun");
-    bRenderer().getObjects()->loadObjModel_o("sun.obj");
+    bRenderer().getObjects()->loadObjModel_o("sun.obj", sunShader);
     
-    // create sun light
-    bRenderer().getObjects()->createLight("sunLight", vmml::Vector3f(0.0f, -20.0f, 0.0f), vmml::Vector3f(1.0f, 1.0f, 1.0f), vmml::Vector3f(1.0f, 1.0f, 1.0f), 1000.0f, 1.0f, 1000.0f);
+//    // create sun light
+//    bRenderer().getObjects()->createLight("sunLight", vmml::Vector3f(0.0f, -20.0f, 0.0f), vmml::Vector3f(1.0f, 1.0f, 1.0f), vmml::Vector3f(1.0f, 1.0f, 1.0f), 1000.0f, 1.0f, 1000.0f);
     
     // Plane model
     ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane");
-    planeShader->setUniform("Ia", vmml::Vector3f(1.f));
-    planeShader->setUniform("Id", vmml::Vector3f(1.f));
-    planeShader->setUniform("Is", vmml::Vector3f(1.f));
+    planeShader->setUniform("Ia", vmml::Vector3f(0.9f));
+    planeShader->setUniform("Id", vmml::Vector3f(0.9f));
+    planeShader->setUniform("Is", vmml::Vector3f(0.9f));
     bRenderer().getObjects()->loadObjModel_o("plane.obj", planeShader);
 
     
     //plane Start Position
     planeModelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_rotation(M_PI_F * 0.5f, vmml::Vector3f::UNIT_Y);
     
+    //camera Start Position
     cameraPosition = vmml::Vector3f(-30.0f,0.0f,0.0f);
-    
     
     // create a sprite displaying the title as a texture
 	bRenderer().getObjects()->createSprite("bTitle", "basicTitle_light.png");
@@ -211,7 +208,6 @@ void RingMadness::terminateFunction()
 	bRenderer::log("I totally terminated this Renderer :-)");
 }
 
-float i = 0;
 /* Update render queue */
 void RingMadness::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
@@ -219,28 +215,22 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     // Skybox
     glEnable(GL_CULL_FACE);
-    bRenderer().getModelRenderer()->queueModelInstance("cube", "cube_instance", camera, modelMatrix, std::vector<std::string>({"sunLight"}));
+    bRenderer().getModelRenderer()->queueModelInstance("cube", "cube_instance", camera, modelMatrix, std::vector<std::string>({}));
     glDisable(GL_CULL_FACE);
     
 	modelMatrix = vmml::create_translation(vmml::Vector3f(30.f, -24.0, 0.0)) * vmml::create_scaling(vmml::Vector3f(0.3f));
     
-
+    // Sun
+    modelMatrix = vmml::create_translation(vmml::Vector3f(sunPosition)) * vmml::create_scaling(vmml::Vector3f(50.0f));
+    bRenderer().getModelRenderer()->queueModelInstance("sun", "sun_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     
     //Terrain
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -150.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
-    bRenderer().getModelRenderer()->queueModelInstance("terrain1", "terrain1_instance", camera, modelMatrix, std::vector<std::string>({"sunLight"}), true, true);
+    terrainShader->setUniform("modelMatrix", modelMatrix);
+    bRenderer().getModelRenderer()->queueModelInstance("terrain1", "terrain1_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -145.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(1.0f));
-    bRenderer().getModelRenderer()->queueModelInstance("untitled", "untitled_instance", camera, modelMatrix, std::vector<std::string>({"sunLight"}), true, true);
-    
-//    modelMatrix = vmml::create_translation(vmml::Vector3f(30.f, -24.0, 0.0)) * vmml::create_scaling(vmml::Vector3f(0.3f));
-    
-    // Sun
-    modelMatrix = vmml::create_translation(sunPosition);
-    bRenderer().getModelRenderer()->queueModelInstance("sun", "sun_instance", camera, modelMatrix, std::vector<std::string>({"sunLight"}), true, true);
-	
-    
-    
+    bRenderer().getModelRenderer()->queueModelInstance("untitled", "untitled_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     
     //plane //
     vmml::Matrix4f viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
@@ -257,8 +247,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     planeShader->setUniform("LightPos", sunPosition);
 
-//    bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, modelMatrix, std::vector<std::string>({"sunLight"}), true, true);
-    bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrixTwo, std::vector<std::string>({"sunLight"}), true, true);
+    bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrixTwo, std::vector<std::string>({}), true, true);
 }
 
 
