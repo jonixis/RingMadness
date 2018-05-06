@@ -86,6 +86,9 @@ void RingMadness::initFunction()
     
     // Plane model
     ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane");
+    planeShader->setUniform("Ia", vmml::Vector3f(1.f));
+    planeShader->setUniform("Id", vmml::Vector3f(1.f));
+    planeShader->setUniform("Is", vmml::Vector3f(1.f));
     bRenderer().getObjects()->loadObjModel_o("plane.obj", planeShader);
 
     
@@ -242,14 +245,10 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     planeShader->setUniform("ModelMatrix", planeModelMatrixTwo);
     
     vmml::Matrix3f normalMatrix;
-    vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(modelMatrix)), normalMatrix);
+    vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(planeModelMatrixTwo)), normalMatrix);
     planeShader->setUniform("NormalMatrix", normalMatrix);
     
-    
     planeShader->setUniform("LightPos", sunPosition);
-    planeShader->setUniform("Ia", vmml::Vector3f(1.f));
-    planeShader->setUniform("Id", vmml::Vector3f(1.f));
-    planeShader->setUniform("Is", vmml::Vector3f(1.f));
 
 //    bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, modelMatrix, std::vector<std::string>({"sunLight"}), true, true);
     bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrixTwo, std::vector<std::string>({"sunLight"}), true, true);
@@ -328,7 +327,7 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
         cameraTargetPosition = vmml::Vector3f(cameraModelMatrix[0][3],cameraModelMatrix[1][3], cameraModelMatrix[2][3]);
 
         //calcualte offset/delay of teh camera accoring to the planes rotations.
-        //X-Axis Delay
+//        X-Axis Delay
         if (cameraTargetPosition.x() > cameraPosition.x()) {
             cameraPosition.x() = cameraPosition.x() + (0.02f * (cameraTargetPosition.x() - cameraPosition.x()));
         } else if(cameraTargetPosition.x() < cameraPosition.x()){
