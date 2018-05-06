@@ -35,11 +35,17 @@ vmml::Vector3f sunPosition = vmml::Vector3f(0.0f, 10.0f, 0.0f);
 
 bool thirdPerson = true;
 
+//Sun Variables
+vmml::Vector4f sunPosition;
+
 
 //camera Variables
 vmml::Matrix4f cameraModelMatrix;
 vmml::Vector3f cameraPosition;
 vmml::Vector3f cameraTargetPosition;
+
+//Shaders
+ShaderPtr terrainShader;
 
 /* This function is executed when initializing the renderer */
 void RingMadness::initFunction()
@@ -205,6 +211,7 @@ void RingMadness::terminateFunction()
 	bRenderer::log("I totally terminated this Renderer :-)");
 }
 
+float i = 0;
 /* Update render queue */
 void RingMadness::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
@@ -279,8 +286,13 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
             Touch touch = t->second;
             // If touch is on the right half, steer plane
             if (touch.startPositionX > bRenderer().getView()->getWidth() / 2){
-                planeTargetYaw = -(touch.currentPositionX - touch.startPositionX) * 0.0001f;
-                planeTargetPitch = (touch.currentPositionY - touch.startPositionY) * 0.0001f;
+                
+                //planeTargetYaw = -(touch.currentPositionX - touch.startPositionX) * 0.0001f;
+                planeTargetYaw = -std::sin((touch.currentPositionX - touch.startPositionX) * 0.0001f) * (3.1415f/2.0f);
+                
+                //planeTargetPitch = (touch.currentPositionY - touch.startPositionY) * 0.0001f;
+                planeTargetPitch = std::sin((touch.currentPositionY - touch.startPositionY) * 0.0001f)*(3.1415f/2.0f);
+                
             }
             if (++i > 2)
                 break;
@@ -303,10 +315,10 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
             } else{
                 planeCurrentRoll = 0;
             }
-            
+            //planeCurrentYaw = 0;
         }else{
             planeCurrentYaw = planeTargetYaw;
-            planeCurrentRoll = fmax(fmin(planeTargetYaw * 200.0, 1.4),-1.4);
+            planeCurrentRoll = planeTargetYaw * 50.0f;
         }
         
         //PlaneRotation
@@ -361,6 +373,7 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
             bRenderer().getObjects()->getCamera(camera)->lookAt(vmml::Vector3f(0.0f,0.0f,0.0f), planePosition, vmml::Vector3f::UNIT_Y);
         }
         
+        terrainShader->setUniform("camPosition", vmml::Vector4f(cameraPosition.x(),cameraPosition.y(),cameraPosition.z(),1.0));
         planeModelMatrixTwo = planeModelMatrix * vmml::create_rotation(-planeCurrentRoll, vmml::Vector3f::UNIT_Z);
         
         
