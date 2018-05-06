@@ -71,6 +71,7 @@ void RingMadness::initFunction()
     // Load Skycube object cube.obj. Name of shader used.
     bRenderer().getObjects()->loadObjModel_o("cube.obj", skyShader);
     
+
     // Terrain models
     // load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
     ShaderPtr flameShader = bRenderer().getObjects()->loadShaderFile_o("flame");
@@ -79,6 +80,7 @@ void RingMadness::initFunction()
     
     bRenderer().getObjects()->loadObjModel_o("terrain1.obj",terrainShader);
     bRenderer().getObjects()->loadObjModel_o("untitled.obj", flameShader);
+    bRenderer().getObjects()->loadObjModel_o("testSphere.obj", terrainShader);
     
     // Sun model
     ShaderPtr sunShader = bRenderer().getObjects()->loadShaderFile("sun");
@@ -208,6 +210,7 @@ void RingMadness::terminateFunction()
 	bRenderer::log("I totally terminated this Renderer :-)");
 }
 
+float i = 0;
 /* Update render queue */
 void RingMadness::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
