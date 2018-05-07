@@ -131,11 +131,7 @@
 		B59A67991ACC8BCC00E3EB9B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59A67981ACC8BCC00E3EB9B /* UIKit.framework */; };
 		B59A679B1ACC99F900E3EB9B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59A679A1ACC99F900E3EB9B /* CoreGraphics.framework */; };
 		B59A679D1ACC9A0400E3EB9B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59A679C1ACC9A0400E3EB9B /* QuartzCore.framework */; };
-		E500C69D20934C6200041B5F /* terrain1.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E500C69A20934C6200041B5F /* terrain1.mtl */; };
-		E500C69E20934C6200041B5F /* terrain1.obj in Resources */ = {isa = PBXBuildFile; fileRef = E500C69B20934C6200041B5F /* terrain1.obj */; };
 		E500C6A220935EDB00041B5F /* SeaTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = E500C69F20935EDA00041B5F /* SeaTexture.png */; };
-		E500C6A320935EDB00041B5F /* untitled.obj in Resources */ = {isa = PBXBuildFile; fileRef = E500C6A020935EDA00041B5F /* untitled.obj */; };
-		E500C6A420935EDB00041B5F /* untitled.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E500C6A120935EDA00041B5F /* untitled.mtl */; };
 		E524AD9F20812C91005F8188 /* plane.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E524AD9D20812C90005F8188 /* plane.mtl */; };
 		E524ADA020812C91005F8188 /* plane.obj in Resources */ = {isa = PBXBuildFile; fileRef = E524AD9E20812C91005F8188 /* plane.obj */; };
 		E535CCE12080DB2C00FB0BB4 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = E535CCDF2080DB2B00FB0BB4 /* cube.obj */; };
@@ -148,11 +144,16 @@
 		E535CCF02080E46D00FB0BB4 /* TropicalSunnyDay_ft.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEA2080E46D00FB0BB4 /* TropicalSunnyDay_ft.png */; };
 		E535CCF12080E46D00FB0BB4 /* TropicalSunnyDay_rt.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEB2080E46D00FB0BB4 /* TropicalSunnyDay_rt.png */; };
 		E535CCF22080E46D00FB0BB4 /* TropicalSunnyDay_up.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */; };
-		E53E80B12097691300EA616C /* TerrainTexture2.png in Resources */ = {isa = PBXBuildFile; fileRef = E53E80B02097691300EA616C /* TerrainTexture2.png */; };
+		E5520B2A20A0D2110050C699 /* Terrain.obj in Resources */ = {isa = PBXBuildFile; fileRef = E5520B2820A0D2110050C699 /* Terrain.obj */; };
+		E5520B2B20A0D2110050C699 /* Terrain.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E5520B2920A0D2110050C699 /* Terrain.mtl */; };
 		E5A0887E209B0B80006B5205 /* terrain.vert in Resources */ = {isa = PBXBuildFile; fileRef = E5A0887C209B0B80006B5205 /* terrain.vert */; };
 		E5A0887F209B0B80006B5205 /* terrain.frag in Resources */ = {isa = PBXBuildFile; fileRef = E5A0887D209B0B80006B5205 /* terrain.frag */; };
 		E5A08882209B28BA006B5205 /* testSphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E5A08880209B28B9006B5205 /* testSphere.mtl */; };
 		E5A08883209B28BA006B5205 /* testSphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = E5A08881209B28BA006B5205 /* testSphere.obj */; };
+		E5E0B729209B5B9700A756AC /* sea.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B727209B5B9700A756AC /* sea.mtl */; };
+		E5E0B72A209B5B9700A756AC /* sea.obj in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B728209B5B9700A756AC /* sea.obj */; };
+		E5E0B72D209B5C1D00A756AC /* sea.vert in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B72B209B5C1D00A756AC /* sea.vert */; };
+		E5E0B72E209B5C1D00A756AC /* sea.frag in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B72C209B5C1D00A756AC /* sea.frag */; };
 		E5F256F320909AB800BEE425 /* PlaneTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F256F220909AB800BEE425 /* PlaneTexture.png */; };
 		F881EA642098714D00CB5DDB /* RingMadness.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F881EA632098714D00CB5DDB /* RingMadness.cpp */; };
 /* End PBXBuildFile section */
@@ -338,11 +339,7 @@
 		B59A67981ACC8BCC00E3EB9B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B59A679A1ACC99F900E3EB9B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B59A679C1ACC9A0400E3EB9B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		E500C69A20934C6200041B5F /* terrain1.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain1.mtl; sourceTree = "<group>"; };
-		E500C69B20934C6200041B5F /* terrain1.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain1.obj; sourceTree = "<group>"; };
 		E500C69F20935EDA00041B5F /* SeaTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SeaTexture.png; sourceTree = "<group>"; };
-		E500C6A020935EDA00041B5F /* untitled.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = untitled.obj; sourceTree = "<group>"; };
-		E500C6A120935EDA00041B5F /* untitled.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = untitled.mtl; sourceTree = "<group>"; };
 		E524AD9D20812C90005F8188 /* plane.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plane.mtl; sourceTree = "<group>"; };
 		E524AD9E20812C91005F8188 /* plane.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plane.obj; sourceTree = "<group>"; };
 		E535CCDF2080DB2B00FB0BB4 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
@@ -355,11 +352,16 @@
 		E535CCEA2080E46D00FB0BB4 /* TropicalSunnyDay_ft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_ft.png; sourceTree = "<group>"; };
 		E535CCEB2080E46D00FB0BB4 /* TropicalSunnyDay_rt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_rt.png; sourceTree = "<group>"; };
 		E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_up.png; sourceTree = "<group>"; };
-		E53E80B02097691300EA616C /* TerrainTexture2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TerrainTexture2.png; sourceTree = "<group>"; };
+		E5520B2820A0D2110050C699 /* Terrain.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Terrain.obj; sourceTree = "<group>"; };
+		E5520B2920A0D2110050C699 /* Terrain.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Terrain.mtl; sourceTree = "<group>"; };
 		E5A0887C209B0B80006B5205 /* terrain.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = terrain.vert; sourceTree = "<group>"; };
 		E5A0887D209B0B80006B5205 /* terrain.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = terrain.frag; sourceTree = "<group>"; };
 		E5A08880209B28B9006B5205 /* testSphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testSphere.mtl; sourceTree = "<group>"; };
 		E5A08881209B28BA006B5205 /* testSphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testSphere.obj; sourceTree = "<group>"; };
+		E5E0B727209B5B9700A756AC /* sea.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sea.mtl; sourceTree = "<group>"; };
+		E5E0B728209B5B9700A756AC /* sea.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sea.obj; sourceTree = "<group>"; };
+		E5E0B72B209B5C1D00A756AC /* sea.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sea.vert; sourceTree = "<group>"; };
+		E5E0B72C209B5C1D00A756AC /* sea.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sea.frag; sourceTree = "<group>"; };
 		E5F256F220909AB800BEE425 /* PlaneTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlaneTexture.png; sourceTree = "<group>"; };
 		F881EA632098714D00CB5DDB /* RingMadness.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RingMadness.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -425,58 +427,59 @@
 		B47949841BA6742B00B5E9DC /* data */ = {
 			isa = PBXGroup;
 			children = (
-				E5A08880209B28B9006B5205 /* testSphere.mtl */,
-				E5A08881209B28BA006B5205 /* testSphere.obj */,
-				E5A0887D209B0B80006B5205 /* terrain.frag */,
-				E5A0887C209B0B80006B5205 /* terrain.vert */,
-				E53E80B02097691300EA616C /* TerrainTexture2.png */,
-				E500C69F20935EDA00041B5F /* SeaTexture.png */,
-				E500C6A120935EDA00041B5F /* untitled.mtl */,
-				E500C6A020935EDA00041B5F /* untitled.obj */,
-				E500C69A20934C6200041B5F /* terrain1.mtl */,
-				E500C69B20934C6200041B5F /* terrain1.obj */,
-				E5F256F220909AB800BEE425 /* PlaneTexture.png */,
-				E524AD9D20812C90005F8188 /* plane.mtl */,
-				E524AD9E20812C91005F8188 /* plane.obj */,
-				E535CCE82080E46D00FB0BB4 /* TropicalSunnyDay_bk.png */,
-				E535CCE92080E46D00FB0BB4 /* TropicalSunnyDay_dn.png */,
-				E535CCEA2080E46D00FB0BB4 /* TropicalSunnyDay_ft.png */,
-				E535CCE72080E46D00FB0BB4 /* TropicalSunnyDay_lf.png */,
-				E535CCEB2080E46D00FB0BB4 /* TropicalSunnyDay_rt.png */,
-				E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */,
-				E535CCE42080DC3300FB0BB4 /* cube.frag */,
-				E535CCE32080DC3300FB0BB4 /* cube.vert */,
-				E535CCE02080DB2C00FB0BB4 /* cube.mtl */,
-				E535CCDF2080DB2B00FB0BB4 /* cube.obj */,
+				E5520B2920A0D2110050C699 /* Terrain.mtl */,
+				E5520B2820A0D2110050C699 /* Terrain.obj */,
 				B47949851BA6742B00B5E9DC /* arial.ttf */,
 				B47949861BA6742B00B5E9DC /* basicTitle_light.png */,
 				B47949871BA6742B00B5E9DC /* blurShader.frag */,
 				B47949881BA6742B00B5E9DC /* blurShader.vert */,
-				B47949891BA6742B00B5E9DC /* cave.mtl */,
-				B479498A1BA6742B00B5E9DC /* cave.obj */,
 				B479498B1BA6742B00B5E9DC /* cave_d.png */,
 				B479498C1BA6742B00B5E9DC /* cave_n.png */,
+				B47949911BA6742B00B5E9DC /* cave_stream_n.png */,
 				B479498D1BA6742B00B5E9DC /* cave_stream.frag */,
 				B479498E1BA6742B00B5E9DC /* cave_stream.mtl */,
 				B479498F1BA6742B00B5E9DC /* cave_stream.obj */,
 				B47949901BA6742B00B5E9DC /* cave_stream.vert */,
-				B47949911BA6742B00B5E9DC /* cave_stream_n.png */,
+				B47949891BA6742B00B5E9DC /* cave.mtl */,
+				B479498A1BA6742B00B5E9DC /* cave.obj */,
 				B47949921BA6742B00B5E9DC /* config.json */,
-				B47949931BA6742B00B5E9DC /* crystal.mtl */,
-				B47949941BA6742B00B5E9DC /* crystal.obj */,
 				B47949951BA6742B00B5E9DC /* crystal_d.png */,
 				B47949961BA6742B00B5E9DC /* crystal_n.png */,
 				B47949971BA6742B00B5E9DC /* crystal_s.png */,
+				B47949931BA6742B00B5E9DC /* crystal.mtl */,
+				B47949941BA6742B00B5E9DC /* crystal.obj */,
+				E535CCE42080DC3300FB0BB4 /* cube.frag */,
+				E535CCE02080DB2C00FB0BB4 /* cube.mtl */,
+				E535CCDF2080DB2B00FB0BB4 /* cube.obj */,
+				E535CCE32080DC3300FB0BB4 /* cube.vert */,
 				B47949981BA6742B00B5E9DC /* flame.frag */,
 				B47949991BA6742B00B5E9DC /* flame.mtl */,
 				B479499A1BA6742B00B5E9DC /* flame.obj */,
 				B479499B1BA6742B00B5E9DC /* flame.png */,
 				B479499C1BA6742B00B5E9DC /* flame.vert */,
 				B479499D1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf */,
+				E524AD9D20812C90005F8188 /* plane.mtl */,
+				E524AD9E20812C91005F8188 /* plane.obj */,
+				E5F256F220909AB800BEE425 /* PlaneTexture.png */,
+				E5E0B72C209B5C1D00A756AC /* sea.frag */,
+				E5E0B727209B5B9700A756AC /* sea.mtl */,
+				E5E0B728209B5B9700A756AC /* sea.obj */,
+				E5E0B72B209B5C1D00A756AC /* sea.vert */,
+				E500C69F20935EDA00041B5F /* SeaTexture.png */,
 				B479499E1BA6742B00B5E9DC /* sparks.png */,
+				E5A0887D209B0B80006B5205 /* terrain.frag */,
+				E5A0887C209B0B80006B5205 /* terrain.vert */,
+				E5A08880209B28B9006B5205 /* testSphere.mtl */,
+				E5A08881209B28BA006B5205 /* testSphere.obj */,
 				B479499F1BA6742B00B5E9DC /* torch.mtl */,
 				B47949A01BA6742B00B5E9DC /* torch.obj */,
 				B47949A11BA6742B00B5E9DC /* torchSurface_Color.png */,
+				E535CCE82080E46D00FB0BB4 /* TropicalSunnyDay_bk.png */,
+				E535CCE92080E46D00FB0BB4 /* TropicalSunnyDay_dn.png */,
+				E535CCEA2080E46D00FB0BB4 /* TropicalSunnyDay_ft.png */,
+				E535CCE72080E46D00FB0BB4 /* TropicalSunnyDay_lf.png */,
+				E535CCEB2080E46D00FB0BB4 /* TropicalSunnyDay_rt.png */,
+				E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -795,32 +798,31 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E500C6A420935EDB00041B5F /* untitled.mtl in Resources */,
 				B4794A311BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				B47949A81BA6742B00B5E9DC /* cave_d.png in Resources */,
 				B47949B01BA6742B00B5E9DC /* crystal.mtl in Resources */,
 				B47949A91BA6742B00B5E9DC /* cave_n.png in Resources */,
-				E500C6A320935EDB00041B5F /* untitled.obj in Resources */,
 				B47949AB1BA6742B00B5E9DC /* cave_stream.mtl in Resources */,
 				B47949B61BA6742B00B5E9DC /* flame.mtl in Resources */,
 				E535CCE22080DB2C00FB0BB4 /* cube.mtl in Resources */,
+				E5E0B729209B5B9700A756AC /* sea.mtl in Resources */,
 				E535CCE12080DB2C00FB0BB4 /* cube.obj in Resources */,
 				B47949AE1BA6742B00B5E9DC /* cave_stream_n.png in Resources */,
 				B47949B51BA6742B00B5E9DC /* flame.frag in Resources */,
 				B47949AC1BA6742B00B5E9DC /* cave_stream.obj in Resources */,
 				E535CCE62080DC3300FB0BB4 /* cube.frag in Resources */,
+				E5E0B72E209B5C1D00A756AC /* sea.frag in Resources */,
 				B47949A61BA6742B00B5E9DC /* cave.mtl in Resources */,
 				B47949B21BA6742B00B5E9DC /* crystal_d.png in Resources */,
 				B47949A21BA6742B00B5E9DC /* arial.ttf in Resources */,
 				B47949B41BA6742B00B5E9DC /* crystal_s.png in Resources */,
-				E53E80B12097691300EA616C /* TerrainTexture2.png in Resources */,
 				B47949B71BA6742B00B5E9DC /* flame.obj in Resources */,
-				E500C69E20934C6200041B5F /* terrain1.obj in Resources */,
 				E5A08882209B28BA006B5205 /* testSphere.mtl in Resources */,
 				B4794A2A1BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				B47949A51BA6742B00B5E9DC /* blurShader.vert in Resources */,
 				B47949AA1BA6742B00B5E9DC /* cave_stream.frag in Resources */,
 				E500C6A220935EDB00041B5F /* SeaTexture.png in Resources */,
+				E5E0B72D209B5C1D00A756AC /* sea.vert in Resources */,
 				B47949AD1BA6742B00B5E9DC /* cave_stream.vert in Resources */,
 				E535CCF22080E46D00FB0BB4 /* TropicalSunnyDay_up.png in Resources */,
 				E5A0887F209B0B80006B5205 /* terrain.frag in Resources */,
@@ -831,7 +833,7 @@
 				B47949A71BA6742B00B5E9DC /* cave.obj in Resources */,
 				B47949B81BA6742B00B5E9DC /* flame.png in Resources */,
 				B47949BE1BA6742B00B5E9DC /* torchSurface_Color.png in Resources */,
-				E500C69D20934C6200041B5F /* terrain1.mtl in Resources */,
+				E5520B2B20A0D2110050C699 /* Terrain.mtl in Resources */,
 				B47949B91BA6742B00B5E9DC /* flame.vert in Resources */,
 				E5A08883209B28BA006B5205 /* testSphere.obj in Resources */,
 				E5F256F320909AB800BEE425 /* PlaneTexture.png in Resources */,
@@ -839,12 +841,14 @@
 				B47949A31BA6742B00B5E9DC /* basicTitle_light.png in Resources */,
 				E524ADA020812C91005F8188 /* plane.obj in Resources */,
 				E535CCE52080DC3300FB0BB4 /* cube.vert in Resources */,
+				E5E0B72A209B5B9700A756AC /* sea.obj in Resources */,
 				E535CCEE2080E46D00FB0BB4 /* TropicalSunnyDay_bk.png in Resources */,
 				B47949BC1BA6742B00B5E9DC /* torch.mtl in Resources */,
 				B47949A41BA6742B00B5E9DC /* blurShader.frag in Resources */,
 				B47949BB1BA6742B00B5E9DC /* sparks.png in Resources */,
 				B47949BA1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf in Resources */,
 				E535CCF02080E46D00FB0BB4 /* TropicalSunnyDay_ft.png in Resources */,
+				E5520B2A20A0D2110050C699 /* Terrain.obj in Resources */,
 				B4794A301BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				E5A0887E209B0B80006B5205 /* terrain.vert in Resources */,
 				E524AD9F20812C91005F8188 /* plane.mtl in Resources */,

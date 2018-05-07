@@ -3,7 +3,7 @@ $B_SHADER_VERSION
 precision highp float;
 #endif
 
-uniform vec3 Kd;
+uniform vec3 ambientColor;
 
 uniform sampler2D DiffuseMap;
 
@@ -24,5 +24,5 @@ void main()
     vec2 texcoord = texCoordVarying.st;
     
     //gl_FragColor = texture2D(DiffuseMap, texcoord);
-    gl_FragColor = (ambientVarying + diffuseVarying) * vec4(Kd,1.0) + specularVarying;
+    gl_FragColor = (ambientVarying + diffuseVarying) * texture2D(DiffuseMap, texcoord) + specularVarying;
 }

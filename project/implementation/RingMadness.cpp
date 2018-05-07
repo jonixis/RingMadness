@@ -41,6 +41,7 @@ vmml::Vector3f cameraTargetPosition;
 
 //Shaders
 ShaderPtr terrainShader;
+ShaderPtr seaShader;
 
 /* This function is executed when initializing the renderer */
 void RingMadness::initFunction()
@@ -66,6 +67,7 @@ void RingMadness::initFunction()
     // load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
 	ShaderPtr flameShader = bRenderer().getObjects()->loadShaderFile_o("flame", 0, AMBIENT_LIGHTING);
     terrainShader = bRenderer().getObjects()->loadShaderFile_o("terrain");
+    seaShader = bRenderer().getObjects()->loadShaderFile_o("sea");
     
     // load material from file using the shader created above
 	MaterialPtr flameMaterial = bRenderer().getObjects()->loadObjMaterial("flame.mtl", "flame", flameShader);
@@ -80,8 +82,8 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->loadObjModel_o("cube.obj", skyShader);
     
     bRenderer().getObjects()->loadObjModel_o("plane.obj", flameShader);
-    bRenderer().getObjects()->loadObjModel_o("terrain1.obj",terrainShader);
-    bRenderer().getObjects()->loadObjModel_o("untitled.obj", flameShader);
+    bRenderer().getObjects()->loadObjModel_o("Terrain.obj",terrainShader);
+    bRenderer().getObjects()->loadObjModel_o("sea.obj", seaShader);
     bRenderer().getObjects()->loadObjModel_o("testSphere.obj", terrainShader);
     
     
@@ -229,6 +231,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     glDepthMask(true);
     glEnable(GL_DEPTH_TEST);
     
+    
     i += 0.01;
     modelMatrix = vmml::create_translation(vmml::Vector3f(sunPosition)) * vmml::create_rotation(i, vmml::Vector3f::UNIT_Y);
 	bRenderer().getModelRenderer()->queueModelInstance("testSphere", "testSphere_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
@@ -236,10 +239,13 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     //Terrain //
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -150.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
     terrainShader->setUniform("modelMatrix", modelMatrix);
-    bRenderer().getModelRenderer()->queueModelInstance("terrain1", "terrain1_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
+    bRenderer().getModelRenderer()->queueModelInstance("Terrain", "Terrain_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
     
-    modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -145.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(1.0f));
-    bRenderer().getModelRenderer()->queueModelInstance("untitled", "untitled_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
+    //sea //
+    
+    seaShader->setUniform("offset", sin(i)/100.0);
+    modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -145.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(200.0f));
+    bRenderer().getModelRenderer()->queueModelInstance("sea", "sea_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
     
     modelMatrix = vmml::create_translation(vmml::Vector3f(30.f, -24.0, 0.0)) * vmml::create_scaling(vmml::Vector3f(0.3f));
 	

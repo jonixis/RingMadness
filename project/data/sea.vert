@@ -7,7 +7,8 @@ uniform mat4 ModelViewMatrix;
 uniform mat4 ProjectionMatrix;
 uniform vec4 sunPosition;
 uniform vec4 modelMatrix;
-uniform vec4 camPosition; 
+uniform vec4 camPosition;
+uniform float offset;
 
 attribute vec4 Position;
 attribute vec3 Normal;
@@ -22,7 +23,8 @@ varying vec4 specularVarying;
 
 void main()
 {
-    ambientVarying = vec4(0.4,0.4,0.4,1.0);
+    vec4 tempPos = Position;
+    ambientVarying = vec4(0.5,0.5,0.5,1.0);
     
     diffuseVarying = vec4(0.0);
  
@@ -47,6 +49,9 @@ void main()
     }
  */
     
+    tempPos.y = Position.y + offset;
+    
+    
     texCoordVarying = TexCoord;
-    gl_Position = ProjectionMatrix * ModelViewMatrix * Position;
+    gl_Position = ProjectionMatrix * ModelViewMatrix * tempPos;
 }
