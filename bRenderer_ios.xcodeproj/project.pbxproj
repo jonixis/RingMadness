@@ -146,6 +146,9 @@
 		E535CCF22080E46D00FB0BB4 /* TropicalSunnyDay_up.png in Resources */ = {isa = PBXBuildFile; fileRef = E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */; };
 		E5520B2A20A0D2110050C699 /* Terrain.obj in Resources */ = {isa = PBXBuildFile; fileRef = E5520B2820A0D2110050C699 /* Terrain.obj */; };
 		E5520B2B20A0D2110050C699 /* Terrain.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E5520B2920A0D2110050C699 /* Terrain.mtl */; };
+		E578287420A350B200889326 /* Sky.png in Resources */ = {isa = PBXBuildFile; fileRef = E578287320A350B100889326 /* Sky.png */; };
+		E578287720A3624D00889326 /* SkyBottom.png in Resources */ = {isa = PBXBuildFile; fileRef = E578287520A3624C00889326 /* SkyBottom.png */; };
+		E578287820A3624D00889326 /* SkyTop.png in Resources */ = {isa = PBXBuildFile; fileRef = E578287620A3624D00889326 /* SkyTop.png */; };
 		E5A0887E209B0B80006B5205 /* terrain.vert in Resources */ = {isa = PBXBuildFile; fileRef = E5A0887C209B0B80006B5205 /* terrain.vert */; };
 		E5A0887F209B0B80006B5205 /* terrain.frag in Resources */ = {isa = PBXBuildFile; fileRef = E5A0887D209B0B80006B5205 /* terrain.frag */; };
 		E5A08882209B28BA006B5205 /* testSphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E5A08880209B28B9006B5205 /* testSphere.mtl */; };
@@ -354,6 +357,9 @@
 		E535CCEC2080E46D00FB0BB4 /* TropicalSunnyDay_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDay_up.png; sourceTree = "<group>"; };
 		E5520B2820A0D2110050C699 /* Terrain.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Terrain.obj; sourceTree = "<group>"; };
 		E5520B2920A0D2110050C699 /* Terrain.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Terrain.mtl; sourceTree = "<group>"; };
+		E578287320A350B100889326 /* Sky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sky.png; sourceTree = "<group>"; };
+		E578287520A3624C00889326 /* SkyBottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SkyBottom.png; sourceTree = "<group>"; };
+		E578287620A3624D00889326 /* SkyTop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SkyTop.png; sourceTree = "<group>"; };
 		E5A0887C209B0B80006B5205 /* terrain.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = terrain.vert; sourceTree = "<group>"; };
 		E5A0887D209B0B80006B5205 /* terrain.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = terrain.frag; sourceTree = "<group>"; };
 		E5A08880209B28B9006B5205 /* testSphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testSphere.mtl; sourceTree = "<group>"; };
@@ -427,8 +433,8 @@
 		B47949841BA6742B00B5E9DC /* data */ = {
 			isa = PBXGroup;
 			children = (
-				E5520B2920A0D2110050C699 /* Terrain.mtl */,
-				E5520B2820A0D2110050C699 /* Terrain.obj */,
+				E578287520A3624C00889326 /* SkyBottom.png */,
+				E578287620A3624D00889326 /* SkyTop.png */,
 				B47949851BA6742B00B5E9DC /* arial.ttf */,
 				B47949861BA6742B00B5E9DC /* basicTitle_light.png */,
 				B47949871BA6742B00B5E9DC /* blurShader.frag */,
@@ -466,8 +472,11 @@
 				E5E0B728209B5B9700A756AC /* sea.obj */,
 				E5E0B72B209B5C1D00A756AC /* sea.vert */,
 				E500C69F20935EDA00041B5F /* SeaTexture.png */,
+				E578287320A350B100889326 /* Sky.png */,
 				B479499E1BA6742B00B5E9DC /* sparks.png */,
 				E5A0887D209B0B80006B5205 /* terrain.frag */,
+				E5520B2920A0D2110050C699 /* Terrain.mtl */,
+				E5520B2820A0D2110050C699 /* Terrain.obj */,
 				E5A0887C209B0B80006B5205 /* terrain.vert */,
 				E5A08880209B28B9006B5205 /* testSphere.mtl */,
 				E5A08881209B28BA006B5205 /* testSphere.obj */,
@@ -811,6 +820,7 @@
 				B47949B51BA6742B00B5E9DC /* flame.frag in Resources */,
 				B47949AC1BA6742B00B5E9DC /* cave_stream.obj in Resources */,
 				E535CCE62080DC3300FB0BB4 /* cube.frag in Resources */,
+				E578287420A350B200889326 /* Sky.png in Resources */,
 				E5E0B72E209B5C1D00A756AC /* sea.frag in Resources */,
 				B47949A61BA6742B00B5E9DC /* cave.mtl in Resources */,
 				B47949B21BA6742B00B5E9DC /* crystal_d.png in Resources */,
@@ -830,6 +840,7 @@
 				E535CCED2080E46D00FB0BB4 /* TropicalSunnyDay_lf.png in Resources */,
 				B47949BD1BA6742B00B5E9DC /* torch.obj in Resources */,
 				E535CCF12080E46D00FB0BB4 /* TropicalSunnyDay_rt.png in Resources */,
+				E578287720A3624D00889326 /* SkyBottom.png in Resources */,
 				B47949A71BA6742B00B5E9DC /* cave.obj in Resources */,
 				B47949B81BA6742B00B5E9DC /* flame.png in Resources */,
 				B47949BE1BA6742B00B5E9DC /* torchSurface_Color.png in Resources */,
@@ -839,6 +850,7 @@
 				E5F256F320909AB800BEE425 /* PlaneTexture.png in Resources */,
 				E535CCEF2080E46D00FB0BB4 /* TropicalSunnyDay_dn.png in Resources */,
 				B47949A31BA6742B00B5E9DC /* basicTitle_light.png in Resources */,
+				E578287820A3624D00889326 /* SkyTop.png in Resources */,
 				E524ADA020812C91005F8188 /* plane.obj in Resources */,
 				E535CCE52080DC3300FB0BB4 /* cube.vert in Resources */,
 				E5E0B72A209B5B9700A756AC /* sea.obj in Resources */,

@@ -76,8 +76,11 @@ void RingMadness::initFunction()
     ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile_o("cube");
     
     // Order of pictures to generate cubematp. left, right, bottom, top, front,  back
-    skyShader->setUniform("texCube", bRenderer().getObjects()->loadCubeMap("textureCube", std::vector<std::string>({ "TropicalSunnyDay_lf.png", "TropicalSunnyDay_rt.png", "TropicalSunnyDay_dn.png", "TropicalSunnyDay_up.png", "TropicalSunnyDay_ft.png", "TropicalSunnyDay_bk.png" })));
-   
+    //skyShader->setUniform("texCube", bRenderer().getObjects()->loadCubeMap("textureCube", std::vector<std::string>({ "TropicalSunnyDay_lf.png", "TropicalSunnyDay_rt.png", "TropicalSunnyDay_dn.png", "TropicalSunnyDay_up.png", "TropicalSunnyDay_ft.png", "TropicalSunnyDay_bk.png" })));
+    skyShader->setUniform("texCube", bRenderer().getObjects()->loadCubeMap("textureCube", std::vector<std::string>({ "Sky.png", "Sky.png", "SkyBottom.png", "SkyTop.png", "Sky.png", "Sky.png" })));
+    
+    
+    
     //Load Skycube object cube.obj. Name of shader used.
     bRenderer().getObjects()->loadObjModel_o("cube.obj", skyShader);
     
@@ -213,7 +216,7 @@ float i = 0;
 /* Update render queue */
 void RingMadness::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
-    vmml::Matrix4f modelMatrix = vmml::create_translation(-1.0f*(bRenderer().getObjects()->getCamera(camera)->getPosition())) * vmml::create_scaling(vmml::Vector3f(20000.0f));
+    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(cameraPosition.x(),cameraPosition.y()+10000.0f, cameraPosition.z())) * vmml::create_scaling(vmml::Vector3f(20000.0f));
     
     // Skybox
 
@@ -245,13 +248,17 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     seaShader->setUniform("sunPosition", sunPosition);
     
     
+    //Fog
+    terrainShader->setUniform("fogColor", vmml::Vector4f(0.95f, 0.95f, 0.95f));
+    terrainShader->setUniform("planePosition", vmml::Vector4f(planePosition,1.0f));
+    
     //Terrain //
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -150.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
     terrainShader->setUniform("modelMatrix", modelMatrix);
     bRenderer().getModelRenderer()->queueModelInstance("Terrain", "Terrain_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
     //sea //
     seaShader->setUniform("time", i);
-    modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -145.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
+    modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, -145.0f,0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
     bRenderer().getModelRenderer()->queueModelInstance("sea", "sea_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
     
     modelMatrix = vmml::create_translation(vmml::Vector3f(30.f, -24.0, 0.0)) * vmml::create_scaling(vmml::Vector3f(0.3f));

@@ -13,16 +13,18 @@ highp   // offset gets very big, needs to be highp on iOS
 #endif
 float offset;
 
-varying highp vec4 texCoordVarying;
 varying vec4 ambientVarying;
 varying vec4 diffuseVarying;
 varying vec4 specularVarying;
 
+vec4 color;
+
+//fog
+varying float visibility;
+uniform vec4 fogColor;
+
 void main()
 {
-    //wave effect for flame
-    vec2 texcoord = texCoordVarying.st;
-    
-    //gl_FragColor = texture2D(DiffuseMap, texcoord);
-    gl_FragColor = (ambientVarying + diffuseVarying) * vec4(Kd,1.0) + specularVarying;
+    color = (ambientVarying + diffuseVarying) * vec4(Kd,1.0) + specularVarying;
+    gl_FragColor = mix(fogColor, color, visibility);
 }

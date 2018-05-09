@@ -7,7 +7,8 @@ uniform mat4 ModelViewMatrix;
 uniform mat4 ProjectionMatrix;
 uniform vec4 sunPosition;
 uniform vec4 modelMatrix;
-uniform vec4 camPosition; 
+uniform vec4 camPosition;
+uniform vec4 planePosition; 
 
 attribute vec4 Position;
 attribute vec3 Normal;
@@ -15,13 +16,21 @@ attribute vec3 Tangent;
 attribute vec3 Bitangent;
 attribute vec4 TexCoord;
 
-varying highp vec4 texCoordVarying;
 varying vec4 ambientVarying;
 varying vec4 diffuseVarying;
 varying vec4 specularVarying;
 
+//Fog
+varying float visibility;
+float density = 0.0007;
+float gradient = 4.0;
+
+
+
 void main()
 {
+    visibility = 0.0;
+    //light
     ambientVarying = vec4(0.4,0.4,0.4,1.0);
     
     diffuseVarying = vec4(0.0);
@@ -47,6 +56,11 @@ void main()
     }
  */
     
-    texCoordVarying = TexCoord;
+    //Fog
+    float distanceCameraVertex = length(ModelViewMatrix * Position);
+    visibility = exp(-pow((distanceCameraVertex*density),gradient));
+    visibility = clamp(visibility, 0.0, 1.0);
+    
+    
     gl_Position = ProjectionMatrix * ModelViewMatrix * Position;
 }

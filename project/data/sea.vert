@@ -16,10 +16,14 @@ attribute vec3 Tangent;
 attribute vec3 Bitangent;
 attribute vec4 TexCoord;
 
-varying highp vec4 texCoordVarying;
 varying vec4 ambientVarying;
 varying vec4 diffuseVarying;
 varying vec4 specularVarying;
+
+//Fog
+varying float visibility;
+float density = 0.0007;
+float gradient = 4.0;
 
 float rX;
 float rZ;
@@ -70,8 +74,11 @@ void main()
     
     
     
+    //Fog
+    float distanceCameraVertex = length(ModelViewMatrix * Position);
+    visibility = exp(-pow((distanceCameraVertex*density),gradient));
+    visibility = clamp(visibility, 0.0, 1.0);
     
-    
-    texCoordVarying = TexCoord;
+
     gl_Position = ProjectionMatrix * ModelViewMatrix * tempPosition;
 }
