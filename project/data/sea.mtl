@@ -1,13 +1,12 @@
-# Blender MTL File: 'None'
+# Blender MTL File: 'Sea.blend'
 # Material Count: 1
 
-newmtl Material.001
+newmtl Water.001
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
-Kd 0.037127 0.187764 0.645871
+Kd 0.057817 0.392817 0.639282
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd SeaTexture.png

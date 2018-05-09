@@ -94,7 +94,7 @@ void RingMadness::initFunction()
     cameraPosition = vmml::Vector3f(-30.0f,0.0f,0.0f);
     
     //Sun Position
-    sunPosition = vmml::Vector3f(0.0f,500.0f,0.0f,1.0f);
+    sunPosition = vmml::Vector3f(0.0f,300.0f,0.0f,1.0f);
     terrainShader->setUniform("sunPosition", sunPosition);
     
     // create a sprite displaying the title as a texture
@@ -232,19 +232,26 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     glEnable(GL_DEPTH_TEST);
     
     
-    i += 0.01;
+    i += 1;
     modelMatrix = vmml::create_translation(vmml::Vector3f(sunPosition)) * vmml::create_rotation(i, vmml::Vector3f::UNIT_Y);
 	bRenderer().getModelRenderer()->queueModelInstance("testSphere", "testSphere_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
+    
+    //moving sun
+    //terrainShader->setUniform("sunPosition", vmml::Vector4f((sin(i*0.001)*1000.0),300.0f,0.0f,1.0f));
+    //seaShader->setUniform("sunPosition", vmml::Vector4f((sin(i*0.001)*1000.0),300.0f,0.0f,1.0f));
+    
+    //Static Sun
+    terrainShader->setUniform("sunPosition", sunPosition);
+    seaShader->setUniform("sunPosition", sunPosition);
+    
     
     //Terrain //
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -150.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
     terrainShader->setUniform("modelMatrix", modelMatrix);
     bRenderer().getModelRenderer()->queueModelInstance("Terrain", "Terrain_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
-    
     //sea //
-    
-    seaShader->setUniform("offset", sin(i)/100.0);
-    modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -145.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(200.0f));
+    seaShader->setUniform("time", i);
+    modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -145.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
     bRenderer().getModelRenderer()->queueModelInstance("sea", "sea_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
     
     modelMatrix = vmml::create_translation(vmml::Vector3f(30.f, -24.0, 0.0)) * vmml::create_scaling(vmml::Vector3f(0.3f));
@@ -281,11 +288,11 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
             // If touch is on the right half, steer plane
             if (touch.startPositionX > bRenderer().getView()->getWidth() / 2){
                 
-                //planeTargetYaw = -(touch.currentPositionX - touch.startPositionX) * 0.0001f;
-                planeTargetYaw = -std::sin((touch.currentPositionX - touch.startPositionX) * 0.0001f) * (3.1415f/2.0f);
+                planeTargetYaw = -(touch.currentPositionX - touch.startPositionX) * 0.0001f;
+                //planeTargetYaw = -std::sin((touch.currentPositionX - touch.startPositionX) * 0.0001f) * (3.1415f/2.0f);
                 
-                //planeTargetPitch = (touch.currentPositionY - touch.startPositionY) * 0.0001f;
-                planeTargetPitch = std::sin((touch.currentPositionY - touch.startPositionY) * 0.0001f)*(3.1415f/2.0f);
+                planeTargetPitch = (touch.currentPositionY - touch.startPositionY) * 0.0001f;
+                //planeTargetPitch = std::sin((touch.currentPositionY - touch.startPositionY) * 0.0001f)*(3.1415f/2.0f);
                 
             }
             if (++i > 2)
@@ -368,6 +375,7 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
         }
         
         terrainShader->setUniform("camPosition", vmml::Vector4f(cameraPosition.x(),cameraPosition.y(),cameraPosition.z(),1.0));
+        seaShader->setUniform("camPosition", vmml::Vector4f(cameraPosition.x(),cameraPosition.y(),cameraPosition.z(),1.0));
         planeModelMatrixTwo = planeModelMatrix * vmml::create_rotation(-planeCurrentRoll, vmml::Vector3f::UNIT_Z);
         
         
