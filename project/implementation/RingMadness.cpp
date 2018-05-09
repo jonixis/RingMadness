@@ -84,7 +84,8 @@ void RingMadness::initFunction()
     //Load Skycube object cube.obj. Name of shader used.
     bRenderer().getObjects()->loadObjModel_o("cube.obj", skyShader);
     
-    bRenderer().getObjects()->loadObjModel_o("plane.obj", flameShader);
+    bRenderer().getObjects()->loadObjModel_o("plane.obj", terrainShader);
+    bRenderer().getObjects()->loadObjModel_o("Rotor.obj",terrainShader);
     bRenderer().getObjects()->loadObjModel_o("Terrain.obj",terrainShader);
     bRenderer().getObjects()->loadObjModel_o("sea.obj", seaShader);
     bRenderer().getObjects()->loadObjModel_o("testSphere.obj", terrainShader);
@@ -266,6 +267,8 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     //plane //
     bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrixTwo, std::vector<std::string>({"sunLight", "secondLight", "thirdLight" }), true, true);
+    //Rotor//
+    bRenderer().getModelRenderer()->queueModelInstance("Rotor", "rotor_instance", camera, planeModelMatrixTwo * vmml::create_translation(vmml::Vector3f(0.0f,-0.4f,3.9f)) * vmml::create_rotation(i*0.1f, vmml::Vector3f::UNIT_Z), std::vector<std::string>({"sunLight", "secondLight", "thirdLight" }), true, true);
 
 }
 
@@ -317,13 +320,13 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
         //Roll and yaw of plane with automatical leveling of roll not working atm
         if(planeTargetYaw == 0){
             if (planeCurrentRoll > 0) {
-                planeCurrentRoll = planeCurrentRoll;// - (planeCurrentRoll * 0.1f);
+                planeCurrentRoll = planeCurrentRoll - (planeCurrentRoll * 0.1f);
             } else if(planeCurrentRoll < 0){
-                planeCurrentRoll  = planeCurrentRoll;// - (planeCurrentRoll * 0.1f);
+                planeCurrentRoll  = planeCurrentRoll - (planeCurrentRoll * 0.1f);
             } else{
                 planeCurrentRoll = 0;
             }
-            //planeCurrentYaw = 0;
+            planeCurrentYaw = 0;
         }else{
             planeCurrentYaw = planeTargetYaw;
             planeCurrentRoll = planeTargetYaw * 50.0f;

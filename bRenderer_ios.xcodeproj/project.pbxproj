@@ -149,6 +149,8 @@
 		E578287420A350B200889326 /* Sky.png in Resources */ = {isa = PBXBuildFile; fileRef = E578287320A350B100889326 /* Sky.png */; };
 		E578287720A3624D00889326 /* SkyBottom.png in Resources */ = {isa = PBXBuildFile; fileRef = E578287520A3624C00889326 /* SkyBottom.png */; };
 		E578287820A3624D00889326 /* SkyTop.png in Resources */ = {isa = PBXBuildFile; fileRef = E578287620A3624D00889326 /* SkyTop.png */; };
+		E578287B20A36A9200889326 /* Rotor.obj in Resources */ = {isa = PBXBuildFile; fileRef = E578287920A36A9100889326 /* Rotor.obj */; };
+		E578287C20A36A9200889326 /* Rotor.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E578287A20A36A9100889326 /* Rotor.mtl */; };
 		E5A0887E209B0B80006B5205 /* terrain.vert in Resources */ = {isa = PBXBuildFile; fileRef = E5A0887C209B0B80006B5205 /* terrain.vert */; };
 		E5A0887F209B0B80006B5205 /* terrain.frag in Resources */ = {isa = PBXBuildFile; fileRef = E5A0887D209B0B80006B5205 /* terrain.frag */; };
 		E5A08882209B28BA006B5205 /* testSphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E5A08880209B28B9006B5205 /* testSphere.mtl */; };
@@ -360,6 +362,8 @@
 		E578287320A350B100889326 /* Sky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sky.png; sourceTree = "<group>"; };
 		E578287520A3624C00889326 /* SkyBottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SkyBottom.png; sourceTree = "<group>"; };
 		E578287620A3624D00889326 /* SkyTop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SkyTop.png; sourceTree = "<group>"; };
+		E578287920A36A9100889326 /* Rotor.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Rotor.obj; sourceTree = "<group>"; };
+		E578287A20A36A9100889326 /* Rotor.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Rotor.mtl; sourceTree = "<group>"; };
 		E5A0887C209B0B80006B5205 /* terrain.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = terrain.vert; sourceTree = "<group>"; };
 		E5A0887D209B0B80006B5205 /* terrain.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = terrain.frag; sourceTree = "<group>"; };
 		E5A08880209B28B9006B5205 /* testSphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testSphere.mtl; sourceTree = "<group>"; };
@@ -433,6 +437,8 @@
 		B47949841BA6742B00B5E9DC /* data */ = {
 			isa = PBXGroup;
 			children = (
+				E578287A20A36A9100889326 /* Rotor.mtl */,
+				E578287920A36A9100889326 /* Rotor.obj */,
 				E578287520A3624C00889326 /* SkyBottom.png */,
 				E578287620A3624D00889326 /* SkyTop.png */,
 				B47949851BA6742B00B5E9DC /* arial.ttf */,
@@ -816,12 +822,14 @@
 				E535CCE22080DB2C00FB0BB4 /* cube.mtl in Resources */,
 				E5E0B729209B5B9700A756AC /* sea.mtl in Resources */,
 				E535CCE12080DB2C00FB0BB4 /* cube.obj in Resources */,
+				E578287B20A36A9200889326 /* Rotor.obj in Resources */,
 				B47949AE1BA6742B00B5E9DC /* cave_stream_n.png in Resources */,
 				B47949B51BA6742B00B5E9DC /* flame.frag in Resources */,
 				B47949AC1BA6742B00B5E9DC /* cave_stream.obj in Resources */,
 				E535CCE62080DC3300FB0BB4 /* cube.frag in Resources */,
 				E578287420A350B200889326 /* Sky.png in Resources */,
 				E5E0B72E209B5C1D00A756AC /* sea.frag in Resources */,
+				E578287C20A36A9200889326 /* Rotor.mtl in Resources */,
 				B47949A61BA6742B00B5E9DC /* cave.mtl in Resources */,
 				B47949B21BA6742B00B5E9DC /* crystal_d.png in Resources */,
 				B47949A21BA6742B00B5E9DC /* arial.ttf in Resources */,
