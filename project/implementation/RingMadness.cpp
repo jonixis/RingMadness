@@ -22,7 +22,7 @@ vmml::Matrix4f planeModelMatrixTwo;
 vmml::Matrix4f planeRotationMatrix;
 vmml::Matrix4f planeTransaltionMatrix;
 vmml::Vector3f planePosition;
-vmml::Vector3f PLANESPEED = vmml::Vector3f(0.0f,0.0f, 0.8f);
+vmml::Vector3f PLANESPEED = vmml::Vector3f(0.0f,0.0f, 1.0f);
 float planeCurrentPitch = 0;
 float planeCurrentYaw = 0;
 float planeMaxMinPitch = 0;
@@ -73,21 +73,16 @@ void RingMadness::initFunction()
     
 
     // Terrain models
-    // load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
     ShaderPtr flameShader = bRenderer().getObjects()->loadShaderFile_o("flame");
     terrainShader = bRenderer().getObjects()->loadShaderFile_o("terrain");
     terrainShader->setUniform("sunPosition", sunPosition);
     
     bRenderer().getObjects()->loadObjModel_o("terrain.obj",terrainShader);
     bRenderer().getObjects()->loadObjModel_o("untitled.obj", flameShader);
-    bRenderer().getObjects()->loadObjModel_o("testSphere.obj", terrainShader);
     
     // Sun model
     ShaderPtr sunShader = bRenderer().getObjects()->loadShaderFile("sun");
     bRenderer().getObjects()->loadObjModel_o("sun.obj", sunShader);
-    
-//    // create sun light
-//    bRenderer().getObjects()->createLight("sunLight", vmml::Vector3f(0.0f, -20.0f, 0.0f), vmml::Vector3f(1.0f, 1.0f, 1.0f), vmml::Vector3f(1.0f, 1.0f, 1.0f), 1000.0f, 1.0f, 1000.0f);
     
     // Plane model
     ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane");
@@ -96,7 +91,6 @@ void RingMadness::initFunction()
     planeShader->setUniform("Is", vmml::Vector3f(0.9f));
     bRenderer().getObjects()->loadObjModel_o("plane.obj", planeShader);
 
-    
     //plane Start Position
     planeModelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_rotation(M_PI_F * 0.5f, vmml::Vector3f::UNIT_Y);
     
@@ -118,8 +112,6 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->createCamera("camera");
     bRenderer().getObjects()->getCamera("camera")->lookAt(vmml::Vector3f(-30.0f,0.0f,0.0f), vmml::Vector3f::ZERO, vmml::Vector3f::UNIT_Y);
     
-	
-    
 	// postprocessing
 	bRenderer().getObjects()->createFramebuffer("fbo");					// create framebuffer object
 	bRenderer().getObjects()->createTexture("fbo_texture1", 0.f, 0.f);	// create texture to bind to the fbo
@@ -128,7 +120,6 @@ void RingMadness::initFunction()
 	MaterialPtr blurMaterial = bRenderer().getObjects()->createMaterial("blurMaterial", blurShader);								// create an empty material to assign either texture1 or texture2 to
 	bRenderer().getObjects()->createSprite("blurSprite", blurMaterial);																// create a sprite using the material created above
 
-    
 	// Update render queue
 	updateRenderQueue("camera", 0.0f);
 }
@@ -250,7 +241,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     planeShader->setUniform("LightPos", sunPosition);
 
-    bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrix, std::vector<std::string>({}), true, true);
+    bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrixTwo, std::vector<std::string>({}), true, true);
 }
 
 
