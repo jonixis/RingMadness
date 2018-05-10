@@ -874,6 +874,7 @@
 				E500C6A220935EDB00041B5F /* SeaTexture.png in Resources */,
 				B47949AD1BA6742B00B5E9DC /* cave_stream.vert in Resources */,
 				E535CCF22080E46D00FB0BB4 /* TropicalSunnyDay_up.png in Resources */,
+				E5A0887F209B0B80006B5205 /* terrain.frag in Resources */,
 				B47949AF1BA6742B00B5E9DC /* config.json in Resources */,
 				F85558C1209B7EA900041BC2 /* plane.obj in Resources */,
 				E535CCED2080E46D00FB0BB4 /* TropicalSunnyDay_lf.png in Resources */,
