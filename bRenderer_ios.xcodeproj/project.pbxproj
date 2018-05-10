@@ -131,8 +131,6 @@
 		B59A67991ACC8BCC00E3EB9B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59A67981ACC8BCC00E3EB9B /* UIKit.framework */; };
 		B59A679B1ACC99F900E3EB9B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59A679A1ACC99F900E3EB9B /* CoreGraphics.framework */; };
 		B59A679D1ACC9A0400E3EB9B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59A679C1ACC9A0400E3EB9B /* QuartzCore.framework */; };
-		E500C69D20934C6200041B5F /* terrain1.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E500C69A20934C6200041B5F /* terrain1.mtl */; };
-		E500C69E20934C6200041B5F /* terrain1.obj in Resources */ = {isa = PBXBuildFile; fileRef = E500C69B20934C6200041B5F /* terrain1.obj */; };
 		E500C6A220935EDB00041B5F /* SeaTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = E500C69F20935EDA00041B5F /* SeaTexture.png */; };
 		E500C6A320935EDB00041B5F /* untitled.obj in Resources */ = {isa = PBXBuildFile; fileRef = E500C6A020935EDA00041B5F /* untitled.obj */; };
 		E500C6A420935EDB00041B5F /* untitled.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E500C6A120935EDA00041B5F /* untitled.mtl */; };
@@ -159,6 +157,8 @@
 		F881EA642098714D00CB5DDB /* RingMadness.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F881EA632098714D00CB5DDB /* RingMadness.cpp */; };
 		F881EA7120987FD100CB5DDB /* plane.vert in Resources */ = {isa = PBXBuildFile; fileRef = F881EA7020987FD100CB5DDB /* plane.vert */; };
 		F881EA7320987FDF00CB5DDB /* plane.frag in Resources */ = {isa = PBXBuildFile; fileRef = F881EA7220987FDF00CB5DDB /* plane.frag */; };
+		F8FB0AA120A0AB2300B25ABF /* terrain.mtl in Resources */ = {isa = PBXBuildFile; fileRef = F8FB0A9F20A0AB2300B25ABF /* terrain.mtl */; };
+		F8FB0AA220A0AB2300B25ABF /* terrain.obj in Resources */ = {isa = PBXBuildFile; fileRef = F8FB0AA020A0AB2300B25ABF /* terrain.obj */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -342,8 +342,6 @@
 		B59A67981ACC8BCC00E3EB9B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B59A679A1ACC99F900E3EB9B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B59A679C1ACC9A0400E3EB9B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		E500C69A20934C6200041B5F /* terrain1.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain1.mtl; sourceTree = "<group>"; };
-		E500C69B20934C6200041B5F /* terrain1.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain1.obj; sourceTree = "<group>"; };
 		E500C69F20935EDA00041B5F /* SeaTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SeaTexture.png; sourceTree = "<group>"; };
 		E500C6A020935EDA00041B5F /* untitled.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = untitled.obj; sourceTree = "<group>"; };
 		E500C6A120935EDA00041B5F /* untitled.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = untitled.mtl; sourceTree = "<group>"; };
@@ -370,6 +368,8 @@
 		F881EA632098714D00CB5DDB /* RingMadness.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RingMadness.cpp; sourceTree = "<group>"; };
 		F881EA7020987FD100CB5DDB /* plane.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = plane.vert; sourceTree = "<group>"; };
 		F881EA7220987FDF00CB5DDB /* plane.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = plane.frag; sourceTree = "<group>"; };
+		F8FB0A9F20A0AB2300B25ABF /* terrain.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain.mtl; sourceTree = "<group>"; };
+		F8FB0AA020A0AB2300B25ABF /* terrain.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain.obj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -735,12 +735,12 @@
 		F82D300D209F95040055E149 /* Terrain */ = {
 			isa = PBXGroup;
 			children = (
+				F8FB0A9F20A0AB2300B25ABF /* terrain.mtl */,
+				F8FB0AA020A0AB2300B25ABF /* terrain.obj */,
 				F82D3009209F95000055E149 /* terrain.frag */,
 				F82D300A209F95000055E149 /* terrain.vert */,
 				E53E80B02097691300EA616C /* TerrainTexture2.png */,
 				E500C69F20935EDA00041B5F /* SeaTexture.png */,
-				E500C69A20934C6200041B5F /* terrain1.mtl */,
-				E500C69B20934C6200041B5F /* terrain1.obj */,
 			);
 			path = Terrain;
 			sourceTree = "<group>";
@@ -854,7 +854,9 @@
 				E535CCE22080DB2C00FB0BB4 /* cube.mtl in Resources */,
 				F881EA7320987FDF00CB5DDB /* plane.frag in Resources */,
 				E535CCE12080DB2C00FB0BB4 /* cube.obj in Resources */,
+				F8FB0AA120A0AB2300B25ABF /* terrain.mtl in Resources */,
 				B47949AE1BA6742B00B5E9DC /* cave_stream_n.png in Resources */,
+				F8FB0AA220A0AB2300B25ABF /* terrain.obj in Resources */,
 				B47949B51BA6742B00B5E9DC /* flame.frag in Resources */,
 				F82D300B209F95000055E149 /* terrain.frag in Resources */,
 				B47949AC1BA6742B00B5E9DC /* cave_stream.obj in Resources */,
@@ -865,7 +867,6 @@
 				B47949B41BA6742B00B5E9DC /* crystal_s.png in Resources */,
 				E53E80B12097691300EA616C /* TerrainTexture2.png in Resources */,
 				B47949B71BA6742B00B5E9DC /* flame.obj in Resources */,
-				E500C69E20934C6200041B5F /* terrain1.obj in Resources */,
 				B4794A2A1BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				F85558B4209B3BE500041BC2 /* sun.vert in Resources */,
 				B47949A51BA6742B00B5E9DC /* blurShader.vert in Resources */,
@@ -881,7 +882,6 @@
 				B47949A71BA6742B00B5E9DC /* cave.obj in Resources */,
 				B47949B81BA6742B00B5E9DC /* flame.png in Resources */,
 				B47949BE1BA6742B00B5E9DC /* torchSurface_Color.png in Resources */,
-				E500C69D20934C6200041B5F /* terrain1.mtl in Resources */,
 				B47949B91BA6742B00B5E9DC /* flame.vert in Resources */,
 				F881EA7120987FD100CB5DDB /* plane.vert in Resources */,
 				E5F256F320909AB800BEE425 /* planeTexture.png in Resources */,

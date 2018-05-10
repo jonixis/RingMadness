@@ -4,6 +4,8 @@ precision highp float;
 #endif
 
 uniform vec3 ambientColor;
+uniform lowp vec3 Kd;   // diffuse material coefficient
+
 
 uniform sampler2D DiffuseMap;
 
@@ -20,9 +22,5 @@ varying vec4 specularVarying;
 
 void main()
 {
-    //wave effect for flame
-    vec2 texcoord = texCoordVarying.st;
-    
-    //gl_FragColor = texture2D(DiffuseMap, texcoord);
-    gl_FragColor = (ambientVarying + diffuseVarying) * texture2D(DiffuseMap, texcoord) + specularVarying;
+    gl_FragColor = (ambientVarying + diffuseVarying) * vec4(Kd, 1.0) + specularVarying;
 }

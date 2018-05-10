@@ -3,6 +3,10 @@ $B_SHADER_VERSION
 precision highp float;
 #endif
 
+uniform lowp vec3 Ka;   // ambient material coefficient
+uniform lowp vec3 Kd;   // diffuse material coefficient
+uniform lowp vec3 Ks;   // specular material coefficient
+
 uniform mat4 ModelViewMatrix;
 uniform mat4 ProjectionMatrix;
 uniform vec4 sunPosition;
@@ -30,7 +34,7 @@ void main()
     highp vec3 lightDirection = vec3(normalize(sunPosition-(modelMatrix * Position)));
     
     highp float intensity = dot(normal,lightDirection);
-    highp vec3 diffuse = vec3(0.5,0.5,0.5) * clamp(intensity, 0.0, 1.0);
+    highp vec3 diffuse = Kd * clamp(intensity, 0.0, 1.0);
     diffuseVarying = vec4(clamp(diffuse, 0.0, 1.0), 1.0);
     
     

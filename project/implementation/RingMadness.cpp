@@ -22,7 +22,7 @@ vmml::Matrix4f planeModelMatrixTwo;
 vmml::Matrix4f planeRotationMatrix;
 vmml::Matrix4f planeTransaltionMatrix;
 vmml::Vector3f planePosition;
-vmml::Vector3f PLANESPEED = vmml::Vector3f(0.0f,0.0f, 0.3f);
+vmml::Vector3f PLANESPEED = vmml::Vector3f(0.0f,0.0f, 0.8f);
 float planeCurrentPitch = 0;
 float planeCurrentYaw = 0;
 float planeMaxMinPitch = 0;
@@ -77,7 +77,7 @@ void RingMadness::initFunction()
     terrainShader = bRenderer().getObjects()->loadShaderFile_o("terrain");
     terrainShader->setUniform("sunPosition", sunPosition);
     
-    bRenderer().getObjects()->loadObjModel_o("terrain1.obj",terrainShader);
+    bRenderer().getObjects()->loadObjModel_o("terrain.obj",terrainShader);
     bRenderer().getObjects()->loadObjModel_o("untitled.obj", flameShader);
     
     // Sun model
@@ -227,7 +227,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     //Terrain
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -150.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
     terrainShader->setUniform("modelMatrix", modelMatrix);
-    bRenderer().getModelRenderer()->queueModelInstance("terrain1", "terrain1_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
+    bRenderer().getModelRenderer()->queueModelInstance("terrain", "terrain_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -145.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(1.0f));
     bRenderer().getModelRenderer()->queueModelInstance("untitled", "untitled_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
@@ -239,7 +239,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     planeShader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
     planeShader->setUniform("ViewMatrix", viewMatrix);
-    planeShader->setUniform("ModelMatrix", planeModelMatrixTwo);
+    planeShader->setUniform("ModelMatrix", planeModelMatrix);
     
     vmml::Matrix3f normalMatrix;
     vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(planeModelMatrixTwo)), normalMatrix);
@@ -247,7 +247,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     planeShader->setUniform("LightPos", sunPosition);
 
-    bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrixTwo, std::vector<std::string>({}), true, true);
+    bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrix, std::vector<std::string>({}), true, true);
 }
 
 
