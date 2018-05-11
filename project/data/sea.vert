@@ -22,7 +22,7 @@ varying vec4 specularVarying;
 
 //Fog
 varying float visibility;
-float density = 0.0007;
+float density = 0.001;
 float gradient = 4.0;
 
 float rX;
