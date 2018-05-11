@@ -35,7 +35,7 @@ vmml::Vector4f sunPosition;
 
 //cloud Variables
 ShaderPtr objectShader;
-vmml::Vector4f cloudPosition = vmml::Vector3f(0.0f,200.0f,0.0f);
+vmml::Vector4f cloudPosition = vmml::Vector3f(500.0f,200.0f,100.0f);
 
 
 //camera Variables
@@ -144,6 +144,7 @@ void RingMadness::initFunction()
 	bRenderer().getObjects()->createSprite("blurSprite", blurMaterial);																// create a sprite using the material created above
 
     
+    
 	// Update render queue
 	updateRenderQueue("camera", 0.0f);
 }
@@ -229,9 +230,11 @@ float i = 0;
 /* Update render queue */
 void RingMadness::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
-    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(cameraPosition.x(),cameraPosition.y()+10000.0f, cameraPosition.z())) * vmml::create_scaling(vmml::Vector3f(20000.0f));
+    i += 1;
     
     // Skybox
+    
+    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(cameraPosition.x(),cameraPosition.y()+10000.0f, cameraPosition.z())) * vmml::create_scaling(vmml::Vector3f(20000.0f));
 
     glClear(GL_DEPTH_TEST);
     glDisable(GL_DEPTH_TEST);
@@ -248,8 +251,6 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     glEnable(GL_DEPTH_TEST);
     
     
-    i += 1;
-    modelMatrix = vmml::create_translation(vmml::Vector3f(sunPosition)) * vmml::create_scaling(20.0f);
 	//bRenderer().getModelRenderer()->queueModelInstance("testSphere", "testSphere_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
     
     //Clouds
@@ -274,10 +275,13 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     objectShader->setUniform("fogColor", vmml::Vector4f(0.95f, 0.95f, 0.95f));
     objectShader->setUniform("planePosition", vmml::Vector4f(planePosition,1.0f));
     
+    
     //Terrain //
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -150.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
     terrainShader->setUniform("modelMatrix", modelMatrix);
     bRenderer().getModelRenderer()->queueModelInstance("Terrain", "Terrain_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
+    
+    
     //sea //
     seaShader->setUniform("time", i);
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, -145.0f,0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
