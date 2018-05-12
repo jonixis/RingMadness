@@ -38,7 +38,7 @@ vmml::Vector4f cloudPosition = vmml::Vector3f(500.0f,200.0f,100.0f);
 vmml::Vector4f sunPosition;
 
 // Fog
-vmml::Vector4f fogColor = vmml::Vector4f(0.95f, 0.95f, 0.95f, 1.0f);
+vmml::Vector4f fogColor = vmml::Vector4f(0.95f, 0.95f, 0.95f);
 
 // Camera Variables
 vmml::Matrix4f cameraModelMatrix;
@@ -72,6 +72,8 @@ void RingMadness::initFunction()
     
     //Load cube.frag & cube.vert for the skyCube
     ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile_o("cube");
+    seaShader = bRenderer().getObjects()->loadShaderFile_o("sea");
+    terrainShader = bRenderer().getObjects()->loadShaderFile_o("terrain");
     
     //Object Shader for all objects (E.g. Clouds, houses, etc...)
     objectShader = bRenderer().getObjects()->loadShaderFile_o("object");
@@ -83,13 +85,8 @@ void RingMadness::initFunction()
     
     //Load Skycube object cube.obj. Name of shader used.
     bRenderer().getObjects()->loadObjModel_o("cube.obj", skyShader);
-   
-    // Load Skycube object cube.obj. Name of shader used.
-    bRenderer().getObjects()->loadObjModel_o("cube.obj", skyShader);
     
-    // Terrain models
-    seaShader = bRenderer().getObjects()->loadShaderFile_o("sea");
-    terrainShader = bRenderer().getObjects()->loadShaderFile_o("terrain");
+    // Terrain model
     bRenderer().getObjects()->loadObjModel_o("terrain.obj",terrainShader);
     bRenderer().getObjects()->loadObjModel_o("sea.obj", seaShader);
     bRenderer().getObjects()->loadObjModel_o("cloud1.obj", objectShader);
@@ -117,6 +114,11 @@ void RingMadness::initFunction()
     terrainShader->setUniform("sunPosition", sunPosition);
     seaShader->setUniform("sunPosition", sunPosition);
     objectShader->setUniform("sunPosition", sunPosition);
+    
+    //Fog
+    terrainShader->setUniform("fogColor", fogColor);
+    seaShader->setUniform("fogColor", fogColor);
+    objectShader->setUniform("fogColor", fogColor);
     
     // create a sprite displaying the title as a texture
 	bRenderer().getObjects()->createSprite("bTitle", "basicTitle_light.png");
@@ -246,45 +248,20 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     //Static Sun
     modelMatrix = vmml::create_translation(vmml::Vector3f(sunPosition)) * vmml::create_scaling(vmml::Vector3f(50.0f));
     bRenderer().getModelRenderer()->queueModelInstance("sun", "sun_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
-    terrainShader->setUniform("sunPosition", sunPosition);
-    seaShader->setUniform("sunPosition", sunPosition);
-    objectShader->setUniform("sunPosition", sunPosition);
-    
-    
-    //Fog
-    terrainShader->setUniform("fogColor", fogColor);
-    terrainShader->setUniform("planePosition", vmml::Vector4f(planePosition,1.0f));
-    seaShader->setUniform("fogColor", fogColor);
-    seaShader->setUniform("planePosition", vmml::Vector4f(planePosition,1.0f));
-    objectShader->setUniform("fogColor", fogColor);
-    objectShader->setUniform("planePosition", vmml::Vector4f(planePosition,1.0f));
     
     //Terrain
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -150.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
     terrainShader->setUniform("modelMatrix", modelMatrix);
     bRenderer().getModelRenderer()->queueModelInstance("terrain", "terrain_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     
-    
     //sea //
     seaShader->setUniform("time", i);
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, -145.0f,0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
     bRenderer().getModelRenderer()->queueModelInstance("sea", "sea_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     
-    // modelMatrix = vmml::create_translation(vmml::Vector3f(30.f, -24.0, 0.0)) * vmml::create_scaling(vmml::Vector3f(0.3f));
-    
     //plane //
-    vmml::Matrix4f viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
-    
     ShaderPtr planeShader = bRenderer().getObjects()->getShader("plane");
-    
-    planeShader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
-    planeShader->setUniform("ViewMatrix", viewMatrix);
-    planeShader->setUniform("ModelMatrix", planeModelMatrix);
-    
-    vmml::Matrix3f normalMatrix;
-    vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(planeModelMatrixTwo)), normalMatrix);
-    planeShader->setUniform("NormalMatrix", normalMatrix);
-    
+    planeShader->setUniform("ModelMatrix", planeModelMatrixTwo);
     planeShader->setUniform("LightPos", sunPosition);
 
     bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrixTwo, std::vector<std::string>({}), true, true);
