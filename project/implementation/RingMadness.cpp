@@ -28,22 +28,22 @@ float planeCurrentYaw = 0;
 float planeMaxMinPitch = 0;
 float planeCurrentRoll = 0;
 float planeLastRoll = 0;
-bool thirdPerson = true;
 
-//Sun Variables
-vmml::Vector4f sunPosition;
+bool thirdPerson = true;
 
 //cloud Variables
 ShaderPtr objectShader;
 vmml::Vector4f cloudPosition = vmml::Vector3f(500.0f,200.0f,100.0f);
 
+//Sun variables
+vmml::Vector4f sunPosition;
 
-//camera Variables
+// Camera Variables
 vmml::Matrix4f cameraModelMatrix;
 vmml::Vector3f cameraPosition;
 vmml::Vector3f cameraTargetPosition;
 
-//Shaders
+// Shaders
 ShaderPtr terrainShader;
 ShaderPtr seaShader;
 
@@ -67,15 +67,6 @@ void RingMadness::initFunction()
 	bRenderer().getObjects()->setShaderVersionDesktop("#version 120");
 	bRenderer().getObjects()->setShaderVersionES("#version 100");
     
-    
-    // load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
-	ShaderPtr flameShader = bRenderer().getObjects()->loadShaderFile_o("flame", 0, AMBIENT_LIGHTING);
-    terrainShader = bRenderer().getObjects()->loadShaderFile_o("terrain");
-    seaShader = bRenderer().getObjects()->loadShaderFile_o("sea");
-    
-    // load material from file using the shader created above
-	MaterialPtr flameMaterial = bRenderer().getObjects()->loadObjMaterial("flame.mtl", "flame", flameShader);
-    
     //Load cube.frag & cube.vert for the skyCube
     ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile_o("cube");
     
@@ -91,16 +82,33 @@ void RingMadness::initFunction()
     
     //Load Skycube object cube.obj. Name of shader used.
     bRenderer().getObjects()->loadObjModel_o("cube.obj", skyShader);
-    
-    bRenderer().getObjects()->loadObjModel_o("plane.obj", terrainShader);
-    bRenderer().getObjects()->loadObjModel_o("Rotor.obj",terrainShader);
+
     bRenderer().getObjects()->loadObjModel_o("Terrain.obj",terrainShader);
-    bRenderer().getObjects()->loadObjModel_o("sea.obj", seaShader);
+
     bRenderer().getObjects()->loadObjModel_o("cloud1.obj", objectShader);
+
+   
+    // Load Skycube object cube.obj. Name of shader used.
+    bRenderer().getObjects()->loadObjModel_o("cube.obj", skyShader);
     
-    bRenderer().getObjects()->loadObjModel_o("testSphere.obj", terrainShader);
+
+    // Terrain models
+    seaShader = bRenderer().getObjects()->loadShaderFile_o("sea");
+    terrainShader = bRenderer().getObjects()->loadShaderFile_o("terrain");
+    bRenderer().getObjects()->loadObjModel_o("terrain.obj",terrainShader);
+    bRenderer().getObjects()->loadObjModel_o("sea.obj", seaShader);
     
+    // Sun model
+    ShaderPtr sunShader = bRenderer().getObjects()->loadShaderFile("sun");
+    bRenderer().getObjects()->loadObjModel_o("sun.obj", sunShader);
     
+    // Plane model
+    ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane");
+    planeShader->setUniform("Ia", vmml::Vector3f(0.9f));
+    planeShader->setUniform("Id", vmml::Vector3f(0.9f));
+    planeShader->setUniform("Is", vmml::Vector3f(0.9f));
+    bRenderer().getObjects()->loadObjModel_o("plane.obj", planeShader);
+
     //plane Start Position
     planeModelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_rotation(M_PI_F * 0.5f, vmml::Vector3f::UNIT_Y);
     
@@ -128,23 +136,14 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->createCamera("camera");
     bRenderer().getObjects()->getCamera("camera")->lookAt(vmml::Vector3f(-30.0f,0.0f,0.0f), vmml::Vector3f::ZERO, vmml::Vector3f::UNIT_Y);
     
-	// create lights
-	bRenderer().getObjects()->createLight("sunLight", vmml::Vector3f(0.0f, 150.0f, 0.0f), vmml::Vector3f(1.0f, 1.0f, 1.0f), vmml::Vector3f(1.0f, 1.0f, 1.0f), 0.5f, 0.01f, 1000.0f);
-	bRenderer().getObjects()->createLight("secondLight", vmml::Vector3f(148.0f, -3.0f, 15.0f), vmml::Vector3f(0.3f, 1.0f, 0.3f), vmml::Vector3f(1.0f, 1.0f, 1.0f), 100.0f, 0.8f, 100.0f);
-	bRenderer().getObjects()->createLight("thirdLight", vmml::Vector3f(218.0f, -3.0f, 0.0f), vmml::Vector3f(0.8f, 0.2f, 0.2f), vmml::Vector3f(1.0f, 1.0f, 1.0f), 100.0f, 0.8f, 100.0f);
-
-    
 	// postprocessing
 	bRenderer().getObjects()->createFramebuffer("fbo");					// create framebuffer object
 	bRenderer().getObjects()->createTexture("fbo_texture1", 0.f, 0.f);	// create texture to bind to the fbo
 	bRenderer().getObjects()->createTexture("fbo_texture2", 0.f, 0.f);	// create texture to bind to the fbo
-	//ShaderPtr blurShader = bRenderer().getObjects()->loadShaderFile("blurShader", 0, false, false, false, false, false);			// load shader that blurs the texture
 	ShaderPtr blurShader = bRenderer().getObjects()->loadShaderFile_o("blurShader", 0);			// load shader that blurs the texture
 	MaterialPtr blurMaterial = bRenderer().getObjects()->createMaterial("blurMaterial", blurShader);								// create an empty material to assign either texture1 or texture2 to
 	bRenderer().getObjects()->createSprite("blurSprite", blurMaterial);																// create a sprite using the material created above
 
-    
-    
 	// Update render queue
 	updateRenderQueue("camera", 0.0f);
 }
@@ -232,26 +231,12 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
 {
     i += 1;
     
-    // Skybox
-    
+    // Skybox    
     vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(cameraPosition.x(),cameraPosition.y()+10000.0f, cameraPosition.z())) * vmml::create_scaling(vmml::Vector3f(20000.0f));
-
-    glClear(GL_DEPTH_TEST);
-    glDisable(GL_DEPTH_TEST);
-    glDepthMask(false);
-    
     glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);
+    bRenderer().getModelRenderer()->queueModelInstance("cube", "cube_instance", camera, modelMatrix, std::vector<std::string>({}));
+    glDisable(GL_CULL_FACE);    
     
-    bRenderer().getModelRenderer()->queueModelInstance("cube", "cube_instance", camera, modelMatrix, std::vector<std::string>({"sunLight", "secondLight", "thirdLight" }));
-    
-    glDisable(GL_CULL_FACE);
-    
-    glDepthMask(true);
-    glEnable(GL_DEPTH_TEST);
-    
-    
-	//bRenderer().getModelRenderer()->queueModelInstance("testSphere", "testSphere_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
     
     //Clouds
     modelMatrix = vmml::create_translation(vmml::Vector3f(cloudPosition)) * vmml::create_scaling(20.0f);
@@ -262,6 +247,8 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     //seaShader->setUniform("sunPosition", vmml::Vector4f((sin(i*0.001)*1000.0),300.0f,0.0f,1.0f));
     
     //Static Sun
+    modelMatrix = vmml::create_translation(vmml::Vector3f(sunPosition)) * vmml::create_scaling(vmml::Vector3f(50.0f));
+    bRenderer().getModelRenderer()->queueModelInstance("sun", "sun_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     terrainShader->setUniform("sunPosition", sunPosition);
     seaShader->setUniform("sunPosition", sunPosition);
     objectShader->setUniform("sunPosition", sunPosition);
@@ -275,26 +262,38 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     objectShader->setUniform("fogColor", vmml::Vector4f(0.95f, 0.95f, 0.95f));
     objectShader->setUniform("planePosition", vmml::Vector4f(planePosition,1.0f));
     
-    
-    //Terrain //
+    //Terrain
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -150.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
     terrainShader->setUniform("modelMatrix", modelMatrix);
-    bRenderer().getModelRenderer()->queueModelInstance("Terrain", "Terrain_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
+    bRenderer().getModelRenderer()->queueModelInstance("terrain", "terrain_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     
     
     //sea //
     seaShader->setUniform("time", i);
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, -145.0f,0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
-    bRenderer().getModelRenderer()->queueModelInstance("sea", "sea_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
+    bRenderer().getModelRenderer()->queueModelInstance("sea", "sea_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     
-    modelMatrix = vmml::create_translation(vmml::Vector3f(30.f, -24.0, 0.0)) * vmml::create_scaling(vmml::Vector3f(0.3f));
-	
+    // modelMatrix = vmml::create_translation(vmml::Vector3f(30.f, -24.0, 0.0)) * vmml::create_scaling(vmml::Vector3f(0.3f));
     
     //plane //
-    bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrixTwo, std::vector<std::string>({"sunLight", "secondLight", "thirdLight" }), true, true);
-    //Rotor//
-    bRenderer().getModelRenderer()->queueModelInstance("Rotor", "rotor_instance", camera, planeModelMatrixTwo * vmml::create_translation(vmml::Vector3f(0.0f,-0.4f,3.9f)) * vmml::create_rotation(i*0.1f, vmml::Vector3f::UNIT_Z), std::vector<std::string>({"sunLight", "secondLight", "thirdLight" }), true, true);
+    vmml::Matrix4f viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
+    
+    ShaderPtr planeShader = bRenderer().getObjects()->getShader("plane");
+    
+    planeShader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
+    planeShader->setUniform("ViewMatrix", viewMatrix);
+    planeShader->setUniform("ModelMatrix", planeModelMatrix);
+    
+    vmml::Matrix3f normalMatrix;
+    vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(planeModelMatrixTwo)), normalMatrix);
+    planeShader->setUniform("NormalMatrix", normalMatrix);
+    
+    planeShader->setUniform("LightPos", sunPosition);
 
+    bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrixTwo, std::vector<std::string>({}), true, true);
+
+    // Rotor
+    bRenderer().getModelRenderer()->queueModelInstance("Rotor", "rotor_instance", camera, planeModelMatrixTwo * vmml::create_translation(vmml::Vector3f(0.0f,-0.4f,3.9f)) * vmml::create_rotation(i*0.1f, vmml::Vector3f::UNIT_Z), std::vector<std::string>({"sunLight", "secondLight", "thirdLight" }), true, true);
 }
 
 
@@ -373,13 +372,13 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
         //Setting targed wich the camera is chasing
         cameraModelMatrix = planeModelMatrix;
         cameraTargetPosition = vmml::Vector3f(cameraModelMatrix[0][3],cameraModelMatrix[1][3], cameraModelMatrix[2][3]);
-        
+
         //calcualte offset/delay of teh camera accoring to the planes rotations.
-        //X-Axis Delay
+//        X-Axis Delay
         if (cameraTargetPosition.x() > cameraPosition.x()) {
             cameraPosition.x() = cameraPosition.x() + (0.02f * (cameraTargetPosition.x() - cameraPosition.x()));
         } else if(cameraTargetPosition.x() < cameraPosition.x()){
-            
+
             cameraPosition.x() = cameraPosition.x() - (0.02f * (cameraPosition.x() - cameraTargetPosition.x()));
         } else{
             cameraPosition.x() = cameraTargetPosition.x();
