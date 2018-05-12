@@ -32,11 +32,13 @@ float planeLastRoll = 0;
 bool thirdPerson = true;
 
 //cloud Variables
-ShaderPtr objectShader;
 vmml::Vector4f cloudPosition = vmml::Vector3f(500.0f,200.0f,100.0f);
 
 //Sun variables
 vmml::Vector4f sunPosition;
+
+// Fog
+vmml::Vector4f fogColor = vmml::Vector4f(0.95f, 0.95f, 0.95f, 1.0f);
 
 // Camera Variables
 vmml::Matrix4f cameraModelMatrix;
@@ -46,6 +48,7 @@ vmml::Vector3f cameraTargetPosition;
 // Shaders
 ShaderPtr terrainShader;
 ShaderPtr seaShader;
+ShaderPtr objectShader;
 
 /* This function is executed when initializing the renderer */
 void RingMadness::initFunction()
@@ -249,11 +252,11 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     
     //Fog
-    terrainShader->setUniform("fogColor", vmml::Vector4f(0.95f, 0.95f, 0.95f));
+    terrainShader->setUniform("fogColor", fogColor);
     terrainShader->setUniform("planePosition", vmml::Vector4f(planePosition,1.0f));
-    seaShader->setUniform("fogColor", vmml::Vector4f(0.95f, 0.95f, 0.95f));
+    seaShader->setUniform("fogColor", fogColor);
     seaShader->setUniform("planePosition", vmml::Vector4f(planePosition,1.0f));
-    objectShader->setUniform("fogColor", vmml::Vector4f(0.95f, 0.95f, 0.95f));
+    objectShader->setUniform("fogColor", fogColor);
     objectShader->setUniform("planePosition", vmml::Vector4f(planePosition,1.0f));
     
     //Terrain
