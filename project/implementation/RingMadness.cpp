@@ -75,28 +75,21 @@ void RingMadness::initFunction()
     
     
     // Order of pictures to generate cubematp. left, right, bottom, top, front,  back
-    //skyShader->setUniform("texCube", bRenderer().getObjects()->loadCubeMap("textureCube", std::vector<std::string>({ "TropicalSunnyDay_lf.png", "TropicalSunnyDay_rt.png", "TropicalSunnyDay_dn.png", "TropicalSunnyDay_up.png", "TropicalSunnyDay_ft.png", "TropicalSunnyDay_bk.png" })));
     skyShader->setUniform("texCube", bRenderer().getObjects()->loadCubeMap("textureCube", std::vector<std::string>({ "Sky.png", "Sky.png", "SkyBottom.png", "SkyTop.png", "Sky.png", "Sky.png" })));
-    
     
     
     //Load Skycube object cube.obj. Name of shader used.
     bRenderer().getObjects()->loadObjModel_o("cube.obj", skyShader);
-
-    bRenderer().getObjects()->loadObjModel_o("Terrain.obj",terrainShader);
-
-    bRenderer().getObjects()->loadObjModel_o("cloud1.obj", objectShader);
-
    
     // Load Skycube object cube.obj. Name of shader used.
     bRenderer().getObjects()->loadObjModel_o("cube.obj", skyShader);
     
-
     // Terrain models
     seaShader = bRenderer().getObjects()->loadShaderFile_o("sea");
     terrainShader = bRenderer().getObjects()->loadShaderFile_o("terrain");
     bRenderer().getObjects()->loadObjModel_o("terrain.obj",terrainShader);
     bRenderer().getObjects()->loadObjModel_o("sea.obj", seaShader);
+    bRenderer().getObjects()->loadObjModel_o("cloud1.obj", objectShader);
     
     // Sun model
     ShaderPtr sunShader = bRenderer().getObjects()->loadShaderFile("sun");
@@ -108,6 +101,7 @@ void RingMadness::initFunction()
     planeShader->setUniform("Id", vmml::Vector3f(0.9f));
     planeShader->setUniform("Is", vmml::Vector3f(0.9f));
     bRenderer().getObjects()->loadObjModel_o("plane.obj", planeShader);
+    bRenderer().getObjects()->loadObjModel_o("rotor.obj",terrainShader);
 
     //plane Start Position
     planeModelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_rotation(M_PI_F * 0.5f, vmml::Vector3f::UNIT_Y);
@@ -293,7 +287,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     bRenderer().getModelRenderer()->queueModelInstance("plane", "plane_instance", camera, planeModelMatrixTwo, std::vector<std::string>({}), true, true);
 
     // Rotor
-    bRenderer().getModelRenderer()->queueModelInstance("Rotor", "rotor_instance", camera, planeModelMatrixTwo * vmml::create_translation(vmml::Vector3f(0.0f,-0.4f,3.9f)) * vmml::create_rotation(i*0.1f, vmml::Vector3f::UNIT_Z), std::vector<std::string>({"sunLight", "secondLight", "thirdLight" }), true, true);
+    bRenderer().getModelRenderer()->queueModelInstance("rotor", "rotor_instance", camera, planeModelMatrixTwo * vmml::create_translation(vmml::Vector3f(0.0f,-0.4f,3.9f)) * vmml::create_rotation(i*0.1f, vmml::Vector3f::UNIT_Z), std::vector<std::string>({}), true, true);
 }
 
 
