@@ -38,7 +38,7 @@ vmml::Vector4f cloudPosition = vmml::Vector3f(500.0f,200.0f,100.0f);
 vmml::Vector4f sunPosition;
 
 // Fog
-vmml::Vector4f fogColor = vmml::Vector4f(0.95f, 0.95f, 0.95f);
+vmml::Vector4f fogColor = vmml::Vector4f(0.95f, 0.95f, 0.95f, 0.0f);
 
 // Camera Variables
 vmml::Matrix4f cameraModelMatrix;
