@@ -115,10 +115,10 @@ void RingMadness::initFunction()
     seaShader->setUniform("sunPosition", sunPosition);
     objectShader->setUniform("sunPosition", sunPosition);
     
-//    //Fog
-//    terrainShader->setUniform("fogColor", fogColor);
-//    seaShader->setUniform("fogColor", fogColor);
-//    objectShader->setUniform("fogColor", fogColor);
+    //Fog
+    terrainShader->setUniform("fogColor", fogColor);
+    seaShader->setUniform("fogColor", fogColor);
+    objectShader->setUniform("fogColor", fogColor);
     
     // create a sprite displaying the title as a texture
 	bRenderer().getObjects()->createSprite("bTitle", "basicTitle_light.png");
@@ -248,11 +248,6 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     //Static Sun
     modelMatrix = vmml::create_translation(vmml::Vector3f(sunPosition)) * vmml::create_scaling(vmml::Vector3f(50.0f));
     bRenderer().getModelRenderer()->queueModelInstance("sun", "sun_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
-    
-    //Fog
-    terrainShader->setUniform("fogColor", fogColor);
-    seaShader->setUniform("fogColor", fogColor);
-    objectShader->setUniform("fogColor", fogColor);
     
     //Terrain
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -150.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
@@ -391,8 +386,6 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
         seaShader->setUniform("camPosition", vmml::Vector4f(cameraPosition.x(),cameraPosition.y(),cameraPosition.z(),1.0));
         objectShader->setUniform("camPosition", vmml::Vector4f(cameraPosition.x(),cameraPosition.y(),cameraPosition.z(),1.0));
         planeModelMatrixTwo = planeModelMatrix * vmml::create_rotation(-planeCurrentRoll, vmml::Vector3f::UNIT_Z);
-        
-        
     }
 }
 
