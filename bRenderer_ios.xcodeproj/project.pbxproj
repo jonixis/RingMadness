@@ -737,9 +737,9 @@
 			children = (
 				E5D55DF220A5DD2F00E6AE86 /* cloud1.mtl */,
 				E5D55DF420A5DD2F00E6AE86 /* cloud1.obj */,
-				E5A0887D209B0B80006B5205 /* terrain.frag */,
 				E5520B2920A0D2110050C699 /* terrain.mtl */,
 				E5520B2820A0D2110050C699 /* terrain.obj */,
+				E5A0887D209B0B80006B5205 /* terrain.frag */,
 				E5A0887C209B0B80006B5205 /* terrain.vert */,
 				E5E0B72C209B5C1D00A756AC /* sea.frag */,
 				E5E0B727209B5B9700A756AC /* sea.mtl */,

@@ -38,7 +38,7 @@ vmml::Vector4f cloudPosition = vmml::Vector3f(500.0f,200.0f,100.0f);
 vmml::Vector4f sunPosition;
 
 // Fog
-vmml::Vector4f fogColor = vmml::Vector4f(0.95f, 0.95f, 0.95f, 0.0f);
+vmml::Vector4f fogColor = vmml::Vector4f(0.95f, 0.95f, 0.95f);
 
 // Camera Variables
 vmml::Matrix4f cameraModelMatrix;
@@ -115,10 +115,10 @@ void RingMadness::initFunction()
     seaShader->setUniform("sunPosition", sunPosition);
     objectShader->setUniform("sunPosition", sunPosition);
     
-    //Fog
-    terrainShader->setUniform("fogColor", fogColor);
-    seaShader->setUniform("fogColor", fogColor);
-    objectShader->setUniform("fogColor", fogColor);
+//    //Fog
+//    terrainShader->setUniform("fogColor", fogColor);
+//    seaShader->setUniform("fogColor", fogColor);
+//    objectShader->setUniform("fogColor", fogColor);
     
     // create a sprite displaying the title as a texture
 	bRenderer().getObjects()->createSprite("bTitle", "basicTitle_light.png");
@@ -248,6 +248,11 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     //Static Sun
     modelMatrix = vmml::create_translation(vmml::Vector3f(sunPosition)) * vmml::create_scaling(vmml::Vector3f(50.0f));
     bRenderer().getModelRenderer()->queueModelInstance("sun", "sun_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
+    
+    //Fog
+    terrainShader->setUniform("fogColor", fogColor);
+    seaShader->setUniform("fogColor", fogColor);
+    objectShader->setUniform("fogColor", fogColor);
     
     //Terrain
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -150.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
