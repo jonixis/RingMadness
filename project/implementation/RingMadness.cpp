@@ -287,8 +287,8 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     // Scores
     bRenderer::log("Score: " + std::to_string(score));
     
-    ball = vmml::create_translation(vmml::Vector3f(ballPosition)) * vmml::create_scaling(vmml::Vector3f(1.0f));
-    GLboolean hit;
+    ball = vmml::create_translation(vmml::Vector3f(ballPosition));
+    GLboolean hit1;
     
     if(_running){
         bRenderer().getModelRenderer()->queueModelInstance("sphere", "sphere_instance", camera, ball, std::vector<std::string>({}), true, true);
@@ -298,8 +298,8 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
         float dz = planePosition.z()-ballPosition.z();
         float dist = sqrt(dx*dx + dy*dy + dz*dz);
     
-        if(dist <= (ball_radius+plane_radius)){
-            hit = true;
+        if(dist <= (ball_radius+plane_radius && hit1 != true)){
+            hit1 = true;
             //ball =  ball*0;
             //bRenderer().getModelRenderer()->queueModelInstance("sphere", "sphere_instance", camera, ball, std::vector<std::string>({"sunLight", "secondLight", "thirdLight" }), true, true);
             score = score + 10;
