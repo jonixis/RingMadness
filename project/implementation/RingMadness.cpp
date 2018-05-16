@@ -120,6 +120,9 @@ void RingMadness::initFunction()
     seaShader->setUniform("fogColor", fogColor);
     objectShader->setUniform("fogColor", fogColor);
     
+    //balls
+    bRenderer().getObjects()->loadObjModel_o("sphere.obj");
+    
     // create a sprite displaying the title as a texture
 	bRenderer().getObjects()->createSprite("bTitle", "basicTitle_light.png");
 
@@ -268,6 +271,34 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
 
     // Rotor
     bRenderer().getModelRenderer()->queueModelInstance("rotor", "rotor_instance", camera, planeModelMatrixTwo * vmml::create_translation(vmml::Vector3f(0.0f,-0.4f,3.9f)) * vmml::create_rotation(i*0.1f, vmml::Vector3f::UNIT_Z), std::vector<std::string>({}), true, true);
+    
+    
+    vmml::Vector3f ballPosition = vmml::Vector3f(20.f, 0.f, 0.f);
+    vmml::Matrix4f ball;
+    float ball_radius = 2.f;
+    float plane_radius = 2.f;
+    
+    ball = vmml::create_translation(vmml::Vector3f(ballPosition)) * vmml::create_scaling(vmml::Vector3f(1.0f));
+    GLboolean hit;
+    
+    if(_running){
+        bRenderer().getModelRenderer()->queueModelInstance("sphere", "sphere_instance", camera, ball, std::vector<std::string>({}), true, true);
+        //bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball, std::vector<std::string>({ }));
+        
+
+        
+        float dx = planePosition.x()-ballPosition.x();
+        float dy = planePosition.y()-ballPosition.y();
+        float dz = planePosition.z()-ballPosition.z();
+        float dist = sqrt(dx*dx + dy*dy + dz*dz);
+        if(dist <= (ball_radius+plane_radius)){
+            hit = true;
+            //ball =  ball*0;
+            //bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball, std::vector<std::string>({ }));
+            //bRenderer().getModelRenderer()->queueModelInstance("sphere", "sphere_instance", camera, ball, std::vector<std::string>({"sunLight", "secondLight", "thirdLight" }), true, true);
+            bRenderer().terminateRenderer();
+        }
+    }
 }
 
 

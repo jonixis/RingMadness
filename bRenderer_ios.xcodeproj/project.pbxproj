@@ -148,6 +148,8 @@
 		E5E0B72A209B5B9700A756AC /* sea.obj in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B728209B5B9700A756AC /* sea.obj */; };
 		E5E0B72D209B5C1D00A756AC /* sea.vert in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B72B209B5C1D00A756AC /* sea.vert */; };
 		E5E0B72E209B5C1D00A756AC /* sea.frag in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B72C209B5C1D00A756AC /* sea.frag */; };
+		ED8D027720AC60E900F71B16 /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = ED8D027520AC60E900F71B16 /* sphere.obj */; };
+		ED8D027820AC60E900F71B16 /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = ED8D027620AC60E900F71B16 /* sphere.mtl */; };
 		F85558B1209B17C300041BC2 /* sun.obj in Resources */ = {isa = PBXBuildFile; fileRef = F85558AF209B17C200041BC2 /* sun.obj */; };
 		F85558B2209B17C300041BC2 /* sun.mtl in Resources */ = {isa = PBXBuildFile; fileRef = F85558B0209B17C200041BC2 /* sun.mtl */; };
 		F85558B4209B3BE500041BC2 /* sun.vert in Resources */ = {isa = PBXBuildFile; fileRef = F85558B3209B3BE500041BC2 /* sun.vert */; };
@@ -363,6 +365,8 @@
 		E5E0B728209B5B9700A756AC /* sea.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sea.obj; sourceTree = "<group>"; };
 		E5E0B72B209B5C1D00A756AC /* sea.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sea.vert; sourceTree = "<group>"; };
 		E5E0B72C209B5C1D00A756AC /* sea.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sea.frag; sourceTree = "<group>"; };
+		ED8D027520AC60E900F71B16 /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sphere.obj; path = ../../../sphere.obj; sourceTree = "<group>"; };
+		ED8D027620AC60E900F71B16 /* sphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sphere.mtl; path = ../../../sphere.mtl; sourceTree = "<group>"; };
 		F85558AF209B17C200041BC2 /* sun.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sun.obj; sourceTree = "<group>"; };
 		F85558B0209B17C200041BC2 /* sun.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sun.mtl; sourceTree = "<group>"; };
 		F85558B3209B3BE500041BC2 /* sun.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sun.vert; sourceTree = "<group>"; };
@@ -472,6 +476,8 @@
 				B479499F1BA6742B00B5E9DC /* torch.mtl */,
 				B47949A01BA6742B00B5E9DC /* torch.obj */,
 				B47949A11BA6742B00B5E9DC /* torchSurface_Color.png */,
+				ED8D027620AC60E900F71B16 /* sphere.mtl */,
+				ED8D027520AC60E900F71B16 /* sphere.obj */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -899,10 +905,12 @@
 				E5D55DF620A5DD3000E6AE86 /* cloud1.mtl in Resources */,
 				B47949BC1BA6742B00B5E9DC /* torch.mtl in Resources */,
 				B47949A41BA6742B00B5E9DC /* blurShader.frag in Resources */,
+				ED8D027820AC60E900F71B16 /* sphere.mtl in Resources */,
 				B47949BB1BA6742B00B5E9DC /* sparks.png in Resources */,
 				B47949BA1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf in Resources */,
 				E5520B2A20A0D2110050C699 /* terrain.obj in Resources */,
 				F88E39D320A6E8C100A17AA0 /* rotor.mtl in Resources */,
+				ED8D027720AC60E900F71B16 /* sphere.obj in Resources */,
 				B4794A301BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				B47949B31BA6742B00B5E9DC /* crystal_n.png in Resources */,
 				F85558B1209B17C300041BC2 /* sun.obj in Resources */,
