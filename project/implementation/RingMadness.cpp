@@ -16,6 +16,9 @@ void RingMadness::init()
 	bRenderer().runRenderer();
 }
 
+//score
+int score = 0;
+
 //plane Variables
 vmml::Matrix4f planeModelMatrix;
 vmml::Matrix4f planeModelMatrixTwo;
@@ -102,6 +105,10 @@ void RingMadness::initFunction()
     planeShader->setUniform("Is", vmml::Vector3f(0.9f));
     bRenderer().getObjects()->loadObjModel_o("plane.obj", planeShader);
     bRenderer().getObjects()->loadObjModel_o("rotor.obj",terrainShader);
+    
+    // Ball model
+    bRenderer().getObjects()->loadObjModel_o("sphere.obj");
+    
 
     //plane Start Position
     planeModelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_rotation(M_PI_F * 0.5f, vmml::Vector3f::UNIT_Y);
@@ -120,8 +127,6 @@ void RingMadness::initFunction()
     seaShader->setUniform("fogColor", fogColor);
     objectShader->setUniform("fogColor", fogColor);
     
-    //balls
-    bRenderer().getObjects()->loadObjModel_o("sphere.obj");
     
     // create a sprite displaying the title as a texture
 	bRenderer().getObjects()->createSprite("bTitle", "basicTitle_light.png");
@@ -156,7 +161,7 @@ void RingMadness::initFunction()
 /* Draw your scene here */
 void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTime)
 {
-//	bRenderer::log("FPS: " + std::to_string(1 / deltaTime));	// write number of frames per second to the console every frame
+	//bRenderer::log("FPS: " + std::to_string(1 / deltaTime));	// write number of frames per second to the console every frame
 
 	//// Draw Scene and do post processing ////
 
@@ -273,30 +278,32 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     bRenderer().getModelRenderer()->queueModelInstance("rotor", "rotor_instance", camera, planeModelMatrixTwo * vmml::create_translation(vmml::Vector3f(0.0f,-0.4f,3.9f)) * vmml::create_rotation(i*0.1f, vmml::Vector3f::UNIT_Z), std::vector<std::string>({}), true, true);
     
     
-    vmml::Vector3f ballPosition = vmml::Vector3f(20.f, 0.f, 0.f);
+    // Balls and Score System
+    vmml::Vector3f ballPosition = vmml::Vector3f(50.f, 0.f, 0.f);
     vmml::Matrix4f ball;
-    float ball_radius = 2.f;
+    float ball_radius = 1.f;
     float plane_radius = 2.f;
+    
+    // Scores
+    bRenderer::log("Score: " + std::to_string(score));
     
     ball = vmml::create_translation(vmml::Vector3f(ballPosition)) * vmml::create_scaling(vmml::Vector3f(1.0f));
     GLboolean hit;
     
     if(_running){
         bRenderer().getModelRenderer()->queueModelInstance("sphere", "sphere_instance", camera, ball, std::vector<std::string>({}), true, true);
-        //bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball, std::vector<std::string>({ }));
-        
-
         
         float dx = planePosition.x()-ballPosition.x();
         float dy = planePosition.y()-ballPosition.y();
         float dz = planePosition.z()-ballPosition.z();
         float dist = sqrt(dx*dx + dy*dy + dz*dz);
+    
         if(dist <= (ball_radius+plane_radius)){
             hit = true;
             //ball =  ball*0;
-            //bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball, std::vector<std::string>({ }));
             //bRenderer().getModelRenderer()->queueModelInstance("sphere", "sphere_instance", camera, ball, std::vector<std::string>({"sunLight", "secondLight", "thirdLight" }), true, true);
-            bRenderer().terminateRenderer();
+            score = score + 10;
+            //bRenderer().terminateRenderer();
         }
     }
 }
