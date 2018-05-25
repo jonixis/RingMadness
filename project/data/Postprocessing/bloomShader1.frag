@@ -6,7 +6,6 @@ precision lowp float;
 uniform sampler2D fbo_texture;
 
 varying vec4 texCoordVarying;
-varying vec2 uv;
 
 void main() {
     vec4 color = texture2D(fbo_texture, texCoordVarying.st);

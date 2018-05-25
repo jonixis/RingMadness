@@ -499,7 +499,7 @@ void RingMadness::renderBloomEffect(GLint &defaultFBO) {
     bRenderer().getModelRenderer()->drawModel(bloomSprite1, bloomMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
     
     // 2. Blur texture vertically and horizontally
-    bool b = true;        int numberOfBlurSteps = 2;
+    bool b = true;        int numberOfBlurSteps = 5;
     for (int i = 0; i < numberOfBlurSteps; i++) {
         if (i == numberOfBlurSteps - 1){
             bloomFbo2->unbind(defaultFBO); //unbind (original fbo will be bound)

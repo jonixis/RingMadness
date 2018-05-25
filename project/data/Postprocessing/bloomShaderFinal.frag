@@ -10,7 +10,7 @@ varying vec4 texCoordVarying;
 
 
 void main() {
-    const float gamma = 2.2;
+    const float gamma = 1.8;
     const float exposure = 1.0;
     vec3 hdrColor = texture2D(fbo_texture_scene, texCoordVarying.st).rgb;
     vec3 bloomColor = texture2D(fbo_texture_bloomBlur, texCoordVarying.st).rgb;
