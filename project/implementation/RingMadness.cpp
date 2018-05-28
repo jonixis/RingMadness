@@ -35,7 +35,7 @@ bool thirdPerson = true;
 vmml::Vector4f cloudPosition = vmml::Vector3f(500.0f,200.0f,100.0f);
 
 //Sun variables
-vmml::Vector4f sunPosition;
+vmml::Vector4f sunPosition = vmml::Vector3f(800.0f,500.0f,0.0f);
 
 // Fog
 vmml::Vector4f fogColor = vmml::Vector4f(0.95f, 0.95f, 0.95f);
@@ -52,7 +52,7 @@ ShaderPtr objectShader;
 
 /* This function is executed when initializing the renderer */
 void RingMadness::initFunction()
-{
+{    
 	// get OpenGL and shading language version
 	bRenderer::log("OpenGL Version: ", glGetString(GL_VERSION));
 	bRenderer::log("Shading Language Version: ", glGetString(GL_SHADING_LANGUAGE_VERSION));
@@ -66,16 +66,16 @@ void RingMadness::initFunction()
     
     thirdPerson = true;
 
-	// set shader versions (optional)
+	// Set shader versions (optional)
 	bRenderer().getObjects()->setShaderVersionDesktop("#version 120");
 	bRenderer().getObjects()->setShaderVersionES("#version 100");
     
-    //Load cube.frag & cube.vert for the skyCube
+    // Load cube.frag & cube.vert for the skyCube
     ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile_o("cube");
     seaShader = bRenderer().getObjects()->loadShaderFile_o("sea");
     terrainShader = bRenderer().getObjects()->loadShaderFile_o("terrain");
     
-    //Object Shader for all objects (E.g. Clouds, houses, etc...)
+    // Object Shader for all objects (E.g. Clouds, houses, etc...)
     objectShader = bRenderer().getObjects()->loadShaderFile_o("object");
     
     
@@ -103,19 +103,18 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->loadObjModel_o("plane.obj", planeShader);
     bRenderer().getObjects()->loadObjModel_o("rotor.obj",terrainShader);
 
-    //plane Start Position
+    // Plane start Position
     planeModelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_rotation(M_PI_F * 0.5f, vmml::Vector3f::UNIT_Y);
     
-    //camera Start Position
+    // Camera Start Position
     cameraPosition = vmml::Vector3f(-30.0f,0.0f,0.0f);
     
-    //Sun Position
-    sunPosition = vmml::Vector3f(0.0f,300.0f,0.0f);
+    // Set sun Positions
     terrainShader->setUniform("sunPosition", sunPosition);
     seaShader->setUniform("sunPosition", sunPosition);
     objectShader->setUniform("sunPosition", sunPosition);
     
-    //Fog
+    // Fog
     terrainShader->setUniform("fogColor", fogColor);
     seaShader->setUniform("fogColor", fogColor);
     objectShader->setUniform("fogColor", fogColor);
@@ -135,20 +134,41 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->createCamera("camera");
     bRenderer().getObjects()->getCamera("camera")->lookAt(vmml::Vector3f(-30.0f,0.0f,0.0f), vmml::Vector3f::ZERO, vmml::Vector3f::UNIT_Y);
     
-	// postprocessing
-	bRenderer().getObjects()->createFramebuffer("fbo");					// create framebuffer object
-	bRenderer().getObjects()->createTexture("fbo_texture1", 0.f, 0.f);	// create texture to bind to the fbo
-	bRenderer().getObjects()->createTexture("fbo_texture2", 0.f, 0.f);	// create texture to bind to the fbo
-	ShaderPtr blurShader = bRenderer().getObjects()->loadShaderFile_o("blurShader", 0);			// load shader that blurs the texture
-	MaterialPtr blurMaterial = bRenderer().getObjects()->createMaterial("blurMaterial", blurShader);								// create an empty material to assign either texture1 or texture2 to
-	bRenderer().getObjects()->createSprite("blurSprite", blurMaterial);																// create a sprite using the material created above
+	/// postprocessing ///
+    
+    // Create framebuffers
+	bRenderer().getObjects()->createFramebuffer("fbo");
+    bRenderer().getObjects()->createFramebuffer("bloom_fbo1");
+    bRenderer().getObjects()->createFramebuffer("bloom_fbo2");
+    
+    // Create textures
+	bRenderer().getObjects()->createTexture("fbo_texture1", 0.f, 0.f);
+    bRenderer().getObjects()->createTexture("fbo_texture2", 0.f, 0.f);
+    bRenderer().getObjects()->createTexture("bloom_fbo_texture1", 0.f, 0.f);
+    bRenderer().getObjects()->createTexture("bloom_fbo_texture2", 0.f, 0.f);
+    bRenderer().getObjects()->createTexture("bloom_fbo_texture3", 0.f, 0.f);
+    
+    // Load shaders
+    ShaderPtr blurShader = bRenderer().getObjects()->loadShaderFile_o("blurShader", 0);
+    ShaderPtr bloomShader1 = bRenderer().getObjects()->loadShaderFile_o("bloomShader1", 0);
+    ShaderPtr bloomShader2 = bRenderer().getObjects()->loadShaderFile_o("bloomShader2", 0);
+    ShaderPtr bloomShaderFinal = bRenderer().getObjects()->loadShaderFile_o("bloomShaderFinal", 0);
+    
+    // Create materials
+	MaterialPtr blurMaterial = bRenderer().getObjects()->createMaterial("blurMaterial", blurShader);
+    MaterialPtr bloomMaterial1 = bRenderer().getObjects()->createMaterial("bloomMaterial1", bloomShader1);
+    MaterialPtr bloomMaterial2 = bRenderer().getObjects()->createMaterial("bloomMaterial2", bloomShader2);
+    MaterialPtr bloomMaterialFinal = bRenderer().getObjects()->createMaterial("bloomMaterialFinal", bloomShaderFinal);
+    
+    // Create sprites
+	bRenderer().getObjects()->createSprite("blurSprite", blurMaterial);
+    bRenderer().getObjects()->createSprite("bloomSprite1", bloomMaterial1);
+    bRenderer().getObjects()->createSprite("bloomSprite2", bloomMaterial2);
+    bRenderer().getObjects()->createSprite("bloomSpriteFinal", bloomMaterialFinal);
 
 	// Update render queue
 	updateRenderQueue("camera", 0.0f);
 }
-
-
-
 
 /* Draw your scene here */
 void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTime)
@@ -159,53 +179,16 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
 
 	/// Begin post processing ///
 	GLint defaultFBO;
-	if (!_running){
-		bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth() / 5, bRenderer().getView()->getHeight() / 5);		// reduce viewport size
-		defaultFBO = Framebuffer::getCurrentFramebuffer();	// get current fbo to bind it again after drawing the scene
-		bRenderer().getObjects()->getFramebuffer("fbo")->bindTexture(bRenderer().getObjects()->getTexture("fbo_texture1"), false);	// bind the fbo
-	}
+    beginPostprocessing(defaultFBO);
 
-	/// Draw scene ///	
-	
+	/// Draw scene ///
 	bRenderer().getModelRenderer()->drawQueue(/*GL_LINES*/);
-	bRenderer().getModelRenderer()->clearQueue();
 	
-	if (!_running){
-		/// End post processing ///		
-        /*** Blur ***/
-		// translate
-		vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5));
-		// blur vertically and horizontally
-		bool b = true;		int numberOfBlurSteps = 2;
-		for (int i = 0; i < numberOfBlurSteps; i++) {
-			if (i == numberOfBlurSteps - 1){
-				bRenderer().getObjects()->getFramebuffer("fbo")->unbind(defaultFBO); //unbind (original fbo will be bound)
-				bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());								// reset vieport size
-			}
-			else
-				bRenderer().getObjects()->getFramebuffer("fbo")->bindTexture(bRenderer().getObjects()->getTexture(b ? "fbo_texture2" : "fbo_texture1"), false);
-			bRenderer().getObjects()->getMaterial("blurMaterial")->setTexture("fbo_texture", bRenderer().getObjects()->getTexture(b ? "fbo_texture1" : "fbo_texture2"));
-			bRenderer().getObjects()->getMaterial("blurMaterial")->setScalar("isVertical", static_cast<GLfloat>(b));
-			// draw
-			bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("blurSprite"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
-			b = !b;
-		}
 	
-        /*** Title ***/
-        // translate and scale 
-        GLfloat titleScale = 0.5f;
-        vmml::Matrix4f scaling = vmml::create_scaling(vmml::Vector3f(titleScale / bRenderer().getView()->getAspectRatio(), titleScale, titleScale));
-		modelMatrix = vmml::create_translation(vmml::Vector3f(-0.4f, 0.0f, -0.65f)) * scaling;
-        // draw
-		bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("bTitle"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false, false);
-
-		/*** Instructions ***/
-		titleScale = 0.1f;
-		scaling = vmml::create_scaling(vmml::Vector3f(titleScale / bRenderer().getView()->getAspectRatio(), titleScale, titleScale));
-		modelMatrix = vmml::create_translation(vmml::Vector3f(-1.1f / bRenderer().getView()->getAspectRatio(), -0.6f, -0.65f)) * scaling;
-		// draw
-		bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getTextSprite("instructions"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
-    }
+    /// End post processing ///
+    endPostprocessing(defaultFBO);
+    
+    bRenderer().getModelRenderer()->clearQueue();
 
 	//// Camera Movement ////
     updatePlane("camera", deltaTime);
@@ -242,8 +225,10 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     bRenderer().getModelRenderer()->queueModelInstance("cloud1", "cloud1_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
     
     //moving sun
-    //terrainShader->setUniform("sunPosition", vmml::Vector4f((sin(i*0.001)*1000.0),300.0f,0.0f,1.0f));
-    //seaShader->setUniform("sunPosition", vmml::Vector4f((sin(i*0.001)*1000.0),300.0f,0.0f,1.0f));
+//    terrainShader->setUniform("sunPosition", vmml::Vector4f((sin(i*0.001)*1000.0),300.0f,0.0f,1.0f));
+//    seaShader->setUniform("sunPosition", vmml::Vector4f((sin(i*0.001)*1000.0),300.0f,0.0f,1.0f));
+//    modelMatrix = vmml::create_translation(vmml::Vector3f((sin(i*0.001)*1000.0),300.0f,0.0f,1.0f)) * vmml::create_scaling(vmml::Vector3f(50.0f));
+//    bRenderer().getModelRenderer()->queueModelInstance("sun", "sun_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     
     //Static Sun
     modelMatrix = vmml::create_translation(vmml::Vector3f(sunPosition)) * vmml::create_scaling(vmml::Vector3f(50.0f));
@@ -429,4 +414,110 @@ void RingMadness::appWillTerminate()
 /* Helper functions */
 GLfloat RingMadness::randomNumber(GLfloat min, GLfloat max){
 	return min + static_cast <GLfloat> (rand()) / (static_cast <GLfloat> (RAND_MAX / (max - min)));
+}
+
+void RingMadness::beginPostprocessing(GLint &defaultFBO) {
+    if (!_running){
+        bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth() / 5, bRenderer().getView()->getHeight() / 5);
+        defaultFBO = Framebuffer::getCurrentFramebuffer();    // get current fbo to bind it again after drawing the scene
+        bRenderer().getObjects()->getFramebuffer("fbo")->bindTexture(bRenderer().getObjects()->getTexture("fbo_texture1"), false);
+    }
+}
+
+void RingMadness::endPostprocessing(GLint &defaultFBO) {
+    if(!_running) {
+        renderPauseScreen(defaultFBO);
+    } else {
+        renderBloomEffect(defaultFBO);
+    }
+}
+
+void RingMadness::renderPauseScreen(GLint &defaultFBO) {
+        /*** Blur ***/
+        // translate
+        vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5));
+        // blur vertically and horizontally
+        bool b = true;        int numberOfBlurSteps = 2;
+        for (int i = 0; i < numberOfBlurSteps; i++) {
+            if (i == numberOfBlurSteps - 1){
+                bRenderer().getObjects()->getFramebuffer("fbo")->unbind(defaultFBO); //unbind (original fbo will be bound)
+                bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());                                // reset vieport size
+            }
+            else
+                bRenderer().getObjects()->getFramebuffer("fbo")->bindTexture(bRenderer().getObjects()->getTexture(b ? "fbo_texture2" : "fbo_texture1"), false);
+            bRenderer().getObjects()->getMaterial("blurMaterial")->setTexture("fbo_texture", bRenderer().getObjects()->getTexture(b ? "fbo_texture1" : "fbo_texture2"));
+            bRenderer().getObjects()->getMaterial("blurMaterial")->setScalar("isVertical", static_cast<GLfloat>(b));
+            // draw
+            bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("blurSprite"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+            b = !b;
+        }
+        
+        /*** Title ***/
+        // translate and scale
+        GLfloat titleScale = 0.5f;
+        vmml::Matrix4f scaling = vmml::create_scaling(vmml::Vector3f(titleScale / bRenderer().getView()->getAspectRatio(), titleScale, titleScale));
+        modelMatrix = vmml::create_translation(vmml::Vector3f(-0.4f, 0.0f, -0.65f)) * scaling;
+        // draw
+        bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("bTitle"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false, false);
+        
+        /*** Instructions ***/
+        titleScale = 0.1f;
+        scaling = vmml::create_scaling(vmml::Vector3f(titleScale / bRenderer().getView()->getAspectRatio(), titleScale, titleScale));
+        modelMatrix = vmml::create_translation(vmml::Vector3f(-1.1f / bRenderer().getView()->getAspectRatio(), -0.6f, -0.65f)) * scaling;
+        // draw
+        bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getTextSprite("instructions"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+}
+
+void RingMadness::renderBloomEffect(GLint &defaultFBO) {
+
+    FramebufferPtr bloomFbo1 = bRenderer().getObjects()->getFramebuffer("bloom_fbo1");
+    FramebufferPtr bloomFbo2 = bRenderer().getObjects()->getFramebuffer("bloom_fbo2");
+    TexturePtr bloomFboTexture1 = bRenderer().getObjects()->getTexture("bloom_fbo_texture1");
+    TexturePtr bloomFboTexture2 = bRenderer().getObjects()->getTexture("bloom_fbo_texture2");
+    TexturePtr bloomFboTexture3 = bRenderer().getObjects()->getTexture("bloom_fbo_texture3");
+    MaterialPtr bloomMaterial1 = bRenderer().getObjects()->getMaterial("bloomMaterial1");
+    MaterialPtr bloomMaterial2 = bRenderer().getObjects()->getMaterial("bloomMaterial2");
+    MaterialPtr bloomMaterialFinal = bRenderer().getObjects()->getMaterial("bloomMaterialFinal");
+    ModelPtr bloomSprite1 = bRenderer().getObjects()->getModel("bloomSprite1");
+    ModelPtr bloomSprite2 = bRenderer().getObjects()->getModel("bloomSprite2");
+    ModelPtr bloomSpriteFinal = bRenderer().getObjects()->getModel("bloomSpriteFinal");
+    
+    vmml::Matrix4f bloomMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5f));
+    
+    bloomFbo2->bindTexture(bloomFboTexture2, false);
+    GLint bloomFbo2Int = Framebuffer::getCurrentFramebuffer();
+    bloomFbo1->bindTexture(bloomFboTexture1, false);
+    
+    // Draw queue again
+    bRenderer().getModelRenderer()->drawQueue(/*GL_LINES*/);
+    
+    // 1. Get normal scene and extract sun into texture
+    bloomFbo1->unbind(bloomFbo2Int);
+    bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
+    bloomMaterial1->setTexture("fbo_texture", bloomFboTexture1);
+
+    bRenderer().getModelRenderer()->drawModel(bloomSprite1, bloomMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+    
+    // 2. Blur texture vertically and horizontally
+    bool b = true;        int numberOfBlurSteps = 5;
+    for (int i = 0; i < numberOfBlurSteps; i++) {
+        if (i == numberOfBlurSteps - 1){
+            bloomFbo2->unbind(defaultFBO); //unbind (original fbo will be bound)
+            bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
+        }
+        else {
+            bloomFbo2->bindTexture(bRenderer().getObjects()->getTexture(b ? "bloom_fbo_texture3" : "bloom_fbo_texture2"), false);
+        }
+        bloomMaterial2->setTexture("fbo_texture", bRenderer().getObjects()->getTexture(b ? "bloom_fbo_texture2" : "bloom_fbo_texture3"));
+        bloomMaterial2->setScalar("isVertical", static_cast<GLfloat>(b));
+        // draw
+        bRenderer().getModelRenderer()->drawModel(bloomSprite2, bloomMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+        b = !b;
+    }
+    
+    // 3. Combine normal scene and blurred scene
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    bloomMaterialFinal->setTexture("fbo_texture_scene", bloomFboTexture1);
+    bloomMaterialFinal->setTexture("fbo_texture_bloomBlur", bloomFboTexture3);
+    bRenderer().getModelRenderer()->drawModel(bloomSpriteFinal, bloomMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
 }
