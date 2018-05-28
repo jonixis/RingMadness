@@ -19,17 +19,11 @@ attribute vec4 TexCoord;
 varying vec4 ambientVarying;
 varying vec4 diffuseVarying;
 varying vec4 specularVarying;
-
-//Fog
-varying float visibility;
-float density = 0.0007;
-float gradient = 4.0;
-
+varying float distanceCameraVertex;
 
 
 void main()
 {
-    visibility = 0.0;
     //light
     ambientVarying = vec4(0.4,0.4,0.4,1.0);
     
@@ -56,11 +50,7 @@ void main()
     }
  */
     
-    //Fog
-    float distanceCameraVertex = length(ModelViewMatrix * Position);
-    visibility = exp(-pow((distanceCameraVertex*density),gradient));
-    visibility = clamp(visibility, 0.0, 1.0);
-    
+    distanceCameraVertex = length(ModelViewMatrix * Position);
     
     gl_Position = ProjectionMatrix * ModelViewMatrix * Position;
 }
