@@ -144,6 +144,10 @@
 		F88E39D020A6E50E00A17AA0 /* terrain.vert in Resources */ = {isa = PBXBuildFile; fileRef = E5A0887C209B0B80006B5205 /* terrain.vert */; };
 		F88E39D320A6E8C100A17AA0 /* rotor.mtl in Resources */ = {isa = PBXBuildFile; fileRef = F88E39D120A6E8C100A17AA0 /* rotor.mtl */; };
 		F88E39D620A6E9C700A17AA0 /* rotor.obj in Resources */ = {isa = PBXBuildFile; fileRef = F88E39D520A6E9C700A17AA0 /* rotor.obj */; };
+		F893E20720BD810E0063885F /* shadowDepthShader.vert in Resources */ = {isa = PBXBuildFile; fileRef = F893E20620BD810E0063885F /* shadowDepthShader.vert */; };
+		F893E20920BD811E0063885F /* shadowDepthShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = F893E20820BD811E0063885F /* shadowDepthShader.frag */; };
+		F893E20B20BD83910063885F /* shadowMappingShader.vert in Resources */ = {isa = PBXBuildFile; fileRef = F893E20A20BD83910063885F /* shadowMappingShader.vert */; };
+		F893E20D20BD83A30063885F /* shadowMappingShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = F893E20C20BD83A30063885F /* shadowMappingShader.frag */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1392,6 +1396,10 @@
 		F881EA7220987FDF00CB5DDB /* plane.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = plane.frag; sourceTree = "<group>"; };
 		F88E39D120A6E8C100A17AA0 /* rotor.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rotor.mtl; path = project/data/rotor.mtl; sourceTree = SOURCE_ROOT; };
 		F88E39D520A6E9C700A17AA0 /* rotor.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = rotor.obj; sourceTree = "<group>"; };
+		F893E20620BD810E0063885F /* shadowDepthShader.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shadowDepthShader.vert; sourceTree = "<group>"; };
+		F893E20820BD811E0063885F /* shadowDepthShader.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shadowDepthShader.frag; sourceTree = "<group>"; };
+		F893E20A20BD83910063885F /* shadowMappingShader.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shadowMappingShader.vert; sourceTree = "<group>"; };
+		F893E20C20BD83A30063885F /* shadowMappingShader.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shadowMappingShader.frag; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1731,6 +1739,7 @@
 		F81192E820B2C683008BF2E2 /* Postprocessing */ = {
 			isa = PBXGroup;
 			children = (
+				F893E20520BD80C50063885F /* Shadow_Mapping */,
 				F81192E920B2C6BF008BF2E2 /* bloomShader1.vert */,
 				F81192EB20B2C6D2008BF2E2 /* bloomShader1.frag */,
 				F81192ED20B2C6DE008BF2E2 /* bloomShader2.vert */,
@@ -3019,6 +3028,17 @@
 			path = Plane;
 			sourceTree = "<group>";
 		};
+		F893E20520BD80C50063885F /* Shadow_Mapping */ = {
+			isa = PBXGroup;
+			children = (
+				F893E20620BD810E0063885F /* shadowDepthShader.vert */,
+				F893E20820BD811E0063885F /* shadowDepthShader.frag */,
+				F893E20A20BD83910063885F /* shadowMappingShader.vert */,
+				F893E20C20BD83A30063885F /* shadowMappingShader.frag */,
+			);
+			path = Shadow_Mapping;
+			sourceTree = "<group>";
+		};
 		F8DBD6BE20B2B48800E4CEA2 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
@@ -3094,7 +3114,9 @@
 				E535CCE22080DB2C00FB0BB4 /* cube.mtl in Resources */,
 				E5E0B729209B5B9700A756AC /* sea.mtl in Resources */,
 				E535CCE12080DB2C00FB0BB4 /* cube.obj in Resources */,
+				F893E20B20BD83910063885F /* shadowMappingShader.vert in Resources */,
 				F881EA7320987FDF00CB5DDB /* plane.frag in Resources */,
+				F893E20720BD810E0063885F /* shadowDepthShader.vert in Resources */,
 				E535CCE12080DB2C00FB0BB4 /* cube.obj in Resources */,
 				F88E39CF20A6E50E00A17AA0 /* terrain.frag in Resources */,
 				E535CCE62080DC3300FB0BB4 /* cube.frag in Resources */,
@@ -3113,6 +3135,7 @@
 				E5E0B72D209B5C1D00A756AC /* sea.vert in Resources */,
 				F81192EC20B2C6D2008BF2E2 /* bloomShader1.frag in Resources */,
 				B47949AF1BA6742B00B5E9DC /* config.json in Resources */,
+				F893E20920BD811E0063885F /* shadowDepthShader.frag in Resources */,
 				F85558C1209B7EA900041BC2 /* plane.obj in Resources */,
 				E5D55DF920A5DD3000E6AE86 /* object.frag in Resources */,
 				E578287720A3624D00889326 /* SkyBottom.png in Resources */,
@@ -3131,6 +3154,7 @@
 				F86CFCB920B6214F0070B6E6 /* bloomShaderFinal.vert in Resources */,
 				B4794A301BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				F85558B1209B17C300041BC2 /* sun.obj in Resources */,
+				F893E20D20BD83A30063885F /* shadowMappingShader.frag in Resources */,
 				B4CB8CD01B72E43300FE041B /* Project-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

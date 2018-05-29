@@ -57,6 +57,7 @@ private:
 
 	/* Helper Functions */
 	GLfloat randomNumber(GLfloat min, GLfloat max);
+    vmml::Matrix4f calcualteOrtho(float left, float right, float bottom, float top, float near, float far);
 
 	/* Variables */
 	GLfloat _randomOffset;
@@ -76,7 +77,8 @@ private:
     void endPostprocessing(GLint &defaultFBO);
     
     void renderBloomEffect(GLint &defaultFBO);
-
+    
+    void renderShadowMap(GLint &defaultFBO);
 };
 
 #endif /* defined(PROJECT_MAIN_H) */
