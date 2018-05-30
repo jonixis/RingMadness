@@ -22,7 +22,7 @@ vmml::Matrix4f planeModelMatrixTwo;
 vmml::Matrix4f planeRotationMatrix;
 vmml::Matrix4f planeTransaltionMatrix;
 vmml::Vector3f planePosition;
-vmml::Vector3f PLANESPEED = vmml::Vector3f(0.0f,0.0f, 0.1f);
+vmml::Vector3f PLANESPEED = vmml::Vector3f(0.0f,0.0f, 1.0f);
 float planeCurrentPitch = 0;
 float planeCurrentYaw = 0;
 float planeMaxMinPitch = 0;
@@ -32,10 +32,10 @@ float planeLastRoll = 0;
 bool thirdPerson = true;
 
 //cloud Variables
-vmml::Vector4f cloudPosition = vmml::Vector3f(500.0f,200.0f,100.0f);
+vmml::Vector4f cloudPosition = vmml::Vector3f(710.0f,200.0f,0.0f);
 
 //Sun variables
-vmml::Vector4f sunPosition = vmml::Vector3f(800.0f,300.0f,0.0f);
+vmml::Vector4f sunPosition = vmml::Vector3f(800.0f,200.0f,0.0f);
 
 // Fog
 vmml::Vector4f fogColor = vmml::Vector4f(0.95f, 0.95f, 0.95f);
@@ -434,13 +434,29 @@ GLfloat RingMadness::randomNumber(GLfloat min, GLfloat max){
 vmml::Matrix4f RingMadness::calcualteOrtho(float left, float right, float bottom, float top, float near, float far) {
     
     vmml::Matrix4f tempMatrix;
-    tempMatrix[0][0] = 0.5f * (right-left);
-    tempMatrix[1][1] = 0.5f * (top-bottom);
-    tempMatrix[2][2] = -0.5f * (far-near);
+
+    tempMatrix[0][0] = 2 / (right - left);
+    tempMatrix[0][1] = 0;
+    tempMatrix[0][2] = 0;
+    tempMatrix[0][3] = 0;
+
+    tempMatrix[1][0] = 0;
+    tempMatrix[1][1] = 2 / (top - bottom);
+    tempMatrix[1][2] = 0;
+    tempMatrix[1][3] = 0;
+
+    tempMatrix[2][0] = 0;
+    tempMatrix[2][1] = 0;
+    tempMatrix[2][2] = -2 / (far - near);
+    tempMatrix[2][3] = 0;
+
+    tempMatrix[3][0] = -(right + left) / (right - left);
+    tempMatrix[3][1] = -(top + bottom) / (top - bottom);
+    tempMatrix[3][2] = -(far + near) / (far - near);
+    tempMatrix[3][3] = 1;
     
-    tempMatrix[0][3] = -1.0f * (right+left)/(right-left);
-    tempMatrix[1][3] = -1.0f * (top+bottom)/(top-bottom);
-    tempMatrix[2][3] = -1.0f * (far+near)/(far-near);
+
+    std::cout << tempMatrix;
     
     return tempMatrix;
 }
@@ -466,24 +482,26 @@ void RingMadness::endPostprocessing(GLint &defaultFBO) {
 void RingMadness::renderShadowMap(GLint &defaultFBO) {
     /// Shadow Mapping ///
     // 1. render depth of scene to texture (from light's perspective)
-    //    glClear(GL_DEPTH_BUFFER_BIT);
-    vmml::Matrix4f lightProjection = calcualteOrtho(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 1000.0f);
-    vmml::Matrix4f lightViewMatrix = bRenderer().getObjects()->getCamera("shadowMappingCamera")->lookAtForHUD(sunPosition, vmml::Vector3f(0.0f,0.0f,0.0f), vmml::Vector3f::UNIT_Y);
+    
+    vmml::Matrix4f lightProjection = calcualteOrtho(-0.6f, 0.6f, -0.6f, 0.6f, 0.1f, 20000.0f);
+    vmml::Matrix4f lightViewMatrix = bRenderer().getObjects()->getCamera("shadowMappingCamera")->lookAt(sunPosition, vmml::Vector3f(0.0f,0.0f,0.0f), vmml::Vector3f::UNIT_Y);
     vmml::Matrix4f lightSpaceMatrix = lightProjection * lightViewMatrix;
     
     bRenderer().getObjects()->getShader("shadowDepthShader")->setUniform("lightSpaceMatrix", lightSpaceMatrix);
     
     bRenderer().getObjects()->getFramebuffer("depthMapFBO")->bindDepthMap(bRenderer().getObjects()->getDepthMap("depthMap"), false);
     
-    glClear(GL_DEPTH_BUFFER_BIT);
-//    bRenderer().getModelRenderer()->clearQueue();
-//    updateRenderQueue("shadowMappingCamera", 0.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//    glDepthFunc(GL_ALWAYS); USE FOR SKYBOX
+    glDepthFunc(GL_NOTEQUAL);
+    bRenderer().getModelRenderer()->clearQueue();
+    updateRenderQueue("shadowMappingCamera", 0.0);
     bRenderer().getModelRenderer()->drawQueue();
     
     bRenderer().getObjects()->getFramebuffer("depthMapFBO")->unbind(defaultFBO);
     
     // 2. render scene as normal using the generated depth/shadow map
-    //    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     bRenderer().getObjects()->getMaterial("shadowMaterial")->setTexture("depthMap", bRenderer().getObjects()->getDepthMap("depthMap"));
     
     vmml::Matrix4f shadowMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5f));
