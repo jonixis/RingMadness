@@ -32,7 +32,7 @@ float planeLastRoll = 0;
 bool thirdPerson = true;
 
 //cloud Variables
-vmml::Vector4f cloudPosition = vmml::Vector3f(710.0f,200.0f,0.0f);
+vmml::Vector4f cloudPosition = vmml::Vector3f(610.0f,200.0f,0.0f);
 
 //Sun variables
 vmml::Vector4f sunPosition = vmml::Vector3f(800.0f,200.0f,0.0f);
@@ -168,7 +168,11 @@ void RingMadness::initFunction()
     
     // Shadow Mapping
     
-    //glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_BUFFER_BIT);
+//    glDepthMask(GL_TRUE);
+//    glDepthFunc(GL_LEQUAL);
+//    glDepthRangef(0.0f, 20000.0f);
     
     FramebufferPtr depthMapFBO =  bRenderer().getObjects()->createFramebuffer("depthMapFBO");
     DepthMapPtr depthMap = bRenderer().getObjects()->createDepthMap("depthMap", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
@@ -483,17 +487,19 @@ void RingMadness::renderShadowMap(GLint &defaultFBO) {
     /// Shadow Mapping ///
     // 1. render depth of scene to texture (from light's perspective)
     
-    vmml::Matrix4f lightProjection = calcualteOrtho(-0.6f, 0.6f, -0.6f, 0.6f, 0.1f, 20000.0f);
+//    vmml::Matrix4f lightProjection = calcualteOrtho(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 500.0f);
+    vmml::Matrix4f lightProjection = bRenderer().getObjects()->getCamera("shadowMappingCamera")->getProjectionMatrix();
     vmml::Matrix4f lightViewMatrix = bRenderer().getObjects()->getCamera("shadowMappingCamera")->lookAt(sunPosition, vmml::Vector3f(0.0f,0.0f,0.0f), vmml::Vector3f::UNIT_Y);
     vmml::Matrix4f lightSpaceMatrix = lightProjection * lightViewMatrix;
     
     bRenderer().getObjects()->getShader("shadowDepthShader")->setUniform("lightSpaceMatrix", lightSpaceMatrix);
+//    bRenderer().getObjects()->getShader("shadowMappingShader")->setUniform("near_plane", 1.0f);
+//    bRenderer().getObjects()->getShader("shadowMappingShader")->setUniform("far_plane", 200.0f);
     
     bRenderer().getObjects()->getFramebuffer("depthMapFBO")->bindDepthMap(bRenderer().getObjects()->getDepthMap("depthMap"), false);
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 //    glDepthFunc(GL_ALWAYS); USE FOR SKYBOX
-    glDepthFunc(GL_NOTEQUAL);
     bRenderer().getModelRenderer()->clearQueue();
     updateRenderQueue("shadowMappingCamera", 0.0);
     bRenderer().getModelRenderer()->drawQueue();
