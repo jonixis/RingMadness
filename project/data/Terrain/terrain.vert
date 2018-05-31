@@ -6,9 +6,12 @@ precision highp float;
 uniform mat4 ModelViewMatrix;
 uniform mat4 ProjectionMatrix;
 uniform vec4 sunPosition;
-uniform vec4 modelMatrix;
+uniform mat4 inverseModelMatrix;
+uniform mat4 modelMatrix;
 uniform vec4 camPosition;
-uniform vec4 planePosition; 
+uniform vec4 planePosition;
+
+uniform mat4 lightSpaceMatrix;
 
 attribute vec4 Position;
 attribute vec3 Normal;
@@ -20,6 +23,11 @@ varying vec4 ambientVarying;
 varying vec4 diffuseVarying;
 varying vec4 specularVarying;
 varying float distanceCameraVertex;
+
+varying vec3 fragPosVarying;
+varying vec4 normalVarying;
+varying vec4 texCoordVarying;
+varying vec4 fragPosLightSpace;
 
 
 void main()
@@ -51,6 +59,13 @@ void main()
  */
     
     distanceCameraVertex = length(ModelViewMatrix * Position);
+    
+    // Shadow Mapping
+    
+    fragPosVarying = vec3(modelMatrix * Position);
+    normalVarying = inverseModelMatrix * vec4(Normal, 1.0);
+    texCoordVarying = TexCoord;
+    fragPosLightSpace = lightSpaceMatrix * vec4(fragPosVarying, 1.0);
     
     gl_Position = ProjectionMatrix * ModelViewMatrix * Position;
 }

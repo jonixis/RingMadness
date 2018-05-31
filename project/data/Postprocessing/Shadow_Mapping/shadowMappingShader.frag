@@ -4,42 +4,54 @@ precision highp float;
 #endif
 
 uniform sampler2D depthMap;
+uniform sampler2D diffuseTexture;
 
+varying vec4 fragPosVarying;
+varying vec4 normalVarying;
 varying vec4 texCoordVarying;
+varying vec4 fragPosLightSpace;
 
-//uniform float near_plane;
-//uniform float far_plane;
+uniform vec4 sunPosition;
+uniform vec4 camPosition;
 
-// required when using a perspective projection matrix
-//float LinearizeDepth(float depth)
-//{
-//    float near_plane = 1.0;
-//    float far_plane = 200.0;
-//    float z = depth * 2.0 - 1.0; // Back to NDC
-//    return (2.0 * near_plane * far_plane) / (far_plane + near_plane - z * (far_plane - near_plane));
-//}
-//
-//
-//void main() {
-//
-//    float depthValue = texture2D(depthMap, texCoordVarying.st).r;
-//
-//    gl_FragColor = vec4(vec3(LinearizeDepth(depthValue) / far_plane), 1.0); // perspective
-//
-////    gl_FragColor = vec4(vec3(depthValue), 1.0); // orthographic
-//
-//}
-
-float LinearizeDepth(in vec2 uv)
+float ShadowCalculation(vec4 fragPosLightSpace)
 {
-    float zNear = 1000.0;    // TODO: Replace by the zNear of your perspective projection
-    float zFar  = 1200.0; // TODO: Replace by the zFar  of your perspective projection
-    float depth = texture2D(depthMap, uv).x;
-    return (2.0 * zNear) / (zFar + zNear - depth * (zFar - zNear));
+    // perform perspective divide
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture2D(depthMap, projCoords.xy).r;
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    // check whether current frag pos is in shadow
+    float shadow = currentDepth > closestDepth  ? 1.0 : 0.0;
+    
+    return shadow;
 }
 
-void main()
-{
-    float c = LinearizeDepth(texCoordVarying.st);
-    gl_FragColor = vec4(c, c, c, 1.0);
+void main() {
+
+    
+
+    vec3 color = texture2D(diffuseTexture, texCoordVarying.st).rgb;
+    vec3 normal = normalize(normalVarying);
+    vec3 lightColor = vec3(0.3);
+    // ambient
+    vec3 ambient = 0.3 * color;
+    // diffuse
+    vec3 lightDir = normalize(sunPosition - fragPosVarying);
+    float diff = max(dot(lightDir, normal), 0.0);
+    vec3 diffuse = diff * lightColor;
+    // specular
+    
+    
+    // calculate shadow
+    float shadow = ShadowCalculation(fs_in.FragPosLightSpace);
+    vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;
+    
+    gl_FragColor = vec4(lighting, 1.0);
+
 }
+
+
