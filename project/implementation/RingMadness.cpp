@@ -227,9 +227,9 @@ void RingMadness::makeWorldVivid(const std::string &camera, const double &deltaT
     
     //Balloon
     if(dummyHeight >= 400.0f)
-        up = -0.2f;
+        up = -0.02f;
     if (dummyHeight <= -110.0f)
-        up = 0.1f;
+        up = 0.01f;
     dummyHeight += up;
     vmml::Matrix4f dummyBalloonModelMatrix = vmml::create_translation(vmml::Vector3f(-300.0f, dummyHeight, -10.0f)) * vmml::create_scaling(10.0f);
     bRenderer().getModelRenderer()->queueModelInstance("Balloon", "Balloon_instance", camera, dummyBalloonModelMatrix, std::vector<std::string>({"sunLight", "secondLight", "thirdLight" }), true, true);
