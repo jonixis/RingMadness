@@ -178,10 +178,10 @@ void RingMadness::initFunction()
     DepthMapPtr depthMap = bRenderer().getObjects()->createDepthMap("depthMap", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
     
     ShaderPtr shadowDepthShader = bRenderer().getObjects()->loadShaderFile_o("shadowDepthShader", 0);
-//    ShaderPtr shadowMappingShader = bRenderer().getObjects()->loadShaderFile_o("shadowMappingShader", 0);
+    ShaderPtr shadowMappingShader = bRenderer().getObjects()->loadShaderFile_o("shadowMappingShader", 0);
     
-//    MaterialPtr shadowMaterial = bRenderer().getObjects()->createMaterial("shadowMaterial", shadowMappingShader);
-//    bRenderer().getObjects()->createSprite("shadowSprite", shadowMaterial);
+    MaterialPtr shadowMaterial = bRenderer().getObjects()->createMaterial("shadowMaterial", shadowMappingShader);
+    bRenderer().getObjects()->createSprite("shadowSprite", shadowMaterial);
     
     bRenderer().getObjects()->createCamera("shadowMappingCamera");
 
@@ -487,7 +487,7 @@ void RingMadness::renderShadowMap(GLint &defaultFBO) {
     /// Shadow Mapping ///
     // 1. render depth of scene to texture (from light's perspective)
     
-    vmml::Matrix4f lightProjection = calcualteOrtho(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 800.0f);
+    vmml::Matrix4f lightProjection = calcualteOrtho(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 40.0f);
 //    vmml::Matrix4f lightProjection = bRenderer().getObjects()->getCamera("shadowMappingCamera")->getProjectionMatrix();
     vmml::Matrix4f lightViewMatrix = bRenderer().getObjects()->getCamera("shadowMappingCamera")->lookAt(sunPosition, vmml::Vector3f(0.0f,0.0f,0.0f), vmml::Vector3f::UNIT_Y);
     vmml::Matrix4f lightSpaceMatrix = lightProjection * lightViewMatrix;
@@ -500,25 +500,28 @@ void RingMadness::renderShadowMap(GLint &defaultFBO) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 //    glDepthFunc(GL_ALWAYS); USE FOR SKYBOX
     bRenderer().getModelRenderer()->clearQueue();
-    //updateRenderQueue("shadowMappingCamera", 0.0);
+    updateRenderQueue("shadowMappingCamera", 0.0);
     bRenderer().getModelRenderer()->drawQueue();
     
     bRenderer().getObjects()->getFramebuffer("depthMapFBO")->unbind(defaultFBO);
     
+    
     // 2. render scene as normal using the generated depth/shadow map
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    bRenderer().getObjects()->getShader("terrain")->setUniform("depthMap", bRenderer().getObjects()->getDepthMap("depthMap"));
     
-//    vmml::Matrix4f shadowMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5f));
-//    bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("shadowSprite"), shadowMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+    bRenderer().getObjects()->getShader("terrain")->setUniform("depthMap", bRenderer().getObjects()->getDepthMap("depthMap"));
+
+    bRenderer().getObjects()->getShader("shadowDepthShader")->setUniform("depthMap", bRenderer().getObjects()->getDepthMap("depthMap"));
+    
+    vmml::Matrix4f shadowMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5f));
+    bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("shadowSprite"), shadowMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+
     
     bRenderer().getModelRenderer()->clearQueue();
-    bRenderer().getObjects()->removeCamera("shadowMappingCamera");
-    std::cout << bRenderer().getObjects()->getCamera("camera")->getPosition() << std::endl;
     updatePlane("camera", 0.0f);
     updateRenderQueue("camera", 0.0);
     bRenderer().getModelRenderer()->drawQueue();
-    
+
 }
 
 void RingMadness::renderPauseScreen(GLint &defaultFBO) {

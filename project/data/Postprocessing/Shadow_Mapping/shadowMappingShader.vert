@@ -18,11 +18,21 @@ varying vec4 fragPosLightSpace;
 
 uniform mat4 lightSpaceMatrix;
 
+/*
+ // For normal Shadow mapping //
 void main() {
     fragPosVarying = vec3(ModelMatrix * Position);
     normalVarying = transpose(inverse(mat3(ModelMatrix))) * Normal;
     texCoordVarying = TexCoord;
     fragPosLightSpace = lightSpaceMatrix * vec4(fragPosVarying, 1.0);
     gl_Position = ProjectionMatrix * ModelViewMatrix * Position;
+}
+*/
+
+
+// For Debugging the shadow map//
+void main() {
+    texCoordVarying = TexCoord;
+    gl_Position = Position;
 }
 

@@ -14,6 +14,8 @@ varying vec4 fragPosLightSpace;
 uniform vec4 sunPosition;
 uniform vec4 camPosition;
 
+/*
+ //For Normal shadow Mapping //
 float ShadowCalculation(vec4 fragPosLightSpace)
 {
     // perform perspective divide
@@ -53,5 +55,22 @@ void main() {
     gl_FragColor = vec4(lighting, 1.0);
 
 }
+*/
+ 
+// for debugging the shadow map //
+float LinearizeDepth(in vec2 uv)
+{
+    float zNear = 0.1;    // TODO: Replace by the zNear of your perspective projection
+    float zFar  = 800.0; // TODO: Replace by the zFar  of your perspective projection
+    float depth = texture2D(depthMap, uv).x;
+    return (2.0 * zNear) / (zFar + zNear - depth * (zFar - zNear));
+    //return depth;
+}
 
+void main()
+{
+    float c = LinearizeDepth(texCoordVarying.st);
+    
+    gl_FragColor = vec4(c, c, c, 1.0);
+}
 
