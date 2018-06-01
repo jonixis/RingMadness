@@ -381,8 +381,7 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
         } else{
             cameraPosition.z() = cameraTargetPosition.z();
         }
-
-
+        
         //Third Person view or view with eye at 0,0,0
         if (thirdPerson) {
             bRenderer().getObjects()->getCamera(camera)->lookAt(cameraPosition, planePosition, vmml::Vector3f::UNIT_Y);
@@ -463,9 +462,6 @@ vmml::Matrix4f RingMadness::calcualteOrtho(float left, float right, float bottom
     tempMatrix[3][2] = -(far + near) / (far - near);
     tempMatrix[3][3] = 1;
     
-
-    std::cout << tempMatrix;
-    
     return tempMatrix;
 }
 
@@ -483,7 +479,7 @@ void RingMadness::endPostprocessing(GLint &defaultFBO) {
         renderPauseScreen(defaultFBO);
     } else {
         renderShadowMap(defaultFBO);
-//        renderBloomEffect(defaultFBO);
+     //   renderBloomEffect(defaultFBO);
     }
 }
 
@@ -499,13 +495,12 @@ void RingMadness::renderShadowMap(GLint &defaultFBO) {
     bRenderer().getObjects()->getShader("shadowDepthShader")->setUniform("lightSpaceMatrix", lightSpaceMatrix);
     bRenderer().getObjects()->getShader("terrain")->setUniform("lightSpaceMatrix", lightSpaceMatrix);
 
-    
     bRenderer().getObjects()->getFramebuffer("depthMapFBO")->bindDepthMap(bRenderer().getObjects()->getDepthMap("depthMap"), false);
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 //    glDepthFunc(GL_ALWAYS); USE FOR SKYBOX
     bRenderer().getModelRenderer()->clearQueue();
-    updateRenderQueue("shadowMappingCamera", 0.0);
+    //updateRenderQueue("shadowMappingCamera", 0.0);
     bRenderer().getModelRenderer()->drawQueue();
     
     bRenderer().getObjects()->getFramebuffer("depthMapFBO")->unbind(defaultFBO);
@@ -518,8 +513,12 @@ void RingMadness::renderShadowMap(GLint &defaultFBO) {
 //    bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("shadowSprite"), shadowMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
     
     bRenderer().getModelRenderer()->clearQueue();
+    bRenderer().getObjects()->removeCamera("shadowMappingCamera");
+    std::cout << bRenderer().getObjects()->getCamera("camera")->getPosition() << std::endl;
+    updatePlane("camera", 0.0f);
     updateRenderQueue("camera", 0.0);
     bRenderer().getModelRenderer()->drawQueue();
+    
 }
 
 void RingMadness::renderPauseScreen(GLint &defaultFBO) {
