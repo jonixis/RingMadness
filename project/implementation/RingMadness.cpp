@@ -12,6 +12,9 @@ void RingMadness::init()
 		bRenderer().initRenderer(1920, 1080, false, "The Cave - Demo");		// windowed mode on desktop
 		//bRenderer().initRenderer(View::getScreenWidth(), View::getScreenHeight(), true);		// full screen using full width and height of the screen
 
+    
+    glEnable (GL_DEPTH_TEST);
+    
 	// start main loop 
 	bRenderer().runRenderer();
 }
@@ -31,11 +34,11 @@ float planeLastRoll = 0;
 
 bool thirdPerson = true;
 
-//cloud Variables
-vmml::Vector4f cloudPosition = vmml::Vector3f(610.0f,200.0f,0.0f);
+//cloud Variables         sun: vmml::Vector3f(800.0f,400.0f,100.0f);
+vmml::Vector4f cloudPosition = vmml::Vector3f(500.0f,400.0f,100.0f);
 
 //Sun variables
-vmml::Vector4f sunPosition = vmml::Vector3f(800.0f,200.0f,0.0f);
+vmml::Vector4f sunPosition = vmml::Vector3f(800.0f,400.0f,100.0f);
 
 // Fog
 vmml::Vector4f fogColor = vmml::Vector4f(0.95f, 0.95f, 0.95f);
@@ -65,7 +68,7 @@ void RingMadness::initFunction()
 	_viewMatrixHUD = Camera::lookAtForHUD(vmml::Vector3f(0.0f, 0.0f, 0.25f), vmml::Vector3f::ZERO, vmml::Vector3f::UP);
     
     thirdPerson = true;
-
+    
 	// Set shader versions (optional)
 	bRenderer().getObjects()->setShaderVersionDesktop("#version 120");
 	bRenderer().getObjects()->setShaderVersionES("#version 100");
@@ -169,8 +172,8 @@ void RingMadness::initFunction()
     // Shadow Mapping
     
     glEnable(GL_DEPTH_TEST);
-//    glEnable(GL_DEPTH_BUFFER_BIT);
-//    glDepthMask(GL_TRUE);
+    glEnable(GL_DEPTH_BUFFER_BIT);
+    glDepthMask(GL_TRUE);
 //    glDepthFunc(GL_LEQUAL);
 //    glDepthRangef(0.0f, 20000.0f);
     
@@ -264,7 +267,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     //sea //
     seaShader->setUniform("time", i);
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, -145.0f,0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
-    bRenderer().getModelRenderer()->queueModelInstance("sea", "sea_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
+    //bRenderer().getModelRenderer()->queueModelInstance("sea", "sea_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     
     //plane //
     ShaderPtr planeShader = bRenderer().getObjects()->getShader("plane");
@@ -438,29 +441,33 @@ GLfloat RingMadness::randomNumber(GLfloat min, GLfloat max){
 	return min + static_cast <GLfloat> (rand()) / (static_cast <GLfloat> (RAND_MAX / (max - min)));
 }
 
+//calcualteOrtho(-10.0f, 10.0f, -10.0f, 10.0f, -10.0f, 20.0f)
 vmml::Matrix4f RingMadness::calcualteOrtho(float left, float right, float bottom, float top, float near, float far) {
     
     vmml::Matrix4f tempMatrix;
 
-    tempMatrix[0][0] = 2 / (right - left);
+    tempMatrix[0][0] = 2.0f / (right - left);
     tempMatrix[0][1] = 0;
     tempMatrix[0][2] = 0;
     tempMatrix[0][3] = 0;
 
     tempMatrix[1][0] = 0;
-    tempMatrix[1][1] = 2 / (top - bottom);
+    tempMatrix[1][1] = 2.0f / (top - bottom);
     tempMatrix[1][2] = 0;
     tempMatrix[1][3] = 0;
 
     tempMatrix[2][0] = 0;
     tempMatrix[2][1] = 0;
-    tempMatrix[2][2] = -2 / (far - near);
+    tempMatrix[2][2] = -2.0f / (far - near);
     tempMatrix[2][3] = 0;
 
     tempMatrix[3][0] = -(right + left) / (right - left);
     tempMatrix[3][1] = -(top + bottom) / (top - bottom);
     tempMatrix[3][2] = -(far + near) / (far - near);
-    tempMatrix[3][3] = 1;
+    tempMatrix[3][3] = 1.0f;
+    
+    std::cout << "temp" << std::endl;
+    std::cout << tempMatrix << std::endl;
     
     return tempMatrix;
 }
@@ -487,10 +494,13 @@ void RingMadness::renderShadowMap(GLint &defaultFBO) {
     /// Shadow Mapping ///
     // 1. render depth of scene to texture (from light's perspective)
     
-    vmml::Matrix4f lightProjection = calcualteOrtho(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 40.0f);
+    vmml::Matrix4f lightProjection = calcualteOrtho(-0.001f, 0.001f, -0.001f, 0.001f, 1.0f, 10.0f);
 //    vmml::Matrix4f lightProjection = bRenderer().getObjects()->getCamera("shadowMappingCamera")->getProjectionMatrix();
-    vmml::Matrix4f lightViewMatrix = bRenderer().getObjects()->getCamera("shadowMappingCamera")->lookAt(sunPosition, vmml::Vector3f(0.0f,0.0f,0.0f), vmml::Vector3f::UNIT_Y);
+    vmml::Matrix4f lightViewMatrix = bRenderer().getObjects()->getCamera("shadowMappingCamera")->lookAt(sunPosition, vmml::Vector3f(1.0f,1.0f,1.0f), vmml::Vector3f::UNIT_Y);
     vmml::Matrix4f lightSpaceMatrix = lightProjection * lightViewMatrix;
+    
+    std::cout << "lightSpaceMatrix" << std::endl;
+    std::cout << lightSpaceMatrix << std::endl;
     
     bRenderer().getObjects()->getShader("shadowDepthShader")->setUniform("lightSpaceMatrix", lightSpaceMatrix);
     bRenderer().getObjects()->getShader("terrain")->setUniform("lightSpaceMatrix", lightSpaceMatrix);
@@ -511,12 +521,12 @@ void RingMadness::renderShadowMap(GLint &defaultFBO) {
     
     bRenderer().getObjects()->getShader("terrain")->setUniform("depthMap", bRenderer().getObjects()->getDepthMap("depthMap"));
 
-    bRenderer().getObjects()->getShader("shadowDepthShader")->setUniform("depthMap", bRenderer().getObjects()->getDepthMap("depthMap"));
+    bRenderer().getObjects()->getShader("shadowMappingShader")->setUniform("depthMap", bRenderer().getObjects()->getDepthMap("depthMap"));
     
     vmml::Matrix4f shadowMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5f));
     bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("shadowSprite"), shadowMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
 
-    
+
     bRenderer().getModelRenderer()->clearQueue();
     updatePlane("camera", 0.0f);
     updateRenderQueue("camera", 0.0);

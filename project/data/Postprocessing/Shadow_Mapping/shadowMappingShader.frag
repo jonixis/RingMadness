@@ -60,11 +60,11 @@ void main() {
 // for debugging the shadow map //
 float LinearizeDepth(in vec2 uv)
 {
-    float zNear = 0.1;    // TODO: Replace by the zNear of your perspective projection
-    float zFar  = 800.0; // TODO: Replace by the zFar  of your perspective projection
+    float zNear = 1.0;    // TODO: Replace by the zNear of your perspective projection
+    float zFar  = 5.0; // TODO: Replace by the zFar  of your perspective projection
     float depth = texture2D(depthMap, uv).x;
     return (2.0 * zNear) / (zFar + zNear - depth * (zFar - zNear));
-    //return depth;
+   // return depth / zFar;
 }
 
 void main()
