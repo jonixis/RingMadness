@@ -275,6 +275,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
 
     // Rotor
     bRenderer().getModelRenderer()->queueModelInstance("rotor", "rotor_instance", camera, planeModelMatrixTwo * vmml::create_translation(vmml::Vector3f(0.0f,-0.4f,3.9f)) * vmml::create_rotation(i*0.1f, vmml::Vector3f::UNIT_Z), std::vector<std::string>({}), true, true);
+    
 }
 
 
