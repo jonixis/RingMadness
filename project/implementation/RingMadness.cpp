@@ -50,6 +50,11 @@ ShaderPtr terrainShader;
 ShaderPtr seaShader;
 ShaderPtr objectShader;
 
+//vivid World
+int dummyRotation = 0;
+float dummyHeight = 0.0f;
+float up = 0.5;
+
 /* This function is executed when initializing the renderer */
 void RingMadness::initFunction()
 {    
@@ -90,6 +95,10 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->loadObjModel_o("terrain.obj",terrainShader);
     bRenderer().getObjects()->loadObjModel_o("sea.obj", seaShader);
     bRenderer().getObjects()->loadObjModel_o("cloud1.obj", objectShader);
+    bRenderer().getObjects()->loadObjModel_o("HousesOne.obj", objectShader);
+    bRenderer().getObjects()->loadObjModel_o("HousesTwo.obj", objectShader);
+    bRenderer().getObjects()->loadObjModel_o("Trees.obj", objectShader);
+    bRenderer().getObjects()->loadObjModel_o("Balloon.obj", objectShader);
     
     // Sun model
     ShaderPtr sunShader = bRenderer().getObjects()->loadShaderFile("sun");
@@ -101,7 +110,7 @@ void RingMadness::initFunction()
     planeShader->setUniform("Id", vmml::Vector3f(0.9f));
     planeShader->setUniform("Is", vmml::Vector3f(0.9f));
     bRenderer().getObjects()->loadObjModel_o("plane.obj", planeShader);
-    bRenderer().getObjects()->loadObjModel_o("rotor.obj",terrainShader);
+    bRenderer().getObjects()->loadObjModel_o("rotor.obj",planeShader);
 
     // Plane start Position
     planeModelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_rotation(M_PI_F * 0.5f, vmml::Vector3f::UNIT_Y);
@@ -207,6 +216,25 @@ void RingMadness::terminateFunction()
 	bRenderer::log("I totally terminated this Renderer :-)");
 }
 
+
+void RingMadness::makeWorldVivid(const std::string &camera, const double &deltaTime){
+    //city
+    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -150.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
+    bRenderer().getModelRenderer()->queueModelInstance("HousesOne", "HousesOne_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
+    //bRenderer().getModelRenderer()->queueModelInstance("HousesTwo", "HousesTwo_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
+    //bRenderer().getModelRenderer()->queueModelInstance("Trees", "Trees_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
+    
+    //Balloon
+    if(dummyHeight >= 400.0f)
+        up = -0.2f;
+    if (dummyHeight <= -110.0f)
+        up = 0.1f;
+    dummyHeight += up;
+    vmml::Matrix4f dummyBalloonModelMatrix = vmml::create_translation(vmml::Vector3f(-300.0f, dummyHeight, -10.0f)) * vmml::create_scaling(10.0f);
+    bRenderer().getModelRenderer()->queueModelInstance("Balloon", "Balloon_instance", camera, dummyBalloonModelMatrix, std::vector<std::string>({"sunLight", "secondLight", "thirdLight" }), true, true);
+}
+
+
 float i = 0;
 /* Update render queue */
 void RingMadness::updateRenderQueue(const std::string &camera, const double &deltaTime)
@@ -253,6 +281,8 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
 
     // Rotor
     bRenderer().getModelRenderer()->queueModelInstance("rotor", "rotor_instance", camera, planeModelMatrixTwo * vmml::create_translation(vmml::Vector3f(0.0f,-0.4f,3.9f)) * vmml::create_rotation(i*0.1f, vmml::Vector3f::UNIT_Z), std::vector<std::string>({}), true, true);
+    
+    makeWorldVivid(camera, deltaTime);
 }
 
 

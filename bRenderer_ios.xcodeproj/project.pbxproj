@@ -125,6 +125,14 @@
 		E5E0B72A209B5B9700A756AC /* sea.obj in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B728209B5B9700A756AC /* sea.obj */; };
 		E5E0B72D209B5C1D00A756AC /* sea.vert in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B72B209B5C1D00A756AC /* sea.vert */; };
 		E5E0B72E209B5C1D00A756AC /* sea.frag in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B72C209B5C1D00A756AC /* sea.frag */; };
+		E5FF81FE20C131DC001CD9DA /* HousesOne.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E5FF81FC20C131DC001CD9DA /* HousesOne.mtl */; };
+		E5FF81FF20C131DC001CD9DA /* HousesOne.obj in Resources */ = {isa = PBXBuildFile; fileRef = E5FF81FD20C131DC001CD9DA /* HousesOne.obj */; };
+		E5FF820220C13511001CD9DA /* HousesTwo.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E5FF820020C13511001CD9DA /* HousesTwo.mtl */; };
+		E5FF820320C13511001CD9DA /* HousesTwo.obj in Resources */ = {isa = PBXBuildFile; fileRef = E5FF820120C13511001CD9DA /* HousesTwo.obj */; };
+		E5FF820620C138FC001CD9DA /* Trees.obj in Resources */ = {isa = PBXBuildFile; fileRef = E5FF820420C138FC001CD9DA /* Trees.obj */; };
+		E5FF820720C138FC001CD9DA /* Trees.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E5FF820520C138FC001CD9DA /* Trees.mtl */; };
+		E5FF820A20C13C1A001CD9DA /* Balloon.obj in Resources */ = {isa = PBXBuildFile; fileRef = E5FF820820C13C19001CD9DA /* Balloon.obj */; };
+		E5FF820B20C13C1A001CD9DA /* Balloon.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E5FF820920C13C1A001CD9DA /* Balloon.mtl */; };
 		F81192EA20B2C6BF008BF2E2 /* bloomShader1.vert in Resources */ = {isa = PBXBuildFile; fileRef = F81192E920B2C6BF008BF2E2 /* bloomShader1.vert */; };
 		F81192EC20B2C6D2008BF2E2 /* bloomShader1.frag in Resources */ = {isa = PBXBuildFile; fileRef = F81192EB20B2C6D2008BF2E2 /* bloomShader1.frag */; };
 		F81192EE20B2C6DE008BF2E2 /* bloomShader2.vert in Resources */ = {isa = PBXBuildFile; fileRef = F81192ED20B2C6DE008BF2E2 /* bloomShader2.vert */; };
@@ -323,6 +331,14 @@
 		E5E0B728209B5B9700A756AC /* sea.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sea.obj; sourceTree = "<group>"; };
 		E5E0B72B209B5C1D00A756AC /* sea.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sea.vert; sourceTree = "<group>"; };
 		E5E0B72C209B5C1D00A756AC /* sea.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sea.frag; sourceTree = "<group>"; };
+		E5FF81FC20C131DC001CD9DA /* HousesOne.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HousesOne.mtl; sourceTree = "<group>"; };
+		E5FF81FD20C131DC001CD9DA /* HousesOne.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HousesOne.obj; sourceTree = "<group>"; };
+		E5FF820020C13511001CD9DA /* HousesTwo.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HousesTwo.mtl; sourceTree = "<group>"; };
+		E5FF820120C13511001CD9DA /* HousesTwo.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HousesTwo.obj; sourceTree = "<group>"; };
+		E5FF820420C138FC001CD9DA /* Trees.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Trees.obj; sourceTree = "<group>"; };
+		E5FF820520C138FC001CD9DA /* Trees.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Trees.mtl; sourceTree = "<group>"; };
+		E5FF820820C13C19001CD9DA /* Balloon.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Balloon.obj; sourceTree = "<group>"; };
+		E5FF820920C13C1A001CD9DA /* Balloon.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Balloon.mtl; sourceTree = "<group>"; };
 		F81192E920B2C6BF008BF2E2 /* bloomShader1.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = bloomShader1.vert; sourceTree = "<group>"; };
 		F81192EB20B2C6D2008BF2E2 /* bloomShader1.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = bloomShader1.frag; sourceTree = "<group>"; };
 		F81192ED20B2C6DE008BF2E2 /* bloomShader2.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = bloomShader2.vert; sourceTree = "<group>"; };
@@ -3022,6 +3038,14 @@
 		F8DBD6BE20B2B48800E4CEA2 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				E5FF820920C13C1A001CD9DA /* Balloon.mtl */,
+				E5FF820820C13C19001CD9DA /* Balloon.obj */,
+				E5FF820520C138FC001CD9DA /* Trees.mtl */,
+				E5FF820420C138FC001CD9DA /* Trees.obj */,
+				E5FF820020C13511001CD9DA /* HousesTwo.mtl */,
+				E5FF820120C13511001CD9DA /* HousesTwo.obj */,
+				E5FF81FC20C131DC001CD9DA /* HousesOne.mtl */,
+				E5FF81FD20C131DC001CD9DA /* HousesOne.obj */,
 				E5D55DF520A5DD2F00E6AE86 /* object.frag */,
 				E5D55DF320A5DD2F00E6AE86 /* object.vert */,
 			);
@@ -3086,6 +3110,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5FF820620C138FC001CD9DA /* Trees.obj in Resources */,
 				F85558B2209B17C300041BC2 /* sun.mtl in Resources */,
 				B4794A311BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				F85558C2209B7EA900041BC2 /* plane.mtl in Resources */,
@@ -3113,15 +3138,20 @@
 				E5E0B72D209B5C1D00A756AC /* sea.vert in Resources */,
 				F81192EC20B2C6D2008BF2E2 /* bloomShader1.frag in Resources */,
 				B47949AF1BA6742B00B5E9DC /* config.json in Resources */,
+				E5FF81FE20C131DC001CD9DA /* HousesOne.mtl in Resources */,
 				F85558C1209B7EA900041BC2 /* plane.obj in Resources */,
 				E5D55DF920A5DD3000E6AE86 /* object.frag in Resources */,
 				E578287720A3624D00889326 /* SkyBottom.png in Resources */,
 				E5520B2B20A0D2110050C699 /* terrain.mtl in Resources */,
 				F881EA7120987FD100CB5DDB /* plane.vert in Resources */,
+				E5FF820A20C13C1A001CD9DA /* Balloon.obj in Resources */,
+				E5FF820B20C13C1A001CD9DA /* Balloon.mtl in Resources */,
 				B47949A31BA6742B00B5E9DC /* basicTitle_light.png in Resources */,
 				E578287820A3624D00889326 /* SkyTop.png in Resources */,
 				E535CCE52080DC3300FB0BB4 /* cube.vert in Resources */,
 				E5E0B72A209B5B9700A756AC /* sea.obj in Resources */,
+				E5FF820220C13511001CD9DA /* HousesTwo.mtl in Resources */,
+				E5FF820720C138FC001CD9DA /* Trees.mtl in Resources */,
 				E5D55DF720A5DD3000E6AE86 /* object.vert in Resources */,
 				E5D55DF620A5DD3000E6AE86 /* cloud1.mtl in Resources */,
 				B47949A41BA6742B00B5E9DC /* blurShader.frag in Resources */,
@@ -3129,9 +3159,11 @@
 				E5520B2A20A0D2110050C699 /* terrain.obj in Resources */,
 				F88E39D320A6E8C100A17AA0 /* rotor.mtl in Resources */,
 				F86CFCB920B6214F0070B6E6 /* bloomShaderFinal.vert in Resources */,
+				E5FF820320C13511001CD9DA /* HousesTwo.obj in Resources */,
 				B4794A301BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				F85558B1209B17C300041BC2 /* sun.obj in Resources */,
 				B4CB8CD01B72E43300FE041B /* Project-Info.plist in Resources */,
+				E5FF81FF20C131DC001CD9DA /* HousesOne.obj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

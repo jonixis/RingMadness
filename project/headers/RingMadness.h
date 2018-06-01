@@ -49,6 +49,7 @@ public:
 private:
     
 	/* Update render queue */
+    void makeWorldVivid(const std::string &camera, const double &deltaTime);
 	void updateRenderQueue(const std::string &camera, const double &deltaTime);
 
 	/* Camera movement */
