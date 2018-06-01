@@ -94,11 +94,11 @@ void RingMadness::initFunction()
     // Terrain model
     bRenderer().getObjects()->loadObjModel_o("terrain.obj",terrainShader);
     bRenderer().getObjects()->loadObjModel_o("sea.obj", seaShader);
-    bRenderer().getObjects()->loadObjModel_o("cloud1.obj", objectShader);
     bRenderer().getObjects()->loadObjModel_o("HousesOne.obj", objectShader);
     bRenderer().getObjects()->loadObjModel_o("HousesTwo.obj", objectShader);
     bRenderer().getObjects()->loadObjModel_o("Trees.obj", objectShader);
     bRenderer().getObjects()->loadObjModel_o("Balloon.obj", objectShader);
+    bRenderer().getObjects()->loadObjModel_o("Clouds.obj", objectShader);
     
     // Sun model
     ShaderPtr sunShader = bRenderer().getObjects()->loadShaderFile("sun");
@@ -223,6 +223,7 @@ void RingMadness::makeWorldVivid(const std::string &camera, const double &deltaT
     bRenderer().getModelRenderer()->queueModelInstance("HousesOne", "HousesOne_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     //bRenderer().getModelRenderer()->queueModelInstance("HousesTwo", "HousesTwo_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     //bRenderer().getModelRenderer()->queueModelInstance("Trees", "Trees_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
+    bRenderer().getModelRenderer()->queueModelInstance("Clouds", "Clouds_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     
     //Balloon
     if(dummyHeight >= 400.0f)
@@ -246,11 +247,6 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     glEnable(GL_CULL_FACE);
     bRenderer().getModelRenderer()->queueModelInstance("cube", "cube_instance", camera, modelMatrix, std::vector<std::string>({}));
     glDisable(GL_CULL_FACE);    
-    
-    
-    //Clouds
-    modelMatrix = vmml::create_translation(vmml::Vector3f(cloudPosition)) * vmml::create_scaling(20.0f);
-    bRenderer().getModelRenderer()->queueModelInstance("cloud1", "cloud1_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
     
     //moving sun
 //    terrainShader->setUniform("sunPosition", vmml::Vector4f((sin(i*0.001)*1000.0),300.0f,0.0f,1.0f));
