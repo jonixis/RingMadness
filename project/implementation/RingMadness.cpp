@@ -506,12 +506,6 @@ void RingMadness::appWillTerminate()
 	}
 }
 
-
-/* Helper functions */
-GLfloat RingMadness::randomNumber(GLfloat min, GLfloat max){
-	return min + static_cast <GLfloat> (rand()) / (static_cast <GLfloat> (RAND_MAX / (max - min)));
-}
-
 void RingMadness::beginPostprocessing(GLint &defaultFBO) {
     if (!_running){
         bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth() / 5, bRenderer().getView()->getHeight() / 5);
