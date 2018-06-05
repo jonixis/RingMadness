@@ -125,23 +125,15 @@
 		E5E0B72A209B5B9700A756AC /* sea.obj in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B728209B5B9700A756AC /* sea.obj */; };
 		E5E0B72D209B5C1D00A756AC /* sea.vert in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B72B209B5C1D00A756AC /* sea.vert */; };
 		E5E0B72E209B5C1D00A756AC /* sea.frag in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B72C209B5C1D00A756AC /* sea.frag */; };
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/sophy_balls_2nd
 		ED3263FE20C094DC004687D4 /* Ball.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED3263FC20C094DC004687D4 /* Ball.cpp */; };
 		ED8D027720AC60E900F71B16 /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = ED8D027520AC60E900F71B16 /* sphere.obj */; };
 		ED8D027820AC60E900F71B16 /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = ED8D027620AC60E900F71B16 /* sphere.mtl */; };
 		EDF345C820C691CB006C3F98 /* ball.vert in Resources */ = {isa = PBXBuildFile; fileRef = EDF345C720C691CB006C3F98 /* ball.vert */; };
 		EDF345CA20C691DF006C3F98 /* ball.frag in Resources */ = {isa = PBXBuildFile; fileRef = EDF345C920C691DF006C3F98 /* ball.frag */; };
-<<<<<<< HEAD
-=======
-
 		F81192EA20B2C6BF008BF2E2 /* bloomShader1.vert in Resources */ = {isa = PBXBuildFile; fileRef = F81192E920B2C6BF008BF2E2 /* bloomShader1.vert */; };
 		F81192EC20B2C6D2008BF2E2 /* bloomShader1.frag in Resources */ = {isa = PBXBuildFile; fileRef = F81192EB20B2C6D2008BF2E2 /* bloomShader1.frag */; };
 		F81192EE20B2C6DE008BF2E2 /* bloomShader2.vert in Resources */ = {isa = PBXBuildFile; fileRef = F81192ED20B2C6DE008BF2E2 /* bloomShader2.vert */; };
 		F81192F020B2C6EE008BF2E2 /* bloomShader2.frag in Resources */ = {isa = PBXBuildFile; fileRef = F81192EF20B2C6EE008BF2E2 /* bloomShader2.frag */; };
->>>>>>> origin/sophy_balls_2nd
 		F85558B1209B17C300041BC2 /* sun.obj in Resources */ = {isa = PBXBuildFile; fileRef = F85558AF209B17C200041BC2 /* sun.obj */; };
 		F85558B2209B17C300041BC2 /* sun.mtl in Resources */ = {isa = PBXBuildFile; fileRef = F85558B0209B17C200041BC2 /* sun.mtl */; };
 		F85558B4209B3BE500041BC2 /* sun.vert in Resources */ = {isa = PBXBuildFile; fileRef = F85558B3209B3BE500041BC2 /* sun.vert */; };
@@ -336,23 +328,16 @@
 		E5E0B728209B5B9700A756AC /* sea.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sea.obj; sourceTree = "<group>"; };
 		E5E0B72B209B5C1D00A756AC /* sea.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sea.vert; sourceTree = "<group>"; };
 		E5E0B72C209B5C1D00A756AC /* sea.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sea.frag; sourceTree = "<group>"; };
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/sophy_balls_2nd
 		ED3263FC20C094DC004687D4 /* Ball.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Ball.cpp; sourceTree = "<group>"; };
 		ED3263FD20C094DC004687D4 /* Ball.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Ball.hpp; sourceTree = "<group>"; };
 		ED8D027520AC60E900F71B16 /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sphere.obj; path = ../../../sphere.obj; sourceTree = "<group>"; };
 		ED8D027620AC60E900F71B16 /* sphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sphere.mtl; path = ../../../sphere.mtl; sourceTree = "<group>"; };
 		EDF345C720C691CB006C3F98 /* ball.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ball.vert; sourceTree = "<group>"; };
 		EDF345C920C691DF006C3F98 /* ball.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ball.frag; sourceTree = "<group>"; };
-<<<<<<< HEAD
-=======
 		F81192E920B2C6BF008BF2E2 /* bloomShader1.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = bloomShader1.vert; sourceTree = "<group>"; };
 		F81192EB20B2C6D2008BF2E2 /* bloomShader1.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = bloomShader1.frag; sourceTree = "<group>"; };
 		F81192ED20B2C6DE008BF2E2 /* bloomShader2.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = bloomShader2.vert; sourceTree = "<group>"; };
 		F81192EF20B2C6EE008BF2E2 /* bloomShader2.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = bloomShader2.frag; sourceTree = "<group>"; };
->>>>>>> origin/sophy_balls_2nd
 		F85558AF209B17C200041BC2 /* sun.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sun.obj; sourceTree = "<group>"; };
 		F85558B0209B17C200041BC2 /* sun.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sun.mtl; sourceTree = "<group>"; };
 		F85558B3209B3BE500041BC2 /* sun.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sun.vert; sourceTree = "<group>"; };
@@ -1484,18 +1469,13 @@
 		B47949841BA6742B00B5E9DC /* data */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
-=======
 				F81192E820B2C683008BF2E2 /* Postprocessing */,
 				F8DBD6BE20B2B48800E4CEA2 /* Objects */,
->>>>>>> origin/sophy_balls_2nd
 				F82D300D209F95040055E149 /* Terrain */,
 				F85558AE209B17AB00041BC2 /* Sun */,
 				F881EA6E20987C4600CB5DDB /* Skybox */,
 				F881EA6F20987CE500CB5DDB /* Plane */,
 				B47949851BA6742B00B5E9DC /* arial.ttf */,
-				E5D55DF520A5DD2F00E6AE86 /* object.frag */,
-				E5D55DF320A5DD2F00E6AE86 /* object.vert */,
 				B47949861BA6742B00B5E9DC /* basicTitle_light.png */,
 				B47949871BA6742B00B5E9DC /* blurShader.frag */,
 				B47949881BA6742B00B5E9DC /* blurShader.vert */,
@@ -1505,10 +1485,7 @@
 				ED8D027520AC60E900F71B16 /* sphere.obj */,
 				EDF345C720C691CB006C3F98 /* ball.vert */,
 				EDF345C920C691DF006C3F98 /* ball.frag */,
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/sophy_balls_2nd
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -3151,11 +3128,7 @@
 				F86CFCBB20B621630070B6E6 /* bloomShaderFinal.frag in Resources */,
 				B47949A51BA6742B00B5E9DC /* blurShader.vert in Resources */,
 				EDF345CA20C691DF006C3F98 /* ball.frag in Resources */,
-<<<<<<< HEAD
-				B47949AA1BA6742B00B5E9DC /* cave_stream.frag in Resources */,
-=======
 				F81192EA20B2C6BF008BF2E2 /* bloomShader1.vert in Resources */,
->>>>>>> origin/sophy_balls_2nd
 				E5E0B72D209B5C1D00A756AC /* sea.vert in Resources */,
 				F81192EC20B2C6D2008BF2E2 /* bloomShader1.frag in Resources */,
 				B47949AF1BA6742B00B5E9DC /* config.json in Resources */,
