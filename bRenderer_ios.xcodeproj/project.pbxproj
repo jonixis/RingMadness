@@ -125,6 +125,13 @@
 		E5E0B72A209B5B9700A756AC /* sea.obj in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B728209B5B9700A756AC /* sea.obj */; };
 		E5E0B72D209B5C1D00A756AC /* sea.vert in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B72B209B5C1D00A756AC /* sea.vert */; };
 		E5E0B72E209B5C1D00A756AC /* sea.frag in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B72C209B5C1D00A756AC /* sea.frag */; };
+
+		ED3263FE20C094DC004687D4 /* Ball.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED3263FC20C094DC004687D4 /* Ball.cpp */; };
+		ED8D027720AC60E900F71B16 /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = ED8D027520AC60E900F71B16 /* sphere.obj */; };
+		ED8D027820AC60E900F71B16 /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = ED8D027620AC60E900F71B16 /* sphere.mtl */; };
+		EDF345C820C691CB006C3F98 /* ball.vert in Resources */ = {isa = PBXBuildFile; fileRef = EDF345C720C691CB006C3F98 /* ball.vert */; };
+		EDF345CA20C691DF006C3F98 /* ball.frag in Resources */ = {isa = PBXBuildFile; fileRef = EDF345C920C691DF006C3F98 /* ball.frag */; };
+
 		F81192EA20B2C6BF008BF2E2 /* bloomShader1.vert in Resources */ = {isa = PBXBuildFile; fileRef = F81192E920B2C6BF008BF2E2 /* bloomShader1.vert */; };
 		F81192EC20B2C6D2008BF2E2 /* bloomShader1.frag in Resources */ = {isa = PBXBuildFile; fileRef = F81192EB20B2C6D2008BF2E2 /* bloomShader1.frag */; };
 		F81192EE20B2C6DE008BF2E2 /* bloomShader2.vert in Resources */ = {isa = PBXBuildFile; fileRef = F81192ED20B2C6DE008BF2E2 /* bloomShader2.vert */; };
@@ -323,6 +330,13 @@
 		E5E0B728209B5B9700A756AC /* sea.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sea.obj; sourceTree = "<group>"; };
 		E5E0B72B209B5C1D00A756AC /* sea.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sea.vert; sourceTree = "<group>"; };
 		E5E0B72C209B5C1D00A756AC /* sea.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sea.frag; sourceTree = "<group>"; };
+
+		ED3263FC20C094DC004687D4 /* Ball.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Ball.cpp; sourceTree = "<group>"; };
+		ED3263FD20C094DC004687D4 /* Ball.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Ball.hpp; sourceTree = "<group>"; };
+		ED8D027520AC60E900F71B16 /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sphere.obj; path = ../../../sphere.obj; sourceTree = "<group>"; };
+		ED8D027620AC60E900F71B16 /* sphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sphere.mtl; path = ../../../sphere.mtl; sourceTree = "<group>"; };
+		EDF345C720C691CB006C3F98 /* ball.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ball.vert; sourceTree = "<group>"; };
+		EDF345C920C691DF006C3F98 /* ball.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ball.frag; sourceTree = "<group>"; };
 		F81192E920B2C6BF008BF2E2 /* bloomShader1.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = bloomShader1.vert; sourceTree = "<group>"; };
 		F81192EB20B2C6D2008BF2E2 /* bloomShader1.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = bloomShader1.frag; sourceTree = "<group>"; };
 		F81192ED20B2C6DE008BF2E2 /* bloomShader2.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = bloomShader2.vert; sourceTree = "<group>"; };
@@ -1440,6 +1454,7 @@
 		B44186931BA331E300604D7F /* headers */ = {
 			isa = PBXGroup;
 			children = (
+				ED3263FD20C094DC004687D4 /* Ball.hpp */,
 				B44186941BA331E300604D7F /* RingMadness.h */,
 			);
 			path = headers;
@@ -1448,6 +1463,7 @@
 		B44186951BA331E300604D7F /* implementation */ = {
 			isa = PBXGroup;
 			children = (
+				ED3263FC20C094DC004687D4 /* Ball.cpp */,
 				F881EA632098714D00CB5DDB /* RingMadness.cpp */,
 			);
 			path = implementation;
@@ -1463,11 +1479,18 @@
 				F881EA6E20987C4600CB5DDB /* Skybox */,
 				F881EA6F20987CE500CB5DDB /* Plane */,
 				B47949851BA6742B00B5E9DC /* arial.ttf */,
+				E5D55DF520A5DD2F00E6AE86 /* object.frag */,
+				E5D55DF320A5DD2F00E6AE86 /* object.vert */,
 				B47949861BA6742B00B5E9DC /* basicTitle_light.png */,
 				B47949871BA6742B00B5E9DC /* blurShader.frag */,
 				B47949881BA6742B00B5E9DC /* blurShader.vert */,
 				B47949921BA6742B00B5E9DC /* config.json */,
 				B479499D1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf */,
+				ED8D027620AC60E900F71B16 /* sphere.mtl */,
+				ED8D027520AC60E900F71B16 /* sphere.obj */,
+				EDF345C720C691CB006C3F98 /* ball.vert */,
+				EDF345C920C691DF006C3F98 /* ball.frag */,
+
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -3109,6 +3132,7 @@
 				F85558B4209B3BE500041BC2 /* sun.vert in Resources */,
 				F86CFCBB20B621630070B6E6 /* bloomShaderFinal.frag in Resources */,
 				B47949A51BA6742B00B5E9DC /* blurShader.vert in Resources */,
+				EDF345CA20C691DF006C3F98 /* ball.frag in Resources */,
 				F81192EA20B2C6BF008BF2E2 /* bloomShader1.vert in Resources */,
 				E5E0B72D209B5C1D00A756AC /* sea.vert in Resources */,
 				F81192EC20B2C6D2008BF2E2 /* bloomShader1.frag in Resources */,
@@ -3123,8 +3147,14 @@
 				E535CCE52080DC3300FB0BB4 /* cube.vert in Resources */,
 				E5E0B72A209B5B9700A756AC /* sea.obj in Resources */,
 				E5D55DF720A5DD3000E6AE86 /* object.vert in Resources */,
+				EDF345C820C691CB006C3F98 /* ball.vert in Resources */,
 				E5D55DF620A5DD3000E6AE86 /* cloud1.mtl in Resources */,
 				B47949A41BA6742B00B5E9DC /* blurShader.frag in Resources */,
+				ED8D027820AC60E900F71B16 /* sphere.mtl in Resources */,
+				B47949BA1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf in Resources */,
+				E5520B2A20A0D2110050C699 /* terrain.obj in Resources */,
+				F88E39D320A6E8C100A17AA0 /* rotor.mtl in Resources */,
+				ED8D027720AC60E900F71B16 /* sphere.obj in Resources */,
 				B47949BA1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf in Resources */,
 				E5520B2A20A0D2110050C699 /* terrain.obj in Resources */,
 				F88E39D320A6E8C100A17AA0 /* rotor.mtl in Resources */,
@@ -3154,6 +3184,7 @@
 				B4CB8CD11B72E43300FE041B /* ViewController.mm in Sources */,
 				B47AD6C91B827E3E00AFC632 /* ftpfr.c in Sources */,
 				B47AD6F71B82802900AFC632 /* ftfstype.c in Sources */,
+				ED3263FE20C094DC004687D4 /* Ball.cpp in Sources */,
 				B47AD6C71B827E2E00AFC632 /* ftpatent.c in Sources */,
 				B4794A2F1BA6743D00B5E9DC /* jsoncpp.cpp in Sources */,
 				B4794A4E1BA6743D00B5E9DC /* Input_desktop.cpp in Sources */,

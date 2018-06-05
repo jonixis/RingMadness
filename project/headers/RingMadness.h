@@ -2,6 +2,7 @@
 #define PROJECT_MAIN_H
 
 #include "bRenderer.h"
+#include "../headers/Ball.hpp"
 
 
 
@@ -54,6 +55,11 @@ private:
 	/* Camera movement */
 	void updateCamera(const std::string &camera, const double &deltaTime);
     void updatePlane(const std::string &camera, const double &deltaTime);
+    
+    /* Ball collision */
+    void checkBallCollision(Ball &ball);
+    
+    void showScore(const std::string &camera);
 
 	/* Helper Functions */
 	GLfloat randomNumber(GLfloat min, GLfloat max);
