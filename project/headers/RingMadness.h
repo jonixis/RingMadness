@@ -4,6 +4,8 @@
 #include "bRenderer.h"
 #include "../headers/Ball.hpp"
 
+
+
 class RingMadness : public IRenderProject
 {
 public:
@@ -18,8 +20,8 @@ public:
 
 	/* This function is executed when initializing the renderer */
 	void initFunction();
-
-	/* Draw your scene here */
+    
+    /* Draw your scene here */
 	void loopFunction(const double &deltaTime, const double &elapsedTime);
 
 	/* This function is executed when terminating the renderer */
@@ -70,6 +72,16 @@ private:
 	bool _running = false; 
 	GLint _lastStateSpaceKey = 0;
 	vmml::Matrix4f _viewMatrixHUD;
+    
+    /* Postprocessing*/
+    
+    void beginPostprocessing(GLint &defaultFBO);
+    
+    void renderPauseScreen(GLint &defaultFBO);
+    
+    void endPostprocessing(GLint &defaultFBO);
+    
+    void renderBloomEffect(GLint &defaultFBO);
 
 };
 
