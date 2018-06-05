@@ -5,7 +5,6 @@
 #include "../headers/Ball.hpp"
 
 
-
 class RingMadness : public IRenderProject
 {
 public:
