@@ -229,9 +229,6 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
 
 	//// Camera Movement ////
     updatePlane("camera", deltaTime);
-    
-    //// Update balls ////
-
 	
 	/// Update render queue ///
 	updateRenderQueue("camera", deltaTime);
@@ -295,9 +292,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     bRenderer().getModelRenderer()->queueModelInstance("rotor", "rotor_instance", camera, planeModelMatrixTwo * vmml::create_translation(vmml::Vector3f(0.0f,-0.4f,3.9f)) * vmml::create_rotation(i*0.1f, vmml::Vector3f::UNIT_Z), std::vector<std::string>({}), true, true);
     
     
-    // Balls
-    ShaderPtr ballShader = bRenderer().getObjects()->getShader("ball");
-    
+    // Balls    
     if(ball0.hit != true) {
         bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball0", camera, ball0.matrix, std::vector<std::string>({ }), true, true);
         checkBallCollision(ball0);
