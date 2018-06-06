@@ -71,6 +71,10 @@ ShaderPtr ballShader;
 
 // Texts
 std::string instructions = "Double tap on the upper left half of the screen to start";
+//vivid World
+int dummyRotation = 0;
+float dummyHeight = 0.0f;
+float up = 0.5;
 
 /* This function is executed when initializing the renderer */
 void RingMadness::initFunction()
@@ -228,9 +232,9 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
 
     //// Camera Movement ////
     updatePlane("camera", deltaTime);
-	
-	/// Update render queue ///
-	updateRenderQueue("camera", deltaTime);
+    
+    /// Update render queue ///
+    updateRenderQueue("camera", deltaTime);
     
     /// Reset balls, if finnished (in endPostprocessing(defaultFBO);) ///
     if (score == 110) {
