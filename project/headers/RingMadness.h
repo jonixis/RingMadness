@@ -2,7 +2,7 @@
 #define PROJECT_MAIN_H
 
 #include "bRenderer.h"
-#include "../headers/Ball.hpp"
+#include "../headers/Ring.hpp"
 
 
 class RingMadness : public IRenderProject
@@ -59,10 +59,10 @@ private:
     void updatePlane(const std::string &camera, const double &deltaTime);
     
     /* Ball collision */
-    void checkBallCollision(Ball &ball);
+    void checkRingCollision(Ring &ring);
     
     void showScore();
-    void initBalls();
+    void initRings();
 
 	/* Helper Functions */
 	GLfloat randomNumber(GLfloat min, GLfloat max);
