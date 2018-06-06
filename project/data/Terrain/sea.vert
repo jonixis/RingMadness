@@ -38,8 +38,8 @@ vec4 tempNormal;
 
 float generateOffset(float x, float z, float val1, float val2){
     
-    float radiansX = ((mod(x+z*x*val1, waveLength)/waveLength) + time*0.005 * mod(x * 0.8 + z, 1.5)) * 2.0 * PI;
-    float radiansZ = ((mod(val2 * (z*x +x*z), waveLength)/waveLength) + time*0.005 * 2.0 * mod(x , 2.0) ) * 2.0 * PI;
+    float radiansX = ((mod(x+z*x*val1, waveLength)/waveLength) + time*0.01 * mod(x * 0.8 + z, 1.5)) * 2.0 * PI;
+    float radiansZ = ((mod(val2 * (z*x +x*z), waveLength)/waveLength) + time*0.01 * 2.0 * mod(x , 2.0) ) * 2.0 * PI;
     
     //return (sin(rZ) - cos(rX)) * 0.01;
     //return ((sin(x * 4.0 + time *0.05)) + cos(z * 8.0 + time*0.05))* 0.1;
@@ -52,9 +52,9 @@ void main()
     //normalVarying = Position;
     
     //Disortion
-    xDisortion = generateOffset(Position.x, Position.z, 0.1 ,0.2);
-    yDisortion = generateOffset(Position.x, Position.z, 0.5, 0.3);
-    zDisortion = generateOffset(Position.x, Position.z, 0.3, 0.2);
+    xDisortion = generateOffset(Position.x, Position.z,  0.2, 0.1);
+    yDisortion = generateOffset(Position.x, Position.z, 0.1, 0.3);
+    zDisortion = generateOffset(Position.x, Position.z,  0.15, 0.2);
     
     
     tempPosition = vec4(Position.x + xDisortion, Position.y + yDisortion, Position.z + zDisortion, 1.0);
