@@ -231,17 +231,7 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
     updatePlane("camera", deltaTime);
     
     //// Update balls ////
-    if(ball0.hit != true) checkBallCollision(ball0);
-    if(ball1.hit != true) checkBallCollision(ball1);
-    if(ball2.hit != true) checkBallCollision(ball2);
-    if(ball3.hit != true) checkBallCollision(ball3);
-    if(ball4.hit != true) checkBallCollision(ball4);
-    if(ball5.hit != true) checkBallCollision(ball5);
-    if(ball6.hit != true) checkBallCollision(ball6);
-    if(ball7.hit != true) checkBallCollision(ball7);
-    if(ball8.hit != true) checkBallCollision(ball8);
-    if(ball9.hit != true) checkBallCollision(ball9);
-    if(ball10.hit != true) checkBallCollision(ball10);
+
 	
 	/// Update render queue ///
 	updateRenderQueue("camera", deltaTime);
@@ -307,22 +297,56 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     // Balls
     ShaderPtr ballShader = bRenderer().getObjects()->getShader("ball");
-    bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball0.matrix, std::vector<std::string>({ }));
-    bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball1.matrix, std::vector<std::string>({ }));
-    bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball2.matrix, std::vector<std::string>({ }));
-    bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball3.matrix, std::vector<std::string>({ }));
-    bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball4.matrix, std::vector<std::string>({ }));
-    bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball5.matrix, std::vector<std::string>({ }));
-    bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball6.matrix, std::vector<std::string>({ }));
-    bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball7.matrix, std::vector<std::string>({ }));
-    bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball8.matrix, std::vector<std::string>({ }));
-    bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball9.matrix, std::vector<std::string>({ }));
-    bRenderer().getModelRenderer()->drawModel("sphere", "camera", ball10.matrix, std::vector<std::string>({ }));
+    
+    if(ball0.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball0", camera, ball0.matrix, std::vector<std::string>({ }), true, true);
+        checkBallCollision(ball0);
+    }
+    if(ball1.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball1", camera, ball1.matrix, std::vector<std::string>({ }), true, true);
+        checkBallCollision(ball1);
+    }
+    if(ball2.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball2", camera, ball2.matrix, std::vector<std::string>({ }), true, true);
+        checkBallCollision(ball2);
+    }
+    if(ball3.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball3", camera, ball3.matrix, std::vector<std::string>({ }), true, true);
+        checkBallCollision(ball3);
+    }
+    if(ball4.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball4", camera, ball4.matrix, std::vector<std::string>({ }), true, true);
+        checkBallCollision(ball4);
+    }
+    if(ball5.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball5", camera, ball5.matrix, std::vector<std::string>({ }), true, true);
+        checkBallCollision(ball5);
+    }
+    if(ball6.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball6", camera, ball6.matrix, std::vector<std::string>({ }), true, true);
+        checkBallCollision(ball6);
+    }
+    if(ball7.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball7", camera, ball7.matrix, std::vector<std::string>({ }), true, true);
+        checkBallCollision(ball7);
+    }
+    if(ball8.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball8", camera, ball8.matrix, std::vector<std::string>({ }), true, true);
+        checkBallCollision(ball8);
+    }
+    if(ball9.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball9", camera, ball9.matrix, std::vector<std::string>({ }), true, true);
+        checkBallCollision(ball9);
+    }
+    if(ball10.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball10", camera, ball10.matrix, std::vector<std::string>({ }), true, true);
+        checkBallCollision(ball10);
+    }
    
     // Scores
     bRenderer::log("Score: " + std::to_string(score));
     //scoreStr << "Score: " << score;
-    //showScore("camera");
+//    showScore("camera");
 }
 
 void RingMadness::updatePlane(const std::string &camera, const double &deltaTime){
