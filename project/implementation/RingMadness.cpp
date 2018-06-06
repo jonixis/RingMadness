@@ -9,17 +9,17 @@ GLfloat RingMadness::randomNumber(GLfloat min, GLfloat max){
 /* Initialize the Project */
 void RingMadness::init()
 {
-	bRenderer::loadConfigFile("config.json");	// load custom configurations replacing the default values in Configuration.cpp
+    bRenderer::loadConfigFile("config.json");    // load custom configurations replacing the default values in Configuration.cpp
 
-	// let the renderer create an OpenGL context and the main window
-	if(Input::isTouchDevice())
-		bRenderer().initRenderer(true);										// full screen on iOS
-	else
-		bRenderer().initRenderer(1920, 1080, false, "The Cave - Demo");		// windowed mode on desktop
-		//bRenderer().initRenderer(View::getScreenWidth(), View::getScreenHeight(), true);		// full screen using full width and height of the screen
+    // let the renderer create an OpenGL context and the main window
+    if(Input::isTouchDevice())
+        bRenderer().initRenderer(true);                                        // full screen on iOS
+    else
+        bRenderer().initRenderer(1920, 1080, false, "The Cave - Demo");        // windowed mode on desktop
+        //bRenderer().initRenderer(View::getScreenWidth(), View::getScreenHeight(), true);        // full screen using full width and height of the screen
 
-	// start main loop 
-	bRenderer().runRenderer();
+    // start main loop 
+    bRenderer().runRenderer();
 }
 
 //ball and score variables
@@ -75,22 +75,22 @@ std::string instructions = "Double tap on the upper left half of the screen to s
 /* This function is executed when initializing the renderer */
 void RingMadness::initFunction()
 {    
-	// get OpenGL and shading language version
-	bRenderer::log("OpenGL Version: ", glGetString(GL_VERSION));
-	bRenderer::log("Shading Language Version: ", glGetString(GL_SHADING_LANGUAGE_VERSION));
+    // get OpenGL and shading language version
+    bRenderer::log("OpenGL Version: ", glGetString(GL_VERSION));
+    bRenderer::log("Shading Language Version: ", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-	// initialize variables
-	_offset = 0.0f;
-	_randomOffset = 0.0f;
-	_cameraSpeed = 40.0f;
-	_running = false; _lastStateSpaceKey = bRenderer::INPUT_UNDEFINED;
-	_viewMatrixHUD = Camera::lookAtForHUD(vmml::Vector3f(0.0f, 0.0f, 0.25f), vmml::Vector3f::ZERO, vmml::Vector3f::UP);
+    // initialize variables
+    _offset = 0.0f;
+    _randomOffset = 0.0f;
+    _cameraSpeed = 40.0f;
+    _running = false; _lastStateSpaceKey = bRenderer::INPUT_UNDEFINED;
+    _viewMatrixHUD = Camera::lookAtForHUD(vmml::Vector3f(0.0f, 0.0f, 0.25f), vmml::Vector3f::ZERO, vmml::Vector3f::UP);
     
     thirdPerson = true;
 
-	// Set shader versions (optional)
-	bRenderer().getObjects()->setShaderVersionDesktop("#version 120");
-	bRenderer().getObjects()->setShaderVersionES("#version 100");
+    // Set shader versions (optional)
+    bRenderer().getObjects()->setShaderVersionDesktop("#version 120");
+    bRenderer().getObjects()->setShaderVersionES("#version 100");
     
     // Load cube.frag & cube.vert for the skyCube
     ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile_o("cube");
@@ -111,7 +111,11 @@ void RingMadness::initFunction()
     // Terrain model
     bRenderer().getObjects()->loadObjModel_o("terrain.obj",terrainShader);
     bRenderer().getObjects()->loadObjModel_o("sea.obj", seaShader);
-    bRenderer().getObjects()->loadObjModel_o("cloud1.obj", objectShader);
+    bRenderer().getObjects()->loadObjModel_o("HousesOne.obj", objectShader);
+    bRenderer().getObjects()->loadObjModel_o("HousesTwo.obj", objectShader);
+    bRenderer().getObjects()->loadObjModel_o("Trees.obj", objectShader);
+    bRenderer().getObjects()->loadObjModel_o("Balloon.obj", objectShader);
+    bRenderer().getObjects()->loadObjModel_o("Clouds.obj", objectShader);
     
     // Sun model
     ShaderPtr sunShader = bRenderer().getObjects()->loadShaderFile("sun");
@@ -150,32 +154,32 @@ void RingMadness::initFunction()
     
     
     // create a sprite displaying the title as a texture
-	bRenderer().getObjects()->createSprite("bTitle", "basicTitle_light.png");
+    bRenderer().getObjects()->createSprite("bTitle", "basicTitle_light.png");
 
-	// create text sprites
-	FontPtr font = bRenderer().getObjects()->loadFont("KozGoPro-ExtraLight.otf", 50);
+    // create text sprites
+    FontPtr font = bRenderer().getObjects()->loadFont("KozGoPro-ExtraLight.otf", 50);
     if (Input::isTouchDevice()) {
 		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.0f, 1.f), instructions, font);
         bRenderer().getObjects()->createTextSprite("scoreText", vmml::Vector3f(1.f, 1.f, 1.f), "Score: " + std::to_string(score), font);
     }
     else {
-		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.f, 1.f), "Press space to start", font);
+        bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.f, 1.f), "Press space to start", font);
     }
 
-	// create camera
-	//bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(-33.0, 0.f, -13.0), vmml::Vector3f(0.f, -M_PI_F / 2, 0.f));
+    // create camera
+    //bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(-33.0, 0.f, -13.0), vmml::Vector3f(0.f, -M_PI_F / 2, 0.f));
     bRenderer().getObjects()->createCamera("camera");
     bRenderer().getObjects()->getCamera("camera")->lookAt(vmml::Vector3f(-30.0f,0.0f,0.0f), vmml::Vector3f::ZERO, vmml::Vector3f::UNIT_Y);
     
-	/// postprocessing ///
+    /// postprocessing ///
     
     // Create framebuffers
-	bRenderer().getObjects()->createFramebuffer("fbo");
+    bRenderer().getObjects()->createFramebuffer("fbo");
     bRenderer().getObjects()->createFramebuffer("bloom_fbo1");
     bRenderer().getObjects()->createFramebuffer("bloom_fbo2");
     
     // Create textures
-	bRenderer().getObjects()->createTexture("fbo_texture1", 0.f, 0.f);
+    bRenderer().getObjects()->createTexture("fbo_texture1", 0.f, 0.f);
     bRenderer().getObjects()->createTexture("fbo_texture2", 0.f, 0.f);
     bRenderer().getObjects()->createTexture("bloom_fbo_texture1", 0.f, 0.f);
     bRenderer().getObjects()->createTexture("bloom_fbo_texture2", 0.f, 0.f);
@@ -188,30 +192,30 @@ void RingMadness::initFunction()
     ShaderPtr bloomShaderFinal = bRenderer().getObjects()->loadShaderFile_o("bloomShaderFinal", 0);
     
     // Create materials
-	MaterialPtr blurMaterial = bRenderer().getObjects()->createMaterial("blurMaterial", blurShader);
+    MaterialPtr blurMaterial = bRenderer().getObjects()->createMaterial("blurMaterial", blurShader);
     MaterialPtr bloomMaterial1 = bRenderer().getObjects()->createMaterial("bloomMaterial1", bloomShader1);
     MaterialPtr bloomMaterial2 = bRenderer().getObjects()->createMaterial("bloomMaterial2", bloomShader2);
     MaterialPtr bloomMaterialFinal = bRenderer().getObjects()->createMaterial("bloomMaterialFinal", bloomShaderFinal);
     
     // Create sprites
-	bRenderer().getObjects()->createSprite("blurSprite", blurMaterial);
+    bRenderer().getObjects()->createSprite("blurSprite", blurMaterial);
     bRenderer().getObjects()->createSprite("bloomSprite1", bloomMaterial1);
     bRenderer().getObjects()->createSprite("bloomSprite2", bloomMaterial2);
     bRenderer().getObjects()->createSprite("bloomSpriteFinal", bloomMaterialFinal);
 
-	// Update render queue
-	updateRenderQueue("camera", 0.0f);
+    // Update render queue
+    updateRenderQueue("camera", 0.0f);
 }
 
 /* Draw your scene here */
 void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTime)
 {
-	//bRenderer::log("FPS: " + std::to_string(1 / deltaTime));	// write number of frames per second to the console every frame
+    //bRenderer::log("FPS: " + std::to_string(1 / deltaTime));    // write number of frames per second to the console every frame
 
-	//// Draw Scene and do post processing ////
+    //// Draw Scene and do post processing ////
 
-	/// Begin post processing ///
-	GLint defaultFBO;
+    /// Begin post processing ///
+    GLint defaultFBO;
     beginPostprocessing(defaultFBO);
 
 	/// Draw scene ///
@@ -222,7 +226,7 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
     
     bRenderer().getModelRenderer()->clearQueue();
 
-	//// Camera Movement ////
+    //// Camera Movement ////
     updatePlane("camera", deltaTime);
 	
 	/// Update render queue ///
@@ -234,16 +238,36 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
         _running = false;
     }
 
-	// Quit renderer when escape is pressed
-	if (bRenderer().getInput()->getKeyState(bRenderer::KEY_ESCAPE) == bRenderer::INPUT_PRESS)
-		bRenderer().terminateRenderer();
+    // Quit renderer when escape is pressed
+    if (bRenderer().getInput()->getKeyState(bRenderer::KEY_ESCAPE) == bRenderer::INPUT_PRESS)
+        bRenderer().terminateRenderer();
 }
 
 /* This function is executed when terminating the renderer */
 void RingMadness::terminateFunction()
 {
-	bRenderer::log("I totally terminated this Renderer :-)");
+    bRenderer::log("I totally terminated this Renderer :-)");
 }
+
+
+void RingMadness::makeWorldVivid(const std::string &camera, const double &deltaTime){
+    //city
+    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(0.f, -150.0f, 0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
+    bRenderer().getModelRenderer()->queueModelInstance("HousesOne", "HousesOne_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
+    //bRenderer().getModelRenderer()->queueModelInstance("HousesTwo", "HousesTwo_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
+    //bRenderer().getModelRenderer()->queueModelInstance("Trees", "Trees_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
+    bRenderer().getModelRenderer()->queueModelInstance("Clouds", "Clouds_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
+    
+    //Balloon
+    if(dummyHeight >= 400.0f)
+        up = -0.02f;
+    if (dummyHeight <= -110.0f)
+        up = 0.01f;
+    dummyHeight += up;
+    vmml::Matrix4f dummyBalloonModelMatrix = vmml::create_translation(vmml::Vector3f(-300.0f, dummyHeight, -10.0f)) * vmml::create_scaling(10.0f);
+    bRenderer().getModelRenderer()->queueModelInstance("Balloon", "Balloon_instance", camera, dummyBalloonModelMatrix, std::vector<std::string>({"sunLight", "secondLight", "thirdLight" }), true, true);
+}
+
 
 float i = 0;
 /* Update render queue */
@@ -256,11 +280,6 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     glEnable(GL_CULL_FACE);
     bRenderer().getModelRenderer()->queueModelInstance("cube", "cube_instance", camera, modelMatrix, std::vector<std::string>({}));
     glDisable(GL_CULL_FACE);    
-    
-    
-    //Clouds
-    modelMatrix = vmml::create_translation(vmml::Vector3f(cloudPosition)) * vmml::create_scaling(20.0f);
-    bRenderer().getModelRenderer()->queueModelInstance("cloud1", "cloud1_instance", camera, modelMatrix, std::vector<std::string>({ "sunLight", "secondLight", "thirdLight" }), true, true);
     
     //moving sun
 //    terrainShader->setUniform("sunPosition", vmml::Vector4f((sin(i*0.001)*1000.0),300.0f,0.0f,1.0f));
@@ -343,6 +362,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     bRenderer::log("Score: " + std::to_string(score));
     //scoreStr << "Score: " << score;
 //    showScore("camera");
+    makeWorldVivid(camera, deltaTime);
 }
 
 void RingMadness::updatePlane(const std::string &camera, const double &deltaTime){
@@ -492,38 +512,38 @@ void RingMadness::showScore() {
 /* For iOS only: Handle device rotation */
 void RingMadness::deviceRotated()
 {
-	if (bRenderer().isInitialized()){
-		// set view to full screen after device rotation
-		bRenderer().getView()->setFullscreen(true);
-		bRenderer::log("Device rotated");
-	}
+    if (bRenderer().isInitialized()){
+        // set view to full screen after device rotation
+        bRenderer().getView()->setFullscreen(true);
+        bRenderer::log("Device rotated");
+    }
 }
 
 /* For iOS only: Handle app going into background */
 void RingMadness::appWillResignActive()
 {
-	if (bRenderer().isInitialized()){
-		// stop the renderer when the app isn't active
-		bRenderer().stopRenderer();
-	}
+    if (bRenderer().isInitialized()){
+        // stop the renderer when the app isn't active
+        bRenderer().stopRenderer();
+    }
 }
 
 /* For iOS only: Handle app coming back from background */
 void RingMadness::appDidBecomeActive()
 {
-	if (bRenderer().isInitialized()){
-		// run the renderer as soon as the app is active
-		bRenderer().runRenderer();
-	}
+    if (bRenderer().isInitialized()){
+        // run the renderer as soon as the app is active
+        bRenderer().runRenderer();
+    }
 }
 
 /* For iOS only: Handle app being terminated */
 void RingMadness::appWillTerminate()
 {
-	if (bRenderer().isInitialized()){
-		// terminate renderer before the app is closed
-		bRenderer().terminateRenderer();
-	}
+    if (bRenderer().isInitialized()){
+        // terminate renderer before the app is closed
+        bRenderer().terminateRenderer();
+    }
 }
 
 void RingMadness::beginPostprocessing(GLint &defaultFBO) {

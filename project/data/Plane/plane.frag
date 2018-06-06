@@ -27,5 +27,6 @@ void main()
 {
     
     gl_FragColor = (ambientVarying + diffuseVarying) * vec4(Kd, 1.0) + specularVarying;
+    //gl_FragColor = (diffuseVarying);
 
 }
