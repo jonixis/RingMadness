@@ -21,6 +21,7 @@ varying vec4 diffuseVarying;
 varying vec4 specularVarying;
 varying float distanceCameraVertex;
 
+varying vec4 colorVarying;
 
 void main()
 {
@@ -49,6 +50,9 @@ void main()
         
     }
  */
+    
+    //normal colours
+    colorVarying = vec4(vec3(0.5) + normal * 0.5, 1.0);
     
     distanceCameraVertex = length(ModelViewMatrix * Position);
     

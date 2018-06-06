@@ -1,5 +1,5 @@
 #include "RingMadness.h"
-#include "../headers/Ball.hpp"
+#include "../headers/Ring.hpp"
 
 /* Helper functions */
 GLfloat RingMadness::randomNumber(GLfloat min, GLfloat max){
@@ -22,13 +22,12 @@ void RingMadness::init()
     bRenderer().runRenderer();
 }
 
-//ball and score variables
+//Ring and score variables
 int score = 0;
-std::ostringstream scoreStr;
 
-Ball ball0, ball1, ball2, ball3, ball4, ball5, ball6, ball7, ball8, ball9, ball10;
+Ring ring0, ring1, ring2, ring3, ring4, ring5, ring6, ring7, ring8, ring9, ring10;
 
-GLfloat mapRadius = 200.f;
+GLfloat mapRadius = 500.f;
 GLfloat maxHeight = 100.f;
 float plane_radius = 5.f;
 
@@ -67,7 +66,7 @@ vmml::Vector3f cameraTargetPosition;
 ShaderPtr terrainShader;
 ShaderPtr seaShader;
 ShaderPtr objectShader;
-ShaderPtr ballShader;
+ShaderPtr ringShader;
 
 // Texts
 std::string instructions = "Double tap on the upper left half of the screen to start";
@@ -133,11 +132,11 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->loadObjModel_o("plane.obj", planeShader);
     bRenderer().getObjects()->loadObjModel_o("rotor.obj",terrainShader);
     
-    // Ball models
-    ballShader = bRenderer().getObjects()->loadShaderFile("ball");
-    bRenderer().getObjects()->loadObjModel_o("sphere.obj", ballShader);
+    // Ring models
+    ringShader = bRenderer().getObjects()->loadShaderFile("ring");
+    bRenderer().getObjects()->loadObjModel_o("ring.obj", ringShader);
     
-    initBalls();
+    initRings();
     
 
     // Plane start Position
@@ -236,7 +235,7 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
     /// Update render queue ///
     updateRenderQueue("camera", deltaTime);
     
-    /// Reset balls, if finnished (in endPostprocessing(defaultFBO);) ///
+    /// Reset rings, if finnished (in endPostprocessing(defaultFBO);) ///
     if (score == 110) {
         score = -1;
         _running = false;
@@ -316,50 +315,50 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     bRenderer().getModelRenderer()->queueModelInstance("rotor", "rotor_instance", camera, planeModelMatrixTwo * vmml::create_translation(vmml::Vector3f(0.0f,-0.4f,3.9f)) * vmml::create_rotation(i*0.1f, vmml::Vector3f::UNIT_Z), std::vector<std::string>({}), true, true);
     
     
-    // Balls    
-    if(ball0.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball0", camera, ball0.matrix, std::vector<std::string>({ }), true, true);
-        checkBallCollision(ball0);
+    // Rings
+    if(ring0.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring0", camera, ring0.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+        checkRingCollision(ring0);
     }
-    if(ball1.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball1", camera, ball1.matrix, std::vector<std::string>({ }), true, true);
-        checkBallCollision(ball1);
+    if(ring1.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring1", camera, ring1.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+        checkRingCollision(ring1);
     }
-    if(ball2.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball2", camera, ball2.matrix, std::vector<std::string>({ }), true, true);
-        checkBallCollision(ball2);
+    if(ring2.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring2", camera, ring2.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+        checkRingCollision(ring2);
     }
-    if(ball3.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball3", camera, ball3.matrix, std::vector<std::string>({ }), true, true);
-        checkBallCollision(ball3);
+    if(ring3.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring3", camera, ring3.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+        checkRingCollision(ring3);
     }
-    if(ball4.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball4", camera, ball4.matrix, std::vector<std::string>({ }), true, true);
-        checkBallCollision(ball4);
+    if(ring4.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring4", camera, ring4.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+        checkRingCollision(ring4);
     }
-    if(ball5.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball5", camera, ball5.matrix, std::vector<std::string>({ }), true, true);
-        checkBallCollision(ball5);
+    if(ring5.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring5", camera, ring5.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+        checkRingCollision(ring5);
     }
-    if(ball6.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball6", camera, ball6.matrix, std::vector<std::string>({ }), true, true);
-        checkBallCollision(ball6);
+    if(ring6.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring6", camera, ring6.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+        checkRingCollision(ring6);
     }
-    if(ball7.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball7", camera, ball7.matrix, std::vector<std::string>({ }), true, true);
-        checkBallCollision(ball7);
+    if(ring7.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring7", camera, ring7.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+        checkRingCollision(ring7);
     }
-    if(ball8.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball8", camera, ball8.matrix, std::vector<std::string>({ }), true, true);
-        checkBallCollision(ball8);
+    if(ring8.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring8", camera, ring8.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+        checkRingCollision(ring8);
     }
-    if(ball9.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball9", camera, ball9.matrix, std::vector<std::string>({ }), true, true);
-        checkBallCollision(ball9);
+    if(ring9.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring9", camera, ring9.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+        checkRingCollision(ring9);
     }
-    if(ball10.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("sphere", "ball10", camera, ball10.matrix, std::vector<std::string>({ }), true, true);
-        checkBallCollision(ball10);
+    if(ring10.hit != true) {
+        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring10", camera, ring10.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+        checkRingCollision(ring10);
     }
    
     // Scores
@@ -486,18 +485,18 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
     }
 }
 
-/* Ball collision detection */
-void RingMadness::checkBallCollision(Ball &ball)
+/* Ring collision detection */
+void RingMadness::checkRingCollision(Ring &ring)
 {
-    float dx = planePosition.x()-ball.position.x();
-    float dy = planePosition.y()-ball.position.y();
-    float dz = planePosition.z()-ball.position.z();
+    float dx = planePosition.x()-ring.position.x();
+    float dy = planePosition.y()-ring.position.y();
+    float dz = planePosition.z()-ring.position.z();
     float dist = sqrt(dx*dx + dy*dy + dz*dz);
     
-    if(dist <= (ball.radius + plane_radius)){
+    if(dist <= (ring.radius + plane_radius)){
         score = score + 10;
-        ball.hit = true;
-        ball.matrix = ball.matrix * 0;
+        ring.hit = true;
+        ring.matrix = ring.matrix * 0;
     }
 }
 
@@ -561,14 +560,14 @@ void RingMadness::beginPostprocessing(GLint &defaultFBO) {
 void RingMadness::endPostprocessing(GLint &defaultFBO) {
     if(!_running) {
         if (score == -1) {
-            bRenderer().getObjects()->getTextSprite("instructions")->setText("YOU WON! Double tap upper left to reset balls");
+            bRenderer().getObjects()->getTextSprite("instructions")->setText("YOU WON! Double tap upper left to reset rings");
         }
         renderPauseScreen(defaultFBO);
     } else {
         if (score == -1) {
             score = 0;
             bRenderer().getObjects()->getTextSprite("instructions")->setText(instructions);
-            initBalls();
+            initRings();
         }
         renderBloomEffect(defaultFBO);
         showScore();
@@ -665,16 +664,16 @@ void RingMadness::renderBloomEffect(GLint &defaultFBO) {
     bRenderer().getModelRenderer()->drawModel(bloomSpriteFinal, bloomMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
 }
 
-void RingMadness::initBalls() {
-    ball0 = Ball(vmml::Vector3f(0.f, 50.f, 0.f));
-    ball1 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball2 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball3 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball4 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball5 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball6 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball7 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball8 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball9 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball10 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+void RingMadness::initRings() {
+    ring0 = Ring(vmml::Vector3f(0.f, 50.f, 0.f));
+    ring1 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ring2 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ring3 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ring4 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ring5 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ring6 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ring7 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ring8 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ring9 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ring10 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
 }
