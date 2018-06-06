@@ -118,8 +118,8 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->loadObjModel_o("HousesOne.obj", objectShader);
     bRenderer().getObjects()->loadObjModel_o("HousesTwo.obj", objectShader);
     bRenderer().getObjects()->loadObjModel_o("Trees.obj", objectShader);
-    bRenderer().getObjects()->loadObjModel_o("Balloon.obj", objectShader);
-    bRenderer().getObjects()->loadObjModel_o("Clouds.obj", objectShader);
+    bRenderer().getObjects()->loadObjModel_o("Balloon.obj", terrainShader);
+    bRenderer().getObjects()->loadObjModel_o("Clouds.obj", terrainShader);
     
     // Sun model
     ShaderPtr sunShader = bRenderer().getObjects()->loadShaderFile("sun");
