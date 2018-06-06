@@ -161,10 +161,13 @@ void RingMadness::initFunction()
 
 	// create text sprites
 	FontPtr font = bRenderer().getObjects()->loadFont("KozGoPro-ExtraLight.otf", 50);
-	if (Input::isTouchDevice())
+    if (Input::isTouchDevice()) {
 		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.0f, 1.f), "Double tap on the upper left half of the screen to start", font);
-	else
+        bRenderer().getObjects()->createTextSprite("scoreText", vmml::Vector3f(1.f, 1.f, 1.f), "Score: " + std::to_string(score), font);
+    }
+    else {
 		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.f, 1.f), "Press space to start", font);
+    }
 
 	// create camera
 	//bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(-33.0, 0.f, -13.0), vmml::Vector3f(0.f, -M_PI_F / 2, 0.f));
@@ -477,15 +480,15 @@ void RingMadness::checkBallCollision(Ball &ball)
 }
 
 /* Show score */
-void RingMadness::showScore(const std::string &camera){
-   vmml::Matrix4f textMatrix = vmml::create_scaling(vmml::Vector3f(0.1f, 0.1f, 0.1f)) * vmml::create_translation(vmml::Vector3f(4.f, -5.f, 0.0f));
+void RingMadness::showScore() {
+    GLfloat titleScale = 0.1f;
+    vmml::Matrix4f scaling = vmml::create_scaling(vmml::Vector3f(titleScale / bRenderer().getView()->getAspectRatio(), titleScale, titleScale));
+    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(-1.1f / bRenderer().getView()->getAspectRatio(), -0.8f, -0.65f)) * scaling;
     
-    FontPtr font = bRenderer().getObjects()->loadFont("arial.ttf", 100);
-    
-    bRenderer().getObjects()->removeTextSprite("scoreText", true);
-    bRenderer().getObjects()->createTextSprite("scoreText", vmml::Vector3f(1.f, 1.f, 1.f), scoreStr.str(), font);
-    vmml::Matrix4f invViewMatrix = bRenderer().getObjects()->getCamera("camera")->getInverseViewMatrix();
-    bRenderer().getModelRenderer()->drawText("scoreText", "camera", invViewMatrix*textMatrix, std::vector<std::string>({ }), false);
+    // draw
+    bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getTextSprite("scoreText"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+    // update score text sprite
+    bRenderer().getObjects()->getTextSprite("scoreText")->setText("Score: " + std::to_string(score));
 }
 
 /* For iOS only: Handle device rotation */
@@ -538,6 +541,7 @@ void RingMadness::endPostprocessing(GLint &defaultFBO) {
         renderPauseScreen(defaultFBO);
     } else {
         renderBloomEffect(defaultFBO);
+        showScore();
     }
 }
 
