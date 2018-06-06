@@ -58,7 +58,7 @@ private:
     /* Ball collision */
     void checkBallCollision(Ball &ball);
     
-    void showScore(const std::string &camera);
+    void showScore();
 
 	/* Helper Functions */
 	GLfloat randomNumber(GLfloat min, GLfloat max);
