@@ -17,7 +17,9 @@ public:
     
 	//// RenderProject functions ////
 
-	/* This function is executed when initializing the renderer */
+    void extracted();
+    
+    /* This function is executed when initializing the renderer */
 	void initFunction();
     
     /* Draw your scene here */
@@ -59,6 +61,7 @@ private:
     void checkBallCollision(Ball &ball);
     
     void showScore();
+    void initBalls();
 
 	/* Helper Functions */
 	GLfloat randomNumber(GLfloat min, GLfloat max);
