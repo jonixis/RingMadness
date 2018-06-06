@@ -126,8 +126,6 @@
 		E5E0B72D209B5C1D00A756AC /* sea.vert in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B72B209B5C1D00A756AC /* sea.vert */; };
 		E5E0B72E209B5C1D00A756AC /* sea.frag in Resources */ = {isa = PBXBuildFile; fileRef = E5E0B72C209B5C1D00A756AC /* sea.frag */; };
 		ED3263FE20C094DC004687D4 /* Ball.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED3263FC20C094DC004687D4 /* Ball.cpp */; };
-		ED8D027720AC60E900F71B16 /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = ED8D027520AC60E900F71B16 /* sphere.obj */; };
-		ED8D027820AC60E900F71B16 /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = ED8D027620AC60E900F71B16 /* sphere.mtl */; };
 		EDF345C820C691CB006C3F98 /* ball.vert in Resources */ = {isa = PBXBuildFile; fileRef = EDF345C720C691CB006C3F98 /* ball.vert */; };
 		EDF345CA20C691DF006C3F98 /* ball.frag in Resources */ = {isa = PBXBuildFile; fileRef = EDF345C920C691DF006C3F98 /* ball.frag */; };
 		F81192EA20B2C6BF008BF2E2 /* bloomShader1.vert in Resources */ = {isa = PBXBuildFile; fileRef = F81192E920B2C6BF008BF2E2 /* bloomShader1.vert */; };
@@ -149,6 +147,8 @@
 		F88E39D020A6E50E00A17AA0 /* terrain.vert in Resources */ = {isa = PBXBuildFile; fileRef = E5A0887C209B0B80006B5205 /* terrain.vert */; };
 		F88E39D320A6E8C100A17AA0 /* rotor.mtl in Resources */ = {isa = PBXBuildFile; fileRef = F88E39D120A6E8C100A17AA0 /* rotor.mtl */; };
 		F88E39D620A6E9C700A17AA0 /* rotor.obj in Resources */ = {isa = PBXBuildFile; fileRef = F88E39D520A6E9C700A17AA0 /* rotor.obj */; };
+		F8C5005D20C7D3F7008718BC /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = F8C5005B20C7D3F6008718BC /* sphere.obj */; };
+		F8C5005E20C7D3F7008718BC /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = F8C5005C20C7D3F6008718BC /* sphere.mtl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -330,8 +330,6 @@
 		E5E0B72C209B5C1D00A756AC /* sea.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sea.frag; sourceTree = "<group>"; };
 		ED3263FC20C094DC004687D4 /* Ball.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Ball.cpp; sourceTree = "<group>"; };
 		ED3263FD20C094DC004687D4 /* Ball.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Ball.hpp; sourceTree = "<group>"; };
-		ED8D027520AC60E900F71B16 /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sphere.obj; path = ../../../sphere.obj; sourceTree = "<group>"; };
-		ED8D027620AC60E900F71B16 /* sphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sphere.mtl; path = ../../../sphere.mtl; sourceTree = "<group>"; };
 		EDF345C720C691CB006C3F98 /* ball.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ball.vert; sourceTree = "<group>"; };
 		EDF345C920C691DF006C3F98 /* ball.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ball.frag; sourceTree = "<group>"; };
 		F81192E920B2C6BF008BF2E2 /* bloomShader1.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = bloomShader1.vert; sourceTree = "<group>"; };
@@ -1403,6 +1401,8 @@
 		F881EA7220987FDF00CB5DDB /* plane.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = plane.frag; sourceTree = "<group>"; };
 		F88E39D120A6E8C100A17AA0 /* rotor.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rotor.mtl; path = project/data/rotor.mtl; sourceTree = SOURCE_ROOT; };
 		F88E39D520A6E9C700A17AA0 /* rotor.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = rotor.obj; sourceTree = "<group>"; };
+		F8C5005B20C7D3F6008718BC /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
+		F8C5005C20C7D3F6008718BC /* sphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.mtl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1479,13 +1479,12 @@
 				B47949861BA6742B00B5E9DC /* basicTitle_light.png */,
 				B47949871BA6742B00B5E9DC /* blurShader.frag */,
 				B47949881BA6742B00B5E9DC /* blurShader.vert */,
+				F8C5005C20C7D3F6008718BC /* sphere.mtl */,
+				F8C5005B20C7D3F6008718BC /* sphere.obj */,
 				B47949921BA6742B00B5E9DC /* config.json */,
 				B479499D1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf */,
-				ED8D027620AC60E900F71B16 /* sphere.mtl */,
-				ED8D027520AC60E900F71B16 /* sphere.obj */,
 				EDF345C720C691CB006C3F98 /* ball.vert */,
 				EDF345C920C691DF006C3F98 /* ball.frag */,
-
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -3108,6 +3107,8 @@
 				B4794A311BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				F85558C2209B7EA900041BC2 /* plane.mtl in Resources */,
 				F88E39D020A6E50E00A17AA0 /* terrain.vert in Resources */,
+				F8C5005E20C7D3F7008718BC /* sphere.mtl in Resources */,
+				F8C5005D20C7D3F7008718BC /* sphere.obj in Resources */,
 				F85558B6209B3BEF00041BC2 /* sun.frag in Resources */,
 				E535CCE22080DB2C00FB0BB4 /* cube.mtl in Resources */,
 				E5E0B729209B5B9700A756AC /* sea.mtl in Resources */,
@@ -3145,11 +3146,9 @@
 				EDF345C820C691CB006C3F98 /* ball.vert in Resources */,
 				E5D55DF620A5DD3000E6AE86 /* cloud1.mtl in Resources */,
 				B47949A41BA6742B00B5E9DC /* blurShader.frag in Resources */,
-				ED8D027820AC60E900F71B16 /* sphere.mtl in Resources */,
 				B47949BA1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf in Resources */,
 				E5520B2A20A0D2110050C699 /* terrain.obj in Resources */,
 				F88E39D320A6E8C100A17AA0 /* rotor.mtl in Resources */,
-				ED8D027720AC60E900F71B16 /* sphere.obj in Resources */,
 				B47949BA1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf in Resources */,
 				E5520B2A20A0D2110050C699 /* terrain.obj in Resources */,
 				F88E39D320A6E8C100A17AA0 /* rotor.mtl in Resources */,
