@@ -363,7 +363,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     }
    
     // Scores
-    bRenderer::log("Score: " + std::to_string(score));
+    //bRenderer::log("Score: " + std::to_string(score));
     //scoreStr << "Score: " << score;
 //    showScore("camera");
     makeWorldVivid(camera, deltaTime);
@@ -480,7 +480,8 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
         }
         
         terrainShader->setUniform("camPosition", vmml::Vector4f(cameraPosition.x(),cameraPosition.y(),cameraPosition.z(),1.0));
-        seaShader->setUniform("camPosition", vmml::Vector4f(cameraPosition.x(),cameraPosition.y(),cameraPosition.z(),1.0));
+        //seaShader->setUniform("camPosition", vmml::Vector4f(cameraPosition.x(),cameraPosition.y(),cameraPosition.z(),1.0));
+        seaShader->setUniform("camPosition", vmml::Vector4f(planePosition.x(),planePosition.y(),planePosition.z(),1.0));
         objectShader->setUniform("camPosition", vmml::Vector4f(cameraPosition.x(),cameraPosition.y(),cameraPosition.z(),1.0));
         planeModelMatrixTwo = planeModelMatrix * vmml::create_rotation(-planeCurrentRoll, vmml::Vector3f::UNIT_Z);
     }

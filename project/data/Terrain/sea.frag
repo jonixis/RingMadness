@@ -16,6 +16,7 @@ float offset;
 varying vec4 ambientVarying;
 varying vec4 diffuseVarying;
 varying vec4 specularVarying;
+varying vec4 normalVarying; 
 
 vec4 color;
 
@@ -27,4 +28,5 @@ void main()
 {
     color = (ambientVarying + diffuseVarying) * vec4(Kd,1.0) + specularVarying;
     gl_FragColor = mix(fogColor, color, visibility);
+    //gl_FragColor = normalVarying;
 }

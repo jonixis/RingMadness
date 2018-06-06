@@ -19,31 +19,58 @@ attribute vec4 TexCoord;
 varying vec4 ambientVarying;
 varying vec4 diffuseVarying;
 varying vec4 specularVarying;
+varying vec4 normalVarying;
 
 //Fog
 varying float visibility;
 float density = 0.001;
 float gradient = 4.0;
 
-float rX;
-float rZ;
+const float PI = 3.1415926535897932384626433832795;
+const float waveLength = 4.0;
+const float waveAmplitude = 0.2;
+float xDisortion = 0.0;
+float yDisortion = 0.0;
+float zDisortion = 0.0;
 
 vec4 tempPosition;
+vec4 tempNormal;
 
-float generateOffset(float x, float z, float rand1, float rand2){
-    rX = mod((x + time) * rand1 * rand2,time) ;
-    rZ = mod((z + time) * rand2,rand1 * time * rand2);
+float generateOffset(float x, float z, float val1, float val2){
     
-    return (sin(rZ) - cos(rX)) * 0.01;
+    float radiansX = ((mod(x+z*x*val1, waveLength)/waveLength) + time*0.005 * mod(x * 0.8 + z, 1.5)) * 2.0 * PI;
+    float radiansZ = ((mod(val2 * (z*x +x*z), waveLength)/waveLength) + time*0.005 * 2.0 * mod(x , 2.0) ) * 2.0 * PI;
+    
+    //return (sin(rZ) - cos(rX)) * 0.01;
+    //return ((sin(x * 4.0 + time *0.05)) + cos(z * 8.0 + time*0.05))* 0.1;
+    return (sin(radiansX) + cos(radiansZ)) *waveAmplitude * 0.5 ;
 }
 
 void main()
 {
+    //normalVarying = vec4(Normal, 1.0);
+    //normalVarying = Position;
+    
+    //Disortion
+    xDisortion = generateOffset(Position.x, Position.z, 0.1 ,0.2);
+    yDisortion = generateOffset(Position.x, Position.z, 0.5, 0.3);
+    zDisortion = generateOffset(Position.x, Position.z, 0.3, 0.2);
+    
+    
+    tempPosition = vec4(Position.x + xDisortion, Position.y + yDisortion, Position.z + zDisortion, 1.0);
+    tempPosition = vec4(Position.x, Position.y + yDisortion, Position.z, 1.0);
+    
+    
+    tempNormal = vec4(Normal.x + xDisortion, Normal.y + yDisortion, Normal.z + zDisortion, 1.0);
+    normalVarying = tempNormal;
+    
+    
+    //lightning
     ambientVarying = vec4(0.4,0.4,0.4,1.0);
     
     diffuseVarying = vec4(0.0);
     
-    highp vec3 normal = Normal;
+    highp vec3 normal = vec3(tempNormal);
     highp vec3 lightDirection = vec3(normalize(sunPosition-(modelMatrix * Position)));
     
     highp float intensity = dot(normal,lightDirection);
@@ -62,17 +89,7 @@ void main()
      specularVarying = vec4(clamp(specular, 0.0, 1.0), 1.0);
      
      }
-    
-    
-    
-    //Disortion
-    float xDisortion = generateOffset(Position.x, Position.y, 0.1 ,0.2);
-    float yDisortion = generateOffset(Position.x, Position.y, 0.5, 0.3);
-    float zDisortion = generateOffset(Position.x, Position.y, 0.3, 0.2);
-    
-    tempPosition = vec4(Position.x + xDisortion, Position.y + yDisortion, Position.z + zDisortion, 1.0);
-    
-    
+ 
     
     //Fog
     float distanceCameraVertex = length(ModelViewMatrix * Position);
