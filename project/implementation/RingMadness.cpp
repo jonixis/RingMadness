@@ -69,6 +69,9 @@ ShaderPtr seaShader;
 ShaderPtr objectShader;
 ShaderPtr ballShader;
 
+// Texts
+std::string instructions = "Double tap on the upper left half of the screen to start";
+
 /* This function is executed when initializing the renderer */
 void RingMadness::initFunction()
 {    
@@ -126,17 +129,7 @@ void RingMadness::initFunction()
     ballShader = bRenderer().getObjects()->loadShaderFile("ball");
     bRenderer().getObjects()->loadObjModel_o("sphere.obj", ballShader);
     
-    ball0 = Ball(vmml::Vector3f(0.f, 50.f, 0.f));
-    ball1 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball2 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball3 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball4 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball5 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball6 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball7 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball8 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball9 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ball10 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    initBalls();
     
 
     // Plane start Position
@@ -162,7 +155,7 @@ void RingMadness::initFunction()
 	// create text sprites
 	FontPtr font = bRenderer().getObjects()->loadFont("KozGoPro-ExtraLight.otf", 50);
     if (Input::isTouchDevice()) {
-		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.0f, 1.f), "Double tap on the upper left half of the screen to start", font);
+		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.0f, 1.f), instructions, font);
         bRenderer().getObjects()->createTextSprite("scoreText", vmml::Vector3f(1.f, 1.f, 1.f), "Score: " + std::to_string(score), font);
     }
     else {
@@ -224,7 +217,6 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
 	/// Draw scene ///
 	bRenderer().getModelRenderer()->drawQueue(/*GL_LINES*/);
 	
-	
     /// End post processing ///
     endPostprocessing(defaultFBO);
     
@@ -235,6 +227,12 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
 	
 	/// Update render queue ///
 	updateRenderQueue("camera", deltaTime);
+    
+    /// Reset balls, if finnished (in endPostprocessing(defaultFBO);) ///
+    if (score == 110) {
+        score = -1;
+        _running = false;
+    }
 
 	// Quit renderer when escape is pressed
 	if (bRenderer().getInput()->getKeyState(bRenderer::KEY_ESCAPE) == bRenderer::INPUT_PRESS)
@@ -538,8 +536,16 @@ void RingMadness::beginPostprocessing(GLint &defaultFBO) {
 
 void RingMadness::endPostprocessing(GLint &defaultFBO) {
     if(!_running) {
+        if (score == -1) {
+            bRenderer().getObjects()->getTextSprite("instructions")->setText("YOU WON! Double tap upper left to reset balls");
+        }
         renderPauseScreen(defaultFBO);
     } else {
+        if (score == -1) {
+            score = 0;
+            bRenderer().getObjects()->getTextSprite("instructions")->setText(instructions);
+            initBalls();
+        }
         renderBloomEffect(defaultFBO);
         showScore();
     }
@@ -633,4 +639,18 @@ void RingMadness::renderBloomEffect(GLint &defaultFBO) {
     bloomMaterialFinal->setTexture("fbo_texture_scene", bloomFboTexture1);
     bloomMaterialFinal->setTexture("fbo_texture_bloomBlur", bloomFboTexture3);
     bRenderer().getModelRenderer()->drawModel(bloomSpriteFinal, bloomMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+}
+
+void RingMadness::initBalls() {
+    ball0 = Ball(vmml::Vector3f(0.f, 50.f, 0.f));
+    ball1 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ball2 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ball3 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ball4 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ball5 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ball6 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ball7 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ball8 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ball9 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    ball10 = Ball(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
 }
