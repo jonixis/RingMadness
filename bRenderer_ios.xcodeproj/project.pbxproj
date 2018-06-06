@@ -152,6 +152,8 @@
 		F88E39D020A6E50E00A17AA0 /* terrain.vert in Resources */ = {isa = PBXBuildFile; fileRef = E5A0887C209B0B80006B5205 /* terrain.vert */; };
 		F88E39D320A6E8C100A17AA0 /* rotor.mtl in Resources */ = {isa = PBXBuildFile; fileRef = F88E39D120A6E8C100A17AA0 /* rotor.mtl */; };
 		F88E39D620A6E9C700A17AA0 /* rotor.obj in Resources */ = {isa = PBXBuildFile; fileRef = F88E39D520A6E9C700A17AA0 /* rotor.obj */; };
+		F8C5005D20C7D3F7008718BC /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = F8C5005B20C7D3F6008718BC /* sphere.obj */; };
+		F8C5005E20C7D3F7008718BC /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = F8C5005C20C7D3F6008718BC /* sphere.mtl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1408,6 +1410,8 @@
 		F881EA7220987FDF00CB5DDB /* plane.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = plane.frag; sourceTree = "<group>"; };
 		F88E39D120A6E8C100A17AA0 /* rotor.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rotor.mtl; path = project/data/rotor.mtl; sourceTree = SOURCE_ROOT; };
 		F88E39D520A6E9C700A17AA0 /* rotor.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = rotor.obj; sourceTree = "<group>"; };
+		F8C5005B20C7D3F6008718BC /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
+		F8C5005C20C7D3F6008718BC /* sphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.mtl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1456,6 +1460,7 @@
 		B44186931BA331E300604D7F /* headers */ = {
 			isa = PBXGroup;
 			children = (
+				ED3263FD20C094DC004687D4 /* Ball.hpp */,
 				B44186941BA331E300604D7F /* RingMadness.h */,
 			);
 			path = headers;
@@ -1464,6 +1469,7 @@
 		B44186951BA331E300604D7F /* implementation */ = {
 			isa = PBXGroup;
 			children = (
+				ED3263FC20C094DC004687D4 /* Ball.cpp */,
 				F881EA632098714D00CB5DDB /* RingMadness.cpp */,
 			);
 			path = implementation;
@@ -1482,8 +1488,12 @@
 				B47949861BA6742B00B5E9DC /* basicTitle_light.png */,
 				B47949871BA6742B00B5E9DC /* blurShader.frag */,
 				B47949881BA6742B00B5E9DC /* blurShader.vert */,
+				F8C5005C20C7D3F6008718BC /* sphere.mtl */,
+				F8C5005B20C7D3F6008718BC /* sphere.obj */,
 				B47949921BA6742B00B5E9DC /* config.json */,
 				B479499D1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf */,
+				EDF345C720C691CB006C3F98 /* ball.vert */,
+				EDF345C920C691DF006C3F98 /* ball.frag */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -3115,6 +3125,8 @@
 				B4794A311BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				F85558C2209B7EA900041BC2 /* plane.mtl in Resources */,
 				F88E39D020A6E50E00A17AA0 /* terrain.vert in Resources */,
+				F8C5005E20C7D3F7008718BC /* sphere.mtl in Resources */,
+				F8C5005D20C7D3F7008718BC /* sphere.obj in Resources */,
 				F85558B6209B3BEF00041BC2 /* sun.frag in Resources */,
 				E535CCE22080DB2C00FB0BB4 /* cube.mtl in Resources */,
 				E5E0B729209B5B9700A756AC /* sea.mtl in Resources */,
@@ -3133,6 +3145,7 @@
 				F85558B4209B3BE500041BC2 /* sun.vert in Resources */,
 				F86CFCBB20B621630070B6E6 /* bloomShaderFinal.frag in Resources */,
 				B47949A51BA6742B00B5E9DC /* blurShader.vert in Resources */,
+				EDF345CA20C691DF006C3F98 /* ball.frag in Resources */,
 				F81192EA20B2C6BF008BF2E2 /* bloomShader1.vert in Resources */,
 				E5E0B72D209B5C1D00A756AC /* sea.vert in Resources */,
 				F81192EC20B2C6D2008BF2E2 /* bloomShader1.frag in Resources */,
@@ -3157,6 +3170,9 @@
 				B47949BA1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf in Resources */,
 				E5520B2A20A0D2110050C699 /* terrain.obj in Resources */,
 				E5FF820E20C1463D001CD9DA /* Clouds.mtl in Resources */,
+				F88E39D320A6E8C100A17AA0 /* rotor.mtl in Resources */,
+				B47949BA1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf in Resources */,
+				E5520B2A20A0D2110050C699 /* terrain.obj in Resources */,
 				F88E39D320A6E8C100A17AA0 /* rotor.mtl in Resources */,
 				F86CFCB920B6214F0070B6E6 /* bloomShaderFinal.vert in Resources */,
 				E5FF820320C13511001CD9DA /* HousesTwo.obj in Resources */,
@@ -3186,6 +3202,7 @@
 				B4CB8CD11B72E43300FE041B /* ViewController.mm in Sources */,
 				B47AD6C91B827E3E00AFC632 /* ftpfr.c in Sources */,
 				B47AD6F71B82802900AFC632 /* ftfstype.c in Sources */,
+				ED3263FE20C094DC004687D4 /* Ball.cpp in Sources */,
 				B47AD6C71B827E2E00AFC632 /* ftpatent.c in Sources */,
 				B4794A2F1BA6743D00B5E9DC /* jsoncpp.cpp in Sources */,
 				B4794A4E1BA6743D00B5E9DC /* Input_desktop.cpp in Sources */,

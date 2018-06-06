@@ -1,4 +1,10 @@
 #include "RingMadness.h"
+#include "../headers/Ball.hpp"
+
+/* Helper functions */
+GLfloat RingMadness::randomNumber(GLfloat min, GLfloat max){
+    return min + static_cast <GLfloat> (rand()) / (static_cast <GLfloat> (RAND_MAX / (max - min)));
+}
 
 /* Initialize the Project */
 void RingMadness::init()
@@ -15,6 +21,18 @@ void RingMadness::init()
 	// start main loop 
 	bRenderer().runRenderer();
 }
+
+//ball and score variables
+int score = 0;
+std::ostringstream scoreStr;
+
+Ball ball0, ball1, ball2, ball3, ball4, ball5, ball6, ball7, ball8, ball9, ball10;
+
+GLfloat mapRadius = 200.f;
+GLfloat maxHeight = 100.f;
+float plane_radius = 5.f;
+
+
 
 //plane Variables
 vmml::Matrix4f planeModelMatrix;
@@ -49,6 +67,7 @@ vmml::Vector3f cameraTargetPosition;
 ShaderPtr terrainShader;
 ShaderPtr seaShader;
 ShaderPtr objectShader;
+ShaderPtr ballShader;
 
 //vivid World
 int dummyRotation = 0;
@@ -128,15 +147,19 @@ void RingMadness::initFunction()
     seaShader->setUniform("fogColor", fogColor);
     objectShader->setUniform("fogColor", fogColor);
     
+    
     // create a sprite displaying the title as a texture
 	bRenderer().getObjects()->createSprite("bTitle", "basicTitle_light.png");
 
 	// create text sprites
 	FontPtr font = bRenderer().getObjects()->loadFont("KozGoPro-ExtraLight.otf", 50);
-	if (Input::isTouchDevice())
+    if (Input::isTouchDevice()) {
 		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.0f, 1.f), "Double tap on the upper left half of the screen to start", font);
-	else
+        bRenderer().getObjects()->createTextSprite("scoreText", vmml::Vector3f(1.f, 1.f, 1.f), "Score: " + std::to_string(score), font);
+    }
+    else {
 		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.f, 1.f), "Press space to start", font);
+    }
 
 	// create camera
 	//bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(-33.0, 0.f, -13.0), vmml::Vector3f(0.f, -M_PI_F / 2, 0.f));
@@ -182,7 +205,7 @@ void RingMadness::initFunction()
 /* Draw your scene here */
 void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTime)
 {
-//	bRenderer::log("FPS: " + std::to_string(1 / deltaTime));	// write number of frames per second to the console every frame
+	//bRenderer::log("FPS: " + std::to_string(1 / deltaTime));	// write number of frames per second to the console every frame
 
 	//// Draw Scene and do post processing ////
 
@@ -280,8 +303,6 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     makeWorldVivid(camera, deltaTime);
 }
-
-
 
 void RingMadness::updatePlane(const std::string &camera, const double &deltaTime){
     
@@ -400,6 +421,33 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
     }
 }
 
+/* Ball collision detection */
+void RingMadness::checkBallCollision(Ball &ball)
+{
+    float dx = planePosition.x()-ball.position.x();
+    float dy = planePosition.y()-ball.position.y();
+    float dz = planePosition.z()-ball.position.z();
+    float dist = sqrt(dx*dx + dy*dy + dz*dz);
+    
+    if(dist <= (ball.radius + plane_radius)){
+        score = score + 10;
+        ball.hit = true;
+        ball.matrix = ball.matrix * 0;
+    }
+}
+
+/* Show score */
+void RingMadness::showScore() {
+    GLfloat titleScale = 0.1f;
+    vmml::Matrix4f scaling = vmml::create_scaling(vmml::Vector3f(titleScale / bRenderer().getView()->getAspectRatio(), titleScale, titleScale));
+    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(-1.1f / bRenderer().getView()->getAspectRatio(), -0.8f, -0.65f)) * scaling;
+    
+    // draw
+    bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getTextSprite("scoreText"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+    // update score text sprite
+    bRenderer().getObjects()->getTextSprite("scoreText")->setText("Score: " + std::to_string(score));
+}
+
 /* For iOS only: Handle device rotation */
 void RingMadness::deviceRotated()
 {
@@ -437,11 +485,6 @@ void RingMadness::appWillTerminate()
 	}
 }
 
-/* Helper functions */
-GLfloat RingMadness::randomNumber(GLfloat min, GLfloat max){
-	return min + static_cast <GLfloat> (rand()) / (static_cast <GLfloat> (RAND_MAX / (max - min)));
-}
-
 void RingMadness::beginPostprocessing(GLint &defaultFBO) {
     if (!_running){
         bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth() / 5, bRenderer().getView()->getHeight() / 5);
@@ -455,6 +498,7 @@ void RingMadness::endPostprocessing(GLint &defaultFBO) {
         renderPauseScreen(defaultFBO);
     } else {
         renderBloomEffect(defaultFBO);
+        showScore();
     }
 }
 
