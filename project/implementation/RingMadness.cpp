@@ -301,7 +301,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     //sea //
     seaShader->setUniform("time", i);
-    modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, -145.0f,0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
+    modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, -142.0f,0.0f)) * vmml::create_scaling(vmml::Vector3f(30.0f));
     bRenderer().getModelRenderer()->queueModelInstance("sea", "sea_instance", camera, modelMatrix, std::vector<std::string>({}), true, true);
     
     //plane //
