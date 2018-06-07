@@ -162,7 +162,7 @@ void RingMadness::initFunction()
     // create text sprites
     FontPtr font = bRenderer().getObjects()->loadFont("KozGoPro-ExtraLight.otf", 50);
     if (Input::isTouchDevice()) {
-		bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.0f, 1.f), instructions, font);
+        bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.0f, 1.f), instructions, font);
         bRenderer().getObjects()->createTextSprite("scoreText", vmml::Vector3f(1.f, 1.f, 1.f), "Score: " + std::to_string(score), font);
     }
     else {
@@ -223,9 +223,9 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
     GLint defaultFBO;
     beginPostprocessing(defaultFBO);
 
-	/// Draw scene ///
-	bRenderer().getModelRenderer()->drawQueue(/*GL_LINES*/);
-	
+    /// Draw scene ///
+    bRenderer().getModelRenderer()->drawQueue(/*GL_LINES*/);
+    
     /// End post processing ///
     endPostprocessing(defaultFBO);
     
