@@ -257,7 +257,6 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
     }
     
     if(collision == true){
-        terminateFunction();
         _running = false;
         collision = false;
         bRenderer().getObjects()->getTextSprite("instructions")->setText("FATALITY . . . Double Tap to Restart!");
