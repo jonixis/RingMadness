@@ -41,9 +41,7 @@ float generateOffset(float x, float z, float val1, float val2){
     float radiansX = ((mod(x+z*x*val1, waveLength)/waveLength) + time*0.01 * mod(x * 0.8 + z, 1.5)) * 2.0 * PI;
     float radiansZ = ((mod(val2 * (z*x +x*z), waveLength)/waveLength) + time*0.01 * 2.0 * mod(x , 2.0) ) * 2.0 * PI;
     
-    //return (sin(rZ) - cos(rX)) * 0.01;
-    //return ((sin(x * 4.0 + time *0.05)) + cos(z * 8.0 + time*0.05))* 0.1;
-    return (sin(radiansX) + cos(radiansZ)) *waveAmplitude * 0.5 ;
+    return (sin(radiansX) + cos(radiansZ)) *waveAmplitude * 0.5;
 }
 
 void main()
@@ -85,7 +83,7 @@ void main()
      highp vec3 h = vec3(normalize(lightDirection+eyeVec));
      
      
-     highp vec3 specular = vec3(0.2,0.2,0.2) * pow(dot(h,normal),1.0);
+     highp vec3 specular = vec3(0.2,0.2,0.2) * pow(dot(h,normal),4.0);
      specularVarying = vec4(clamp(specular, 0.0, 1.0), 1.0);
      
      }
