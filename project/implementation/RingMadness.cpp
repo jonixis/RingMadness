@@ -25,6 +25,7 @@ void RingMadness::init()
 //Ring and score variables
 int score = 0;
 
+
 Ring ring0, ring1, ring2, ring3, ring4, ring5, ring6, ring7, ring8, ring9, ring10;
 
 GLfloat mapRadius = 500.f;
@@ -209,6 +210,8 @@ void RingMadness::initFunction()
     updateRenderQueue("camera", 0.0f);
 }
 
+//for delayed endscreen.
+int delay = 0;
 /* Draw your scene here */
 void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTime)
 {
@@ -236,8 +239,13 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
     
     /// Reset rings, if finnished (in endPostprocessing(defaultFBO);) ///
     if (score == 110) {
-        score = -1;
-        _running = false;
+        delay += 1;
+        if(delay > 100){
+            score = -1;
+            _running = false;
+            delay = 0;
+        }
+        
     }
 
     // Quit renderer when escape is pressed
@@ -361,10 +369,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
         checkRingCollision(ring10);
     }
    
-    // Scores
-    //bRenderer::log("Score: " + std::to_string(score));
-    //scoreStr << "Score: " << score;
-//    showScore("camera");
+   
     makeWorldVivid(camera, deltaTime);
 }
 
@@ -505,12 +510,12 @@ void RingMadness::checkRingCollision(Ring &ring)
 void RingMadness::showScore() {
     GLfloat titleScale = 0.1f;
     vmml::Matrix4f scaling = vmml::create_scaling(vmml::Vector3f(titleScale / bRenderer().getView()->getAspectRatio(), titleScale, titleScale));
-    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(-1.1f / bRenderer().getView()->getAspectRatio(), -0.8f, -0.65f)) * scaling;
+    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(-1.3f / bRenderer().getView()->getAspectRatio(), -0.9f, -0.65f)) * scaling;
     
     // draw
     bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getTextSprite("scoreText"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
     // update score text sprite
-    bRenderer().getObjects()->getTextSprite("scoreText")->setText("Score: " + std::to_string(score));
+    bRenderer().getObjects()->getTextSprite("scoreText")->setText("Score: " + std::to_string(score) + "    Rings Left: " + std::to_string((int)(11.0f-((float)score)*0.1f)));
 }
 
 /* For iOS only: Handle device rotation */
