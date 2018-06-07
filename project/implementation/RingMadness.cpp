@@ -28,9 +28,13 @@ const int nrRings = 15;
 
 Ring rings[nrRings];
 
-GLfloat mapRadius = 500.f;
-GLfloat maxHeight = 100.f;
+const GLfloat mapRadius = 500.f;
+const GLfloat maxHeight = 100.f;
 float plane_radius = 5.f;
+
+//Terrain collision variables
+const float waterHeight = -100.f;
+GLboolean collision = false;
 
 
 //plane Variables
@@ -136,7 +140,7 @@ void RingMadness::initFunction()
     ringShader = bRenderer().getObjects()->loadShaderFile("ring");
     bRenderer().getObjects()->loadObjModel_o("ring.obj", ringShader);
     
-    initRings(nrRings);
+    //initRings(nrRings);
 
     // Plane start Position
     planeModelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_rotation(M_PI_F * 0.5f, vmml::Vector3f::UNIT_Y);
@@ -242,7 +246,7 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
     updateRenderQueue("camera", deltaTime);
     
     /// Reset rings, if finnished (in endPostprocessing(defaultFBO);) ///
-    if (score == 110) {
+    if (score == nrRings*10) {
         delay += 1;
         if(delay > 100){
             score = -1;
@@ -250,6 +254,14 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
             delay = 0;
         }
         
+    }
+    
+    if(collision == true){
+        terminateFunction();
+        _running = false;
+        collision = false;
+        bRenderer().getObjects()->getTextSprite("instructions")->setText("FATALITY . . . Double Tap to Restart!");
+        renderPauseScreen(defaultFBO);
     }
 
     // Quit renderer when escape is pressed
@@ -328,6 +340,8 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     
     // Rings
+    //Ring dummyRing = Ring(vmml::Vector3f(0.f, -60.f, 0.f));
+    //bRenderer().getModelRenderer()->queueModelInstance("ring", "ring" , camera, dummyRing.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
     std::ostringstream str;
     
     for(int j = 0; j < nrRings; j++){
@@ -338,6 +352,8 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
         }
     }
    
+    checkTerrainCollision();
+    
     makeWorldVivid(camera, deltaTime);
 }
 
@@ -470,6 +486,17 @@ void RingMadness::checkRingCollision(Ring &ring)
     if(dist <= (ring.radius + plane_radius)){
         score = score + 10;
         ring.hit = true;
+    }
+}
+
+void RingMadness::checkTerrainCollision()
+{
+    float dy = abs(planePosition.y()-waterHeight);
+    
+    if(dy <= (10.f + plane_radius)){
+        //bRenderer().getObjects()->getTextSprite("instructions")->setText("FATALITY");
+        //renderPauseScreen(defaultFBO);
+        collision = true;
     }
 }
 

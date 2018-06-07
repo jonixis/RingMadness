@@ -60,9 +60,11 @@ private:
     
     /* Ball collision */
     void checkRingCollision(Ring &ring);
-    
     void showScore();
     void initRings(const int nr);
+    
+    /* Terrain collision */
+    void checkTerrainCollision();
 
 	/* Helper Functions */
 	GLfloat randomNumber(GLfloat min, GLfloat max);
