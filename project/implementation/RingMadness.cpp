@@ -186,6 +186,12 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->createTexture("bloom_fbo_texture2", 0.f, 0.f);
     bRenderer().getObjects()->createTexture("bloom_fbo_texture3", 0.f, 0.f);
     
+    // SSAO //
+    bRenderer().getObjects()->createTexture("ssao_texture", 0.f, 0.f);
+    
+    // END //
+    
+    
     // Load shaders
     ShaderPtr blurShader = bRenderer().getObjects()->loadShaderFile_o("blurShader", 0);
     ShaderPtr bloomShader1 = bRenderer().getObjects()->loadShaderFile_o("bloomShader1", 0);
