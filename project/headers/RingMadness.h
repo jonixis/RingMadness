@@ -62,7 +62,7 @@ private:
     void checkRingCollision(Ring &ring);
     
     void showScore();
-    void initRings();
+    void initRings(const int nr);
 
 	/* Helper Functions */
 	GLfloat randomNumber(GLfloat min, GLfloat max);

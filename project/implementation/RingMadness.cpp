@@ -24,14 +24,12 @@ void RingMadness::init()
 
 //Ring and score variables
 int score = 0;
+const int nrRings = 15;
+Ring rings[nrRings];
 
-
-Ring ring0, ring1, ring2, ring3, ring4, ring5, ring6, ring7, ring8, ring9, ring10;
-
-GLfloat mapRadius = 500.f;
-GLfloat maxHeight = 100.f;
-float plane_radius = 5.f;
-
+const GLfloat mapRadius = 500.f;
+const GLfloat maxHeight = 100.f;
+const float plane_radius = 5.f;
 
 
 //plane Variables
@@ -137,7 +135,7 @@ void RingMadness::initFunction()
     ringShader = bRenderer().getObjects()->loadShaderFile("ring");
     bRenderer().getObjects()->loadObjModel_o("ring.obj", ringShader);
     
-    initRings();
+    initRings(nrRings);
     
 
     // Plane start Position
@@ -238,7 +236,7 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
     updateRenderQueue("camera", deltaTime);
     
     /// Reset rings, if finnished (in endPostprocessing(defaultFBO);) ///
-    if (score == 110) {
+    if (score == nrRings*10) {
         delay += 1;
         if(delay > 100){
             score = -1;
@@ -324,52 +322,16 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     
     // Rings
-    if(ring0.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring0", camera, ring0.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
-        checkRingCollision(ring0);
+    std::ostringstream str;
+    
+    for(int j = 0; j < nrRings; j++){
+        str << "ring" << std::to_string(j);
+        if(rings[j].hit != true){
+            bRenderer().getModelRenderer()->queueModelInstance("ring", str.str() , camera, rings[j].matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+            checkRingCollision(rings[j]);
+        }
     }
-    if(ring1.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring1", camera, ring1.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
-        checkRingCollision(ring1);
-    }
-    if(ring2.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring2", camera, ring2.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
-        checkRingCollision(ring2);
-    }
-    if(ring3.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring3", camera, ring3.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
-        checkRingCollision(ring3);
-    }
-    if(ring4.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring4", camera, ring4.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
-        checkRingCollision(ring4);
-    }
-    if(ring5.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring5", camera, ring5.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
-        checkRingCollision(ring5);
-    }
-    if(ring6.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring6", camera, ring6.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
-        checkRingCollision(ring6);
-    }
-    if(ring7.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring7", camera, ring7.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
-        checkRingCollision(ring7);
-    }
-    if(ring8.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring8", camera, ring8.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
-        checkRingCollision(ring8);
-    }
-    if(ring9.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring9", camera, ring9.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
-        checkRingCollision(ring9);
-    }
-    if(ring10.hit != true) {
-        bRenderer().getModelRenderer()->queueModelInstance("ring", "ring10", camera, ring10.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
-        checkRingCollision(ring10);
-    }
-   
-   
+    
     makeWorldVivid(camera, deltaTime);
 }
 
@@ -502,7 +464,6 @@ void RingMadness::checkRingCollision(Ring &ring)
     if(dist <= (ring.radius + plane_radius)){
         score = score + 10;
         ring.hit = true;
-        ring.matrix = ring.matrix * 0;
     }
 }
 
@@ -515,7 +476,7 @@ void RingMadness::showScore() {
     // draw
     bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getTextSprite("scoreText"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
     // update score text sprite
-    bRenderer().getObjects()->getTextSprite("scoreText")->setText("Score: " + std::to_string(score) + "    Rings Left: " + std::to_string((int)(11.0f-((float)score)*0.1f)));
+    bRenderer().getObjects()->getTextSprite("scoreText")->setText("Score: " + std::to_string(score) + "    Rings Left: " + std::to_string((int)(nrRings-((float)score)*0.1f)));
 }
 
 /* For iOS only: Handle device rotation */
@@ -573,7 +534,7 @@ void RingMadness::endPostprocessing(GLint &defaultFBO) {
         if (score == -1) {
             score = 0;
             bRenderer().getObjects()->getTextSprite("instructions")->setText(instructions);
-            initRings();
+            initRings(nrRings);
         }
         renderBloomEffect(defaultFBO);
         showScore();
@@ -670,16 +631,8 @@ void RingMadness::renderBloomEffect(GLint &defaultFBO) {
     bRenderer().getModelRenderer()->drawModel(bloomSpriteFinal, bloomMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
 }
 
-void RingMadness::initRings() {
-    ring0 = Ring(vmml::Vector3f(0.f, 50.f, 0.f));
-    ring1 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ring2 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ring3 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ring4 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ring5 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ring6 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ring7 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ring8 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ring9 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
-    ring10 = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+void RingMadness::initRings(const int nr) {
+    for(int i = 0; i < nr; i++){
+        rings[i] = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+    }
 }
