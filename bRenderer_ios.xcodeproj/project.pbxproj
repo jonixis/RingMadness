@@ -148,6 +148,8 @@
 		F85558B6209B3BEF00041BC2 /* sun.frag in Resources */ = {isa = PBXBuildFile; fileRef = F85558B5209B3BEF00041BC2 /* sun.frag */; };
 		F85558C1209B7EA900041BC2 /* plane.obj in Resources */ = {isa = PBXBuildFile; fileRef = F85558BF209B7EA900041BC2 /* plane.obj */; };
 		F85558C2209B7EA900041BC2 /* plane.mtl in Resources */ = {isa = PBXBuildFile; fileRef = F85558C0209B7EA900041BC2 /* plane.mtl */; };
+		F856626120D29C1F001B7663 /* lensFlareShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = F856626020D29C1F001B7663 /* lensFlareShader.frag */; };
+		F856626320D29C39001B7663 /* lensFlareShader.vert in Resources */ = {isa = PBXBuildFile; fileRef = F856626220D29C39001B7663 /* lensFlareShader.vert */; };
 		F86CFCB920B6214F0070B6E6 /* bloomShaderFinal.vert in Resources */ = {isa = PBXBuildFile; fileRef = F86CFCB820B6214F0070B6E6 /* bloomShaderFinal.vert */; };
 		F86CFCBB20B621630070B6E6 /* bloomShaderFinal.frag in Resources */ = {isa = PBXBuildFile; fileRef = F86CFCBA20B621630070B6E6 /* bloomShaderFinal.frag */; };
 		F881EA642098714D00CB5DDB /* RingMadness.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F881EA632098714D00CB5DDB /* RingMadness.cpp */; };
@@ -360,6 +362,8 @@
 		F85558B5209B3BEF00041BC2 /* sun.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sun.frag; sourceTree = "<group>"; };
 		F85558BF209B7EA900041BC2 /* plane.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plane.obj; sourceTree = "<group>"; };
 		F85558C0209B7EA900041BC2 /* plane.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plane.mtl; sourceTree = "<group>"; };
+		F856626020D29C1F001B7663 /* lensFlareShader.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = lensFlareShader.frag; sourceTree = "<group>"; };
+		F856626220D29C39001B7663 /* lensFlareShader.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = lensFlareShader.vert; sourceTree = "<group>"; };
 		F86CF70920B558960070B6E6 /* vec4.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vec4.hpp; sourceTree = "<group>"; };
 		F86CF70A20B558960070B6E6 /* integer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = integer.hpp; sourceTree = "<group>"; };
 		F86CF70B20B558960070B6E6 /* vector_relational.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vector_relational.hpp; sourceTree = "<group>"; };
@@ -1770,6 +1774,8 @@
 				F81192EF20B2C6EE008BF2E2 /* bloomShader2.frag */,
 				F86CFCB820B6214F0070B6E6 /* bloomShaderFinal.vert */,
 				F86CFCBA20B621630070B6E6 /* bloomShaderFinal.frag */,
+				F856626020D29C1F001B7663 /* lensFlareShader.frag */,
+				F856626220D29C39001B7663 /* lensFlareShader.vert */,
 			);
 			path = Postprocessing;
 			sourceTree = "<group>";
@@ -3164,11 +3170,13 @@
 				E5520B2B20A0D2110050C699 /* terrain.mtl in Resources */,
 				F881EA7120987FD100CB5DDB /* plane.vert in Resources */,
 				E5FF820A20C13C1A001CD9DA /* Balloon.obj in Resources */,
+				F856626120D29C1F001B7663 /* lensFlareShader.frag in Resources */,
 				E5FF820B20C13C1A001CD9DA /* Balloon.mtl in Resources */,
 				B47949A31BA6742B00B5E9DC /* basicTitle_light.png in Resources */,
 				E5FF820F20C1463D001CD9DA /* Clouds.obj in Resources */,
 				E578287820A3624D00889326 /* SkyTop.png in Resources */,
 				E535CCE52080DC3300FB0BB4 /* cube.vert in Resources */,
+				F856626320D29C39001B7663 /* lensFlareShader.vert in Resources */,
 				E5E0B72A209B5B9700A756AC /* sea.obj in Resources */,
 				E5FF820220C13511001CD9DA /* HousesTwo.mtl in Resources */,
 				E5FF820720C138FC001CD9DA /* Trees.mtl in Resources */,

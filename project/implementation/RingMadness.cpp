@@ -178,6 +178,7 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->createFramebuffer("fbo");
     bRenderer().getObjects()->createFramebuffer("bloom_fbo1");
     bRenderer().getObjects()->createFramebuffer("bloom_fbo2");
+    bRenderer().getObjects()->createFramebuffer("lensFlare_fbo");
     
     // Create textures
     bRenderer().getObjects()->createTexture("fbo_texture1", 0.f, 0.f);
@@ -185,24 +186,28 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->createTexture("bloom_fbo_texture1", 0.f, 0.f);
     bRenderer().getObjects()->createTexture("bloom_fbo_texture2", 0.f, 0.f);
     bRenderer().getObjects()->createTexture("bloom_fbo_texture3", 0.f, 0.f);
+    bRenderer().getObjects()->createTexture("lensFlareBloomTexture", 0.f, 0.f);
     
     // Load shaders
     ShaderPtr blurShader = bRenderer().getObjects()->loadShaderFile_o("blurShader", 0);
     ShaderPtr bloomShader1 = bRenderer().getObjects()->loadShaderFile_o("bloomShader1", 0);
     ShaderPtr bloomShader2 = bRenderer().getObjects()->loadShaderFile_o("bloomShader2", 0);
     ShaderPtr bloomShaderFinal = bRenderer().getObjects()->loadShaderFile_o("bloomShaderFinal", 0);
+    ShaderPtr lensFlareShader = bRenderer().getObjects()->loadShaderFile_o("lensFlareShader", 0);
     
     // Create materials
     MaterialPtr blurMaterial = bRenderer().getObjects()->createMaterial("blurMaterial", blurShader);
     MaterialPtr bloomMaterial1 = bRenderer().getObjects()->createMaterial("bloomMaterial1", bloomShader1);
     MaterialPtr bloomMaterial2 = bRenderer().getObjects()->createMaterial("bloomMaterial2", bloomShader2);
     MaterialPtr bloomMaterialFinal = bRenderer().getObjects()->createMaterial("bloomMaterialFinal", bloomShaderFinal);
+    MaterialPtr lensFlareMaterial = bRenderer().getObjects()->createMaterial("lensFlareMaterial", lensFlareShader);
     
     // Create sprites
     bRenderer().getObjects()->createSprite("blurSprite", blurMaterial);
     bRenderer().getObjects()->createSprite("bloomSprite1", bloomMaterial1);
     bRenderer().getObjects()->createSprite("bloomSprite2", bloomMaterial2);
     bRenderer().getObjects()->createSprite("bloomSpriteFinal", bloomMaterialFinal);
+    bRenderer().getObjects()->createSprite("lensFlareSprite", lensFlareMaterial);
 
     // Update render queue
     updateRenderQueue("camera", 0.0f);
@@ -581,17 +586,21 @@ void RingMadness::renderBloomEffect(GLint &defaultFBO) {
 
     FramebufferPtr bloomFbo1 = bRenderer().getObjects()->getFramebuffer("bloom_fbo1");
     FramebufferPtr bloomFbo2 = bRenderer().getObjects()->getFramebuffer("bloom_fbo2");
+    FramebufferPtr lensFlareFbo = bRenderer().getObjects()->getFramebuffer("lensFlare_fbo");
     TexturePtr bloomFboTexture1 = bRenderer().getObjects()->getTexture("bloom_fbo_texture1");
     TexturePtr bloomFboTexture2 = bRenderer().getObjects()->getTexture("bloom_fbo_texture2");
     TexturePtr bloomFboTexture3 = bRenderer().getObjects()->getTexture("bloom_fbo_texture3");
+    TexturePtr lensFlareBloomTexture = bRenderer().getObjects()->getTexture("lensFlareBloomTexture");
     MaterialPtr bloomMaterial1 = bRenderer().getObjects()->getMaterial("bloomMaterial1");
     MaterialPtr bloomMaterial2 = bRenderer().getObjects()->getMaterial("bloomMaterial2");
     MaterialPtr bloomMaterialFinal = bRenderer().getObjects()->getMaterial("bloomMaterialFinal");
+     MaterialPtr lensFlareMaterial = bRenderer().getObjects()->getMaterial("lensFlareMaterial");
     ModelPtr bloomSprite1 = bRenderer().getObjects()->getModel("bloomSprite1");
     ModelPtr bloomSprite2 = bRenderer().getObjects()->getModel("bloomSprite2");
     ModelPtr bloomSpriteFinal = bRenderer().getObjects()->getModel("bloomSpriteFinal");
+    ModelPtr lensFlareSprite = bRenderer().getObjects()->getModel("lensFlareSprite");
     
-    vmml::Matrix4f bloomMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5f));
+    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5f));
     
     bloomFbo2->bindTexture(bloomFboTexture2, false);
     GLint bloomFbo2Int = Framebuffer::getCurrentFramebuffer();
@@ -605,10 +614,21 @@ void RingMadness::renderBloomEffect(GLint &defaultFBO) {
     bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
     bloomMaterial1->setTexture("fbo_texture", bloomFboTexture1);
 
-    bRenderer().getModelRenderer()->drawModel(bloomSprite1, bloomMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+    // 2. Lens flare
+    lensFlareFbo->bindTexture(lensFlareBloomTexture, false);
+    
+    bRenderer().getModelRenderer()->drawModel(bloomSprite1, modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+    lensFlareFbo->unbind(bloomFbo2Int);
+    lensFlareMaterial->setTexture("fbo_texture", lensFlareBloomTexture);
+    
+    bRenderer().getModelRenderer()->drawModel(lensFlareSprite, modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+    
+    // Draw sun again to keep sun for lens flare
+    bRenderer().getModelRenderer()->drawModel(bloomSprite1, modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
     
     // 2. Blur texture vertically and horizontally
-    bool b = true;        int numberOfBlurSteps = 5;
+    bool b = true;
+    int numberOfBlurSteps = 5;
     for (int i = 0; i < numberOfBlurSteps; i++) {
         if (i == numberOfBlurSteps - 1){
             bloomFbo2->unbind(defaultFBO); //unbind (original fbo will be bound)
@@ -620,7 +640,7 @@ void RingMadness::renderBloomEffect(GLint &defaultFBO) {
         bloomMaterial2->setTexture("fbo_texture", bRenderer().getObjects()->getTexture(b ? "bloom_fbo_texture2" : "bloom_fbo_texture3"));
         bloomMaterial2->setScalar("isVertical", static_cast<GLfloat>(b));
         // draw
-        bRenderer().getModelRenderer()->drawModel(bloomSprite2, bloomMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+        bRenderer().getModelRenderer()->drawModel(bloomSprite2, modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
         b = !b;
     }
     
@@ -628,7 +648,7 @@ void RingMadness::renderBloomEffect(GLint &defaultFBO) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     bloomMaterialFinal->setTexture("fbo_texture_scene", bloomFboTexture1);
     bloomMaterialFinal->setTexture("fbo_texture_bloomBlur", bloomFboTexture3);
-    bRenderer().getModelRenderer()->drawModel(bloomSpriteFinal, bloomMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+    bRenderer().getModelRenderer()->drawModel(bloomSpriteFinal, modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
 }
 
 void RingMadness::initRings(const int nr) {
