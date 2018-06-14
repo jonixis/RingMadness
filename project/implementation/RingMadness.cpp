@@ -195,24 +195,6 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->createTexture("bloom_fbo_texture2", 0.f, 0.f);
     bRenderer().getObjects()->createTexture("bloom_fbo_texture3", 0.f, 0.f);
     
-    // SSAO //
-    bRenderer().getObjects()->createFramebuffer("ssao_fbo");
-    bRenderer().getObjects()->createFramebuffer("ssao_fbo1");
-    bRenderer().getObjects()->createFramebuffer("ssao_fbo2");
-    bRenderer().getObjects()->createFramebuffer("ssao_fbo3");
-    
-    bRenderer().getObjects()->createTexture("ssao_noise_texture", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
-    bRenderer().getObjects()->createDepthMap("ssao_depth", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
-    /*bRenderer().getObjects()->createTexture("ssao_normal_texture", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
-    bRenderer().getObjects()->createTexture("ssao_noise_texture", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
-    bRenderer().getObjects()->createTexture("ssao_texture", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
-    bRenderer().getObjects()->createTexture("ssao_blurred_texture", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
-    bRenderer().getObjects()->createSprite("randomNoiseSprite", "randomNoise.png");
-    */
-    
-    // END //
-    
-    
     // Load shaders
     ShaderPtr blurShader = bRenderer().getObjects()->loadShaderFile_o("blurShader", 0);
     ShaderPtr bloomShader1 = bRenderer().getObjects()->loadShaderFile_o("bloomShader1", 0);
@@ -280,8 +262,6 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
         //bRenderer().getObjects()->getTextSprite("instructions")->setText("FATALITY . . . Double Tap to Restart!");
         //renderPauseScreen(defaultFBO);
     }
-    
-    renderSsao();
 
     // Quit renderer when escape is pressed
     if (bRenderer().getInput()->getKeyState(bRenderer::KEY_ESCAPE) == bRenderer::INPUT_PRESS)
@@ -372,7 +352,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
         }
     }
    
-    //checkTerrainCollision();
+    checkTerrainCollision();
     
     makeWorldVivid(camera, deltaTime);
 }
@@ -686,55 +666,6 @@ void RingMadness::renderBloomEffect(GLint &defaultFBO) {
     bloomMaterialFinal->setTexture("fbo_texture_scene", bloomFboTexture1);
     bloomMaterialFinal->setTexture("fbo_texture_bloomBlur", bloomFboTexture3);
     bRenderer().getModelRenderer()->drawModel(bloomSpriteFinal, bloomMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
-}
-
-
-// SSAO Rendering //
-void RingMadness::renderSsao(){
-  
-    vmml::Matrix<64, 3> ssaoKernel;
-    for (int i = 0; i < 64; ++i){
-        vmml::Vector3f sample = vmml::Vector3f(randomNumber(-1.0, 1.0), randomNumber(-1.0, 1.0), randomNumber(0.0, 1.0));
-        sample  = vmml::normalize(sample);
-        sample *= randomNumber(0.0, 1.0);
-        float scale = (float)i / 64.0;
-        //ssaoKernel = sample;
-        scale = lerp(0.1f, 1.0f, scale * scale);
-        sample *= scale;
-        ssaoKernel.set_row(i, sample);
-    }
-    
-    vmml::Matrix<16, 3> ssaoNoise;
-    for(unsigned int i = 0; i < 16; i++){
-        vmml::Vector3f sample = vmml::Vector3f(randomNumber(-1.0, 1.0), randomNumber(-1.0, 1.0), 0.0);
-        sample  = vmml::normalize(sample);
-        ssaoNoise.set_row(i, sample);
-    }
-    
-    //bRenderer().getObjects()->getFramebuffer("ssao_fbo2")->bind(false);
-    //bRenderer().getObjects()->getFramebuffer("ssao_fbo2")->bindTexture(bRenderer().getObjects()->getTexture("ssao_noise_texture"), false);
-    unsigned int noiseTexture;
-    glGenTextures(1, &noiseTexture);
-    glBindTexture(GL_TEXTURE_2D, noiseTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    
-    bRenderer().getObjects()->getShader("terrain")->setUniform("noise_texture", noiseTexture);
-    
-    
-    /*
-    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5)) *
-    vmml::create_scaling(vmml::Vector3f(1.0));
-    bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("ring"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
-    bRenderer().getObjects()->getFramebuffer("ssao_fbo2")->unbind();*/
-    
-    //bRenderer().getObjects()->getShader("terrain")->setUniform("depth", "ssao_depth");
-    
-    //bRenderer().getObjects()->getFramebuffer("ssao_fbo3")->bind(false);
-    //bRenderer().getObjects()->getFramebuffer("ssao_fbo3")->bindTexture(bRenderer().getObjects()->getTexture("ssao_texture"), false);
 }
 
 void RingMadness::initRings(const int nr) {
