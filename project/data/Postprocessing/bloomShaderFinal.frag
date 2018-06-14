@@ -1,6 +1,6 @@
 $B_SHADER_VERSION
 #ifdef GL_ES
-precision lowp float;
+precision highp float;
 #endif
 
 uniform sampler2D fbo_texture_scene;
