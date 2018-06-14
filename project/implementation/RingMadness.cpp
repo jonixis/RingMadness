@@ -334,7 +334,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     for(int j = 0; j < nrRings; j++){
         str << "ring" << std::to_string(j);
         if(rings[j].hit != true){
-            bRenderer().getModelRenderer()->queueModelInstance("ring", str.str() , camera, rings[j].matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+            bRenderer().getModelRenderer()->queueModelInstance("ring", str.str(), camera, rings[j].matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
             checkRingCollision(rings[j]);
         }
     }
