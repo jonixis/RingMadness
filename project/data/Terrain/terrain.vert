@@ -33,7 +33,7 @@ void main()
     //light
     ambientVarying = vec4(0.4,0.4,0.4,1.0);
     
-    diffuseVarying = vec4(0.3);
+    diffuseVarying = vec4(0.0);
  
     highp vec3 normal = normalize(Normal);
     highp vec3 lightDirection = vec3(normalize(sunPosition-(modelMatrix * Position)));

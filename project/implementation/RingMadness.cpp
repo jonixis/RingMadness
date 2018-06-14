@@ -6,6 +6,11 @@ GLfloat RingMadness::randomNumber(GLfloat min, GLfloat max){
     return min + static_cast <GLfloat> (rand()) / (static_cast <GLfloat> (RAND_MAX / (max - min)));
 }
 
+float lerp(float a, float b, float f)
+{
+    return a + f * (b - a);
+}
+
 /* Initialize the Project */
 void RingMadness::init()
 {
@@ -29,7 +34,7 @@ const int nrRings = 15;
 Ring rings[nrRings];
 
 const GLfloat mapRadius = 500.f;
-const GLfloat maxHeight = 100.f;
+const GLfloat maxHeight = 90.f;
 float plane_radius = 5.f;
 
 //Terrain collision variables
@@ -191,7 +196,19 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->createTexture("bloom_fbo_texture3", 0.f, 0.f);
     
     // SSAO //
-    bRenderer().getObjects()->createTexture("ssao_texture", 0.f, 0.f);
+    bRenderer().getObjects()->createFramebuffer("ssao_fbo");
+    bRenderer().getObjects()->createFramebuffer("ssao_fbo1");
+    bRenderer().getObjects()->createFramebuffer("ssao_fbo2");
+    bRenderer().getObjects()->createFramebuffer("ssao_fbo3");
+    
+    bRenderer().getObjects()->createTexture("ssao_noise_texture", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
+    bRenderer().getObjects()->createDepthMap("ssao_depth", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
+    /*bRenderer().getObjects()->createTexture("ssao_normal_texture", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
+    bRenderer().getObjects()->createTexture("ssao_noise_texture", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
+    bRenderer().getObjects()->createTexture("ssao_texture", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
+    bRenderer().getObjects()->createTexture("ssao_blurred_texture", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
+    bRenderer().getObjects()->createSprite("randomNoiseSprite", "randomNoise.png");
+    */
     
     // END //
     
@@ -245,7 +262,7 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
     /// Update render queue ///
     updateRenderQueue("camera", deltaTime);
     
-    /// Reset rings, if finnished (in endPostprocessing(defaultFBO);) ///
+    /// Reset rings, if finished (in endPostprocessing(defaultFBO);) ///
     if (score == nrRings*10) {
         delay += 1;
         if(delay > 100){
@@ -258,10 +275,13 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
     
     if(collision == true){
         _running = false;
-        collision = false;
-        bRenderer().getObjects()->getTextSprite("instructions")->setText("FATALITY . . . Double Tap to Restart!");
-        renderPauseScreen(defaultFBO);
+        //score = -1;
+        //collision = false;
+        //bRenderer().getObjects()->getTextSprite("instructions")->setText("FATALITY . . . Double Tap to Restart!");
+        //renderPauseScreen(defaultFBO);
     }
+    
+    renderSsao();
 
     // Quit renderer when escape is pressed
     if (bRenderer().getInput()->getKeyState(bRenderer::KEY_ESCAPE) == bRenderer::INPUT_PRESS)
@@ -341,6 +361,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     // Rings
     //Ring dummyRing = Ring(vmml::Vector3f(0.f, -60.f, 0.f));
     //bRenderer().getModelRenderer()->queueModelInstance("ring", "ring" , camera, dummyRing.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+    
     std::ostringstream str;
     
     for(int j = 0; j < nrRings; j++){
@@ -351,7 +372,7 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
         }
     }
    
-    checkTerrainCollision();
+    //checkTerrainCollision();
     
     makeWorldVivid(camera, deltaTime);
 }
@@ -561,9 +582,13 @@ void RingMadness::endPostprocessing(GLint &defaultFBO) {
         if (score == -1) {
             bRenderer().getObjects()->getTextSprite("instructions")->setText("YOU WON! Double tap upper left to reset rings");
         }
+        if (collision == true){
+            bRenderer().getObjects()->getTextSprite("instructions")->setText("YOU LOST... Double tap upper left to reset rings");
+        }
         renderPauseScreen(defaultFBO);
     } else {
-        if (score == -1) {
+        if (score == -1 || collision == true) {
+            collision = false;
             score = 0;
             bRenderer().getObjects()->getTextSprite("instructions")->setText(instructions);
             initRings(nrRings);
@@ -663,8 +688,57 @@ void RingMadness::renderBloomEffect(GLint &defaultFBO) {
     bRenderer().getModelRenderer()->drawModel(bloomSpriteFinal, bloomMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
 }
 
+
+// SSAO Rendering //
+void RingMadness::renderSsao(){
+  
+    vmml::Matrix<64, 3> ssaoKernel;
+    for (int i = 0; i < 64; ++i){
+        vmml::Vector3f sample = vmml::Vector3f(randomNumber(-1.0, 1.0), randomNumber(-1.0, 1.0), randomNumber(0.0, 1.0));
+        sample  = vmml::normalize(sample);
+        sample *= randomNumber(0.0, 1.0);
+        float scale = (float)i / 64.0;
+        //ssaoKernel = sample;
+        scale = lerp(0.1f, 1.0f, scale * scale);
+        sample *= scale;
+        ssaoKernel.set_row(i, sample);
+    }
+    
+    vmml::Matrix<16, 3> ssaoNoise;
+    for(unsigned int i = 0; i < 16; i++){
+        vmml::Vector3f sample = vmml::Vector3f(randomNumber(-1.0, 1.0), randomNumber(-1.0, 1.0), 0.0);
+        sample  = vmml::normalize(sample);
+        ssaoNoise.set_row(i, sample);
+    }
+    
+    //bRenderer().getObjects()->getFramebuffer("ssao_fbo2")->bind(false);
+    //bRenderer().getObjects()->getFramebuffer("ssao_fbo2")->bindTexture(bRenderer().getObjects()->getTexture("ssao_noise_texture"), false);
+    unsigned int noiseTexture;
+    glGenTextures(1, &noiseTexture);
+    glBindTexture(GL_TEXTURE_2D, noiseTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    
+    bRenderer().getObjects()->getShader("terrain")->setUniform("noise_texture", noiseTexture);
+    
+    
+    /*
+    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5)) *
+    vmml::create_scaling(vmml::Vector3f(1.0));
+    bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("ring"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+    bRenderer().getObjects()->getFramebuffer("ssao_fbo2")->unbind();*/
+    
+    //bRenderer().getObjects()->getShader("terrain")->setUniform("depth", "ssao_depth");
+    
+    //bRenderer().getObjects()->getFramebuffer("ssao_fbo3")->bind(false);
+    //bRenderer().getObjects()->getFramebuffer("ssao_fbo3")->bindTexture(bRenderer().getObjects()->getTexture("ssao_texture"), false);
+}
+
 void RingMadness::initRings(const int nr) {
     for(int i = 0; i < nr; i++){
-        rings[i] = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+        rings[i] = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, 2*maxHeight), randomNumber(-mapRadius, mapRadius)));
     }
 }

@@ -43,6 +43,9 @@ float bias = 0.025;
 float k = 64.0;
 
 const vec2 noiseScale = vec2(1280.0/4.0, 720.0/4.0);
+
+uniform sampler2D depth;
+uniform sampler2D noise_texture;
 //END//
 
 void main()
@@ -54,7 +57,7 @@ void main()
     
     
     //SSAO//
-    vec3 randomVec = normalize(texture2D(DiffuseMap, noiseScale * noiseScale).xyz);
+    vec3 randomVec = normalize(texture2D(noise_texture, noiseScale * noiseScale).xyz);
     vec3 tangent = normalize(randomVec - n * dot(randomVec, n));
     vec3 bitangent = cross(n, tangent);
     mat3 TBN = mat3(tangent, bitangent, n);
@@ -85,7 +88,10 @@ void main()
     vec4 ambient = (ambientVarying*occlusion);
     
     color = (ambient + diffuseVarying) * vec4(Kd,1.0) + specularVarying;
+    //color = (ambientVarying + diffuseVarying) * vec4(Kd,1.0) + specularVarying;
     //gl_FragColor = mix(fogColor, color, visibility);
-    gl_FragColor = color;
+    vec3 colorMap = texture(noise_texture, offset.xy).rgb;
+    color = (ambientColor + diffuseColor) * colorMap.rgb
+    gl_FragColor = vec4(colorMap, 1.0);
     
 }

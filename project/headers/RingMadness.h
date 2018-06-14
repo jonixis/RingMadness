@@ -81,13 +81,12 @@ private:
     /* Postprocessing*/
     
     void beginPostprocessing(GLint &defaultFBO);
-    
     void renderPauseScreen(GLint &defaultFBO);
-    
     void endPostprocessing(GLint &defaultFBO);
-    
     void renderBloomEffect(GLint &defaultFBO);
 
+    void renderSsao();
+    
 };
 
 #endif /* defined(PROJECT_MAIN_H) */
