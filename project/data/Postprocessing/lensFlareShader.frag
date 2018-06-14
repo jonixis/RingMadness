@@ -25,16 +25,6 @@ void main() {
         result += texture2D(fbo_texture, offset) * weight;
     }
     
-    //    for (int i = 0; i < 3; ++i) {
-    //        vec2 offset = fract(texCoordVarying.st + ghostVec * float(i)) * 0.5;
-    //
-    //        float weight = length(vec2(0.5) - offset) / length(vec2(0.5));
-    //        weight = pow(1.0 - weight, 10.0);
-    //
-    //        result += texture2D(fbo_texture, offset) * weight;
-    //    }
-    
-    
     //    // sample halo:
     //    vec2 haloVec = normalize(ghostVec) * 1.0;
     //    float weight = length(vec2(0.5) - fract(texCoordVarying.st + haloVec)) / length(vec2(0.5));
