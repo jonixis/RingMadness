@@ -136,6 +136,10 @@
 		ED1F898020C81656004C8271 /* ring.obj in Resources */ = {isa = PBXBuildFile; fileRef = ED1F897F20C81656004C8271 /* ring.obj */; };
 		ED1F898220C81660004C8271 /* ring.mtl in Resources */ = {isa = PBXBuildFile; fileRef = ED1F898120C81660004C8271 /* ring.mtl */; };
 		ED3263FE20C094DC004687D4 /* Ring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED3263FC20C094DC004687D4 /* Ring.cpp */; };
+		ED371E3920D2865B00E6920E /* ssaoBlur.vert in Resources */ = {isa = PBXBuildFile; fileRef = ED371E3820D2865B00E6920E /* ssaoBlur.vert */; };
+		ED371E3B20D2866E00E6920E /* ssao.vert in Resources */ = {isa = PBXBuildFile; fileRef = ED371E3A20D2866E00E6920E /* ssao.vert */; };
+		ED371E3D20D2867700E6920E /* ssao.frag in Resources */ = {isa = PBXBuildFile; fileRef = ED371E3C20D2867700E6920E /* ssao.frag */; };
+		ED371E3F20D2868B00E6920E /* ssaoBlur.frag in Resources */ = {isa = PBXBuildFile; fileRef = ED371E3E20D2868B00E6920E /* ssaoBlur.frag */; };
 		EDF345C820C691CB006C3F98 /* ring.vert in Resources */ = {isa = PBXBuildFile; fileRef = EDF345C720C691CB006C3F98 /* ring.vert */; };
 		EDF345CA20C691DF006C3F98 /* ring.frag in Resources */ = {isa = PBXBuildFile; fileRef = EDF345C920C691DF006C3F98 /* ring.frag */; };
 		F81192EA20B2C6BF008BF2E2 /* bloomShader1.vert in Resources */ = {isa = PBXBuildFile; fileRef = F81192E920B2C6BF008BF2E2 /* bloomShader1.vert */; };
@@ -348,6 +352,10 @@
 		ED1F898120C81660004C8271 /* ring.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ring.mtl; sourceTree = "<group>"; };
 		ED3263FC20C094DC004687D4 /* Ring.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Ring.cpp; sourceTree = "<group>"; };
 		ED3263FD20C094DC004687D4 /* Ring.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Ring.hpp; sourceTree = "<group>"; };
+		ED371E3820D2865B00E6920E /* ssaoBlur.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ssaoBlur.vert; sourceTree = "<group>"; };
+		ED371E3A20D2866E00E6920E /* ssao.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ssao.vert; sourceTree = "<group>"; };
+		ED371E3C20D2867700E6920E /* ssao.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ssao.frag; sourceTree = "<group>"; };
+		ED371E3E20D2868B00E6920E /* ssaoBlur.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ssaoBlur.frag; sourceTree = "<group>"; };
 		EDF345C720C691CB006C3F98 /* ring.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ring.vert; sourceTree = "<group>"; };
 		EDF345C920C691DF006C3F98 /* ring.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ring.frag; sourceTree = "<group>"; };
 		F81192E920B2C6BF008BF2E2 /* bloomShader1.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = bloomShader1.vert; sourceTree = "<group>"; };
@@ -1501,6 +1509,10 @@
 				ED1F898120C81660004C8271 /* ring.mtl */,
 				EDF345C720C691CB006C3F98 /* ring.vert */,
 				EDF345C920C691DF006C3F98 /* ring.frag */,
+				ED371E3A20D2866E00E6920E /* ssao.vert */,
+				ED371E3C20D2867700E6920E /* ssao.frag */,
+				ED371E3820D2865B00E6920E /* ssaoBlur.vert */,
+				ED371E3E20D2868B00E6920E /* ssaoBlur.frag */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -3128,16 +3140,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5FF820620C138FC001CD9DA /* Trees.obj in Resources */,
+				ED371E3B20D2866E00E6920E /* ssao.vert in Resources */,
 				F85558B2209B17C300041BC2 /* sun.mtl in Resources */,
 				B4794A311BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				F85558C2209B7EA900041BC2 /* plane.mtl in Resources */,
 				F88E39D020A6E50E00A17AA0 /* terrain.vert in Resources */,
 				F85558B6209B3BEF00041BC2 /* sun.frag in Resources */,
 				E535CCE22080DB2C00FB0BB4 /* cube.mtl in Resources */,
+				ED371E3920D2865B00E6920E /* ssaoBlur.vert in Resources */,
 				E5E0B729209B5B9700A756AC /* sea.mtl in Resources */,
 				E535CCE12080DB2C00FB0BB4 /* cube.obj in Resources */,
 				F881EA7320987FDF00CB5DDB /* plane.frag in Resources */,
 				E535CCE12080DB2C00FB0BB4 /* cube.obj in Resources */,
+				ED371E3D20D2867700E6920E /* ssao.frag in Resources */,
 				F88E39CF20A6E50E00A17AA0 /* terrain.frag in Resources */,
 				E535CCE62080DC3300FB0BB4 /* cube.frag in Resources */,
 				E578287420A350B200889326 /* Sky.png in Resources */,
@@ -3178,6 +3193,7 @@
 				B47949BA1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf in Resources */,
 				E5520B2A20A0D2110050C699 /* terrain.obj in Resources */,
 				E5FF820E20C1463D001CD9DA /* Clouds.mtl in Resources */,
+				ED371E3F20D2868B00E6920E /* ssaoBlur.frag in Resources */,
 				F88E39D320A6E8C100A17AA0 /* rotor.mtl in Resources */,
 				B47949BA1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf in Resources */,
 				E5520B2A20A0D2110050C699 /* terrain.obj in Resources */,

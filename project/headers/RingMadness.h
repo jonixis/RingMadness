@@ -85,6 +85,8 @@ private:
     void endPostprocessing(GLint &defaultFBO);
     
     void renderBloomEffect(GLint &defaultFBO);
+    
+    void renderSsao(GLint &defaultFBO);
 
 };
 
