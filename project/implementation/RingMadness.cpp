@@ -682,7 +682,6 @@ void RingMadness::renderSsao(GLint &defaultFBO){
     }
     
     
-    
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5)) * vmml::create_scaling(vmml::Vector3f(1.0));
     ssaoFBO1->unbind(defaultFBO);
     
@@ -716,9 +715,7 @@ void RingMadness::renderSsao(GLint &defaultFBO){
     
     //bRenderer().getModelRenderer()->drawQueue();
     
-    
-    // RENDER TO DEFAULT FRAMEBUFFER
-    ssaoFBO2->unbind(defaultFBO); //unbind (original fbo will be bound)
+    ssaoFBO2->unbind(defaultFBO);
     //bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
     
     //modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5)) * vmml::create_scaling(vmml::Vector3f(1.0));
