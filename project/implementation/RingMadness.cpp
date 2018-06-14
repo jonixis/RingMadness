@@ -159,9 +159,11 @@ void RingMadness::initFunction()
 
     // create text sprites
     FontPtr font = bRenderer().getObjects()->loadFont("KozGoPro-ExtraLight.otf", 50);
+    FontPtr fontTitle = bRenderer().getObjects()->loadFont("KozGoPro-ExtraLight.otf", 100);
     if (Input::isTouchDevice()) {
         bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.0f, 1.f), instructions, font);
         bRenderer().getObjects()->createTextSprite("scoreText", vmml::Vector3f(1.f, 1.f, 1.f), "Score: " + std::to_string(score), font);
+        bRenderer().getObjects()->createTextSprite("ringMadness", vmml::Vector3f(1.f, 1.f, 1.f), "RING MADNESS", fontTitle);
     }
     else {
         bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.f, 1.f), "Press space to start", font);
@@ -568,11 +570,11 @@ void RingMadness::renderPauseScreen(GLint &defaultFBO) {
         
         /*** Title ***/
         // translate and scale
-        GLfloat titleScale = 0.5f;
+        GLfloat titleScale = 0.2f;
         vmml::Matrix4f scaling = vmml::create_scaling(vmml::Vector3f(titleScale / bRenderer().getView()->getAspectRatio(), titleScale, titleScale));
-        modelMatrix = vmml::create_translation(vmml::Vector3f(-0.4f, 0.0f, -0.65f)) * scaling;
+        modelMatrix = vmml::create_translation(vmml::Vector3f(-0.49f, 0.0f, -0.65f)) * scaling;
         // draw
-        bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("bTitle"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false, false);
+        bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getTextSprite("ringMadness"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false, false);
         
         /*** Instructions ***/
         titleScale = 0.1f;
