@@ -114,8 +114,6 @@ void RingMadness::initFunction()
     // Object Shader for all objects (E.g. Clouds, houses, etc...)
     objectShader = bRenderer().getObjects()->loadShaderFile_o("object");
     
-    bRenderer().getObjects()->loadObjModel_o("sphere.obj", objectShader);
-    
     // Order of pictures to generate cubematp. left, right, bottom, top, front,  back
     skyShader->setUniform("texCube", bRenderer().getObjects()->loadCubeMap("textureCube", std::vector<std::string>({ "Sky.png", "Sky.png", "SkyBottom.png", "SkyTop.png", "Sky.png", "Sky.png" })));
     
@@ -148,7 +146,7 @@ void RingMadness::initFunction()
     ringShader = bRenderer().getObjects()->loadShaderFile("ring");
     bRenderer().getObjects()->loadObjModel_o("ring.obj", ringShader);
     
-    //initRings(nrRings);
+    initRings(nrRings);
 
     // Plane start Position
     planeModelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_rotation(M_PI_F * 0.5f, vmml::Vector3f::UNIT_Y);
@@ -352,13 +350,13 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     std::ostringstream str;
     
-    /*for(int j = 0; j < nrRings; j++){
+    for(int j = 0; j < nrRings; j++){
         str << "ring" << std::to_string(j);
         if(rings[j].hit != true){
             bRenderer().getModelRenderer()->queueModelInstance("ring", str.str() , camera, rings[j].matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
             checkRingCollision(rings[j]);
         }
-    }*/
+    }
     
     collisionPoints.set_row(0, vmml::Vector3f(-700.f, 550.f, -650.f));
     collisionPoints.set_row(1, vmml::Vector3f(-730.f, 480.f, -650.f));
