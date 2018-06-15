@@ -65,7 +65,7 @@ private:
     
     /* Terrain collision */
     void checkTerrainCollision(vmml::Vector3f pos, float radius);
-    GLboolean checkWaterCollision();
+    void checkWaterCollision();
 
 	/* Helper Functions */
 	GLfloat randomNumber(GLfloat min, GLfloat max);

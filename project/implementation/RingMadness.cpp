@@ -40,8 +40,8 @@ float plane_radius = 5.f;
 //Terrain collision variables
 const float waterHeight = -100.f;
 GLboolean collision = false;
-vmml::Matrix<6, 3> collisionPoints;
-vmml::Vector<6> collisionRadius;
+vmml::Matrix<7, 3> collisionPoints;
+vmml::Vector<7> collisionRadius;
 
 
 //plane Variables
@@ -114,6 +114,7 @@ void RingMadness::initFunction()
     // Object Shader for all objects (E.g. Clouds, houses, etc...)
     objectShader = bRenderer().getObjects()->loadShaderFile_o("object");
     
+    bRenderer().getObjects()->loadObjModel_o("sphere.obj", objectShader);
     
     // Order of pictures to generate cubematp. left, right, bottom, top, front,  back
     skyShader->setUniform("texCube", bRenderer().getObjects()->loadCubeMap("textureCube", std::vector<std::string>({ "Sky.png", "Sky.png", "SkyBottom.png", "SkyTop.png", "Sky.png", "Sky.png" })));
@@ -257,14 +258,19 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
         
     }
     
-    if(collision == true){
-        _running = false;
+    //if(collision == true){
+      //  _running = false;
         //score = -1;
         //collision = false;
         //bRenderer().getObjects()->getTextSprite("instructions")->setText("FATALITY . . . Double Tap to Restart!");
         //renderPauseScreen(defaultFBO);
-    }
+    //}
 
+    checkWaterCollision();
+    for(int i = 0; i < 7; i++){
+        if(collision == false) checkTerrainCollision(collisionPoints.get_row(i), collisionRadius[i]);
+    }
+    
     // Quit renderer when escape is pressed
     if (bRenderer().getInput()->getKeyState(bRenderer::KEY_ESCAPE) == bRenderer::INPUT_PRESS)
         bRenderer().terminateRenderer();
@@ -354,23 +360,22 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
         }
     }*/
     
-    //Terrain collision
-    for(int i = 0; i < 6; i++){
-        collisionPoints.set_row(i, vmml::Vector3f(-700.f, 550.f-100.f*i, -650.f));
-    }
+    collisionPoints.set_row(0, vmml::Vector3f(-700.f, 550.f, -650.f));
+    collisionPoints.set_row(1, vmml::Vector3f(-730.f, 480.f, -650.f));
+    collisionPoints.set_row(2, vmml::Vector3f(-730.f, 380.f, -650.f));
+    collisionPoints.set_row(3, vmml::Vector3f(-730.f, 250.f, -650.f));
+    collisionPoints.set_row(4, vmml::Vector3f(-730.f, 180.f, -650.f));
+    collisionPoints.set_row(5, vmml::Vector3f(-730.f, 80.f, -650.f));
+    collisionPoints.set_row(6, vmml::Vector3f(-760.f, -300.f, -670.f));
+    
     collisionRadius[0] = 100.f;
-    collisionRadius[1] = 200.f;
-    collisionRadius[2] = 400.f;
-    collisionRadius[3] = 800.f;
-    collisionRadius[4] = 1000.f;
-    collisionRadius[5] = 1200.f;
-    
-    for(int i = 0; i < 6; i++){
-        if(collision == false){
-            checkTerrainCollision(collisionPoints.get_row(i), collisionRadius[i]);
-        }
-    }
-    
+    collisionRadius[1] = 120.f;
+    collisionRadius[2] = 150.f;
+    collisionRadius[3] = 200.f;
+    collisionRadius[4] = 230.f;
+    collisionRadius[5] = 280.f;
+    collisionRadius[6] = 550.f;
+
     makeWorldVivid(camera, deltaTime);
 }
 
@@ -514,14 +519,17 @@ void RingMadness::checkTerrainCollision(vmml::Vector3f pos, float radius){
     
     if(dist <= (radius + plane_radius)){
         collision = true;
+        _running = false;
+        //bRenderer().terminateRenderer();
     }
 }
 
-GLboolean RingMadness::checkWaterCollision(){
+void RingMadness::checkWaterCollision(){
     float dy = abs(planePosition.y()-waterHeight);
     if(dy <= (10.f + plane_radius)){
         collision = true;
-        return(collision);
+        _running = false;
+        //bRenderer().terminateRenderer();
     }
 }
 
@@ -587,12 +595,12 @@ void RingMadness::endPostprocessing(GLint &defaultFBO) {
         if (score == -1) {
             bRenderer().getObjects()->getTextSprite("instructions")->setText("YOU WON! Double tap upper left to reset rings");
         }
-        //if (collision == true){
-          //  bRenderer().getObjects()->getTextSprite("instructions")->setText("YOU LOST...");
-        //}
+        if(collision == true){
+            bRenderer().getObjects()->getTextSprite("instructions")->setText("You lost...");
+        }
         renderPauseScreen(defaultFBO);
     } else {
-        if (score == -1) {
+        if (score == -1||collision == true) {
             collision = false;
             score = 0;
             bRenderer().getObjects()->getTextSprite("instructions")->setText(instructions);
