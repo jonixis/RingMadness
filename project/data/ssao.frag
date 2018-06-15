@@ -23,6 +23,7 @@ float bias = 0.025;
 
 void main()
 {
+    // Implemented with Tutorial from https://learnopengl.com/Advanced-Lighting/SSAO
     // get input for SSAO algorithm
     vec3 fragPos = texture2D(gPosition, texCoords.xy).xyz;
     vec3 normal = normalize(texture2D(gNormal, texCoords.xy).rgb);
