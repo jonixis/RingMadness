@@ -23,10 +23,8 @@ varying float distanceCameraVertex;
 
 varying vec4 normalVarying;
 
-//SSAO//
-highp vec3 n;
-vec3 pos;
-//END//
+//For Collision purposes
+varying vec4 pos;
 
 void main()
 {
@@ -55,16 +53,11 @@ void main()
         
     }
  */
-    
-    //SSAO//
-    n = normal;
-    pos = vec3(Position);
-    //END//
-    
     //normal coloring
     normalVarying = vec4(normal, 1.0);
     
     distanceCameraVertex = length(ModelViewMatrix * Position);
     
+    pos = Position;
     gl_Position = ProjectionMatrix * ModelViewMatrix * Position;
 }

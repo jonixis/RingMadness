@@ -40,6 +40,8 @@ float plane_radius = 5.f;
 //Terrain collision variables
 const float waterHeight = -100.f;
 GLboolean collision = false;
+vmml::Matrix<6, 3> collisionPoints;
+vmml::Vector<6> collisionRadius;
 
 
 //plane Variables
@@ -339,20 +341,35 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     
     // Rings
-    //Ring dummyRing = Ring(vmml::Vector3f(0.f, -60.f, 0.f));
-    //bRenderer().getModelRenderer()->queueModelInstance("ring", "ring" , camera, dummyRing.matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
+    //Ring dummyRing = Ring(vmml::Vector3f(-700.f, 550.f, -650.f));
+    //bRenderer().getModelRenderer()->queueModelInstance("ring", "ring_instance" , camera, dummyRing.matrix, std::vector<std::string>({ }), true, true);
     
     std::ostringstream str;
     
-    for(int j = 0; j < nrRings; j++){
+    /*for(int j = 0; j < nrRings; j++){
         str << "ring" << std::to_string(j);
         if(rings[j].hit != true){
             bRenderer().getModelRenderer()->queueModelInstance("ring", str.str() , camera, rings[j].matrix * vmml::create_rotation(i*0.05f, vmml::Vector3f::UNIT_Y), std::vector<std::string>({ }), true, true);
             checkRingCollision(rings[j]);
         }
+    }*/
+    
+    //Terrain collision
+    for(int i = 0; i < 6; i++){
+        collisionPoints.set_row(i, vmml::Vector3f(-700.f, 550.f-100.f*i, -650.f));
     }
-   
-    checkTerrainCollision();
+    collisionRadius[0] = 100.f;
+    collisionRadius[1] = 200.f;
+    collisionRadius[2] = 400.f;
+    collisionRadius[3] = 800.f;
+    collisionRadius[4] = 1000.f;
+    collisionRadius[5] = 1200.f;
+    
+    for(int i = 0; i < 6; i++){
+        if(collision == false){
+            checkTerrainCollision(collisionPoints.get_row(i), collisionRadius[i]);
+        }
+    }
     
     makeWorldVivid(camera, deltaTime);
 }
@@ -489,14 +506,22 @@ void RingMadness::checkRingCollision(Ring &ring)
     }
 }
 
-void RingMadness::checkTerrainCollision()
-{
-    float dy = abs(planePosition.y()-waterHeight);
+void RingMadness::checkTerrainCollision(vmml::Vector3f pos, float radius){
+    float dx = planePosition.x()-pos.x();
+    float dy = planePosition.y()-pos.y();
+    float dz = planePosition.z()-pos.z();
+    float dist = sqrt(dx*dx + dy*dy + dz*dz);
     
-    if(dy <= (10.f + plane_radius)){
-        //bRenderer().getObjects()->getTextSprite("instructions")->setText("FATALITY");
-        //renderPauseScreen(defaultFBO);
+    if(dist <= (radius + plane_radius)){
         collision = true;
+    }
+}
+
+GLboolean RingMadness::checkWaterCollision(){
+    float dy = abs(planePosition.y()-waterHeight);
+    if(dy <= (10.f + plane_radius)){
+        collision = true;
+        return(collision);
     }
 }
 
@@ -562,12 +587,12 @@ void RingMadness::endPostprocessing(GLint &defaultFBO) {
         if (score == -1) {
             bRenderer().getObjects()->getTextSprite("instructions")->setText("YOU WON! Double tap upper left to reset rings");
         }
-        if (collision == true){
-            bRenderer().getObjects()->getTextSprite("instructions")->setText("YOU LOST... Double tap upper left to reset rings");
-        }
+        //if (collision == true){
+          //  bRenderer().getObjects()->getTextSprite("instructions")->setText("YOU LOST...");
+        //}
         renderPauseScreen(defaultFBO);
     } else {
-        if (score == -1 || collision == true) {
+        if (score == -1) {
             collision = false;
             score = 0;
             bRenderer().getObjects()->getTextSprite("instructions")->setText(instructions);

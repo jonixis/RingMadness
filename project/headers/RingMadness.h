@@ -64,7 +64,8 @@ private:
     void initRings(const int nr);
     
     /* Terrain collision */
-    void checkTerrainCollision();
+    void checkTerrainCollision(vmml::Vector3f pos, float radius);
+    GLboolean checkWaterCollision();
 
 	/* Helper Functions */
 	GLfloat randomNumber(GLfloat min, GLfloat max);

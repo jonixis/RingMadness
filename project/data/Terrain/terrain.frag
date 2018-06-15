@@ -29,6 +29,9 @@ float gradient = 4.0;
 
 uniform vec4 fogColor;
 
+//For Collision purpose
+varying vec4 pos;
+
 void main()
 {
     //Fog
@@ -38,4 +41,5 @@ void main()
     
     color = (ambientVarying + diffuseVarying) * vec4(Kd,1.0) + specularVarying;
     gl_FragColor = mix(fogColor, color, visibility);
+    //gl_FragColor = pos;
 }
