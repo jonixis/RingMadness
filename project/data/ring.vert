@@ -4,7 +4,6 @@ uniform mat4 ViewMatrix;
 uniform mat4 ProjectionMatrix;
 
 
-
 attribute vec4 Position;
 
 

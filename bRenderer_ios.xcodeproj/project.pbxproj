@@ -323,7 +323,7 @@
 		E535CCE02080DB2C00FB0BB4 /* cube.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.mtl; sourceTree = "<group>"; };
 		E535CCE32080DC3300FB0BB4 /* cube.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = cube.vert; sourceTree = "<group>"; };
 		E535CCE42080DC3300FB0BB4 /* cube.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = cube.frag; sourceTree = "<group>"; };
-		E5520B2820A0D2110050C699 /* terrain.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain.obj; sourceTree = "<group>"; };
+		E5520B2820A0D2110050C699 /* terrain.obj */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o"; fileEncoding = 4; path = terrain.obj; sourceTree = "<group>"; };
 		E5520B2920A0D2110050C699 /* terrain.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain.mtl; sourceTree = "<group>"; };
 		E578287320A350B100889326 /* Sky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sky.png; sourceTree = "<group>"; };
 		E578287520A3624C00889326 /* SkyBottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SkyBottom.png; sourceTree = "<group>"; };
@@ -1499,8 +1499,8 @@
 				F881EA6F20987CE500CB5DDB /* Plane */,
 				B47949851BA6742B00B5E9DC /* arial.ttf */,
 				B47949861BA6742B00B5E9DC /* basicTitle_light.png */,
-				B47949871BA6742B00B5E9DC /* blurShader.frag */,
 				B47949881BA6742B00B5E9DC /* blurShader.vert */,
+				B47949871BA6742B00B5E9DC /* blurShader.frag */,
 				B47949921BA6742B00B5E9DC /* config.json */,
 				B479499D1BA6742B00B5E9DC /* KozGoPro-ExtraLight.otf */,
 				EDF345C720C691CB006C3F98 /* ring.vert */,
@@ -1785,12 +1785,12 @@
 			children = (
 				E5520B2920A0D2110050C699 /* terrain.mtl */,
 				E5520B2820A0D2110050C699 /* terrain.obj */,
-				E5A0887D209B0B80006B5205 /* terrain.frag */,
 				E5A0887C209B0B80006B5205 /* terrain.vert */,
-				E5E0B72C209B5C1D00A756AC /* sea.frag */,
-				E5E0B727209B5B9700A756AC /* sea.mtl */,
+				E5A0887D209B0B80006B5205 /* terrain.frag */,
 				E5E0B728209B5B9700A756AC /* sea.obj */,
+				E5E0B727209B5B9700A756AC /* sea.mtl */,
 				E5E0B72B209B5C1D00A756AC /* sea.vert */,
+				E5E0B72C209B5C1D00A756AC /* sea.frag */,
 			);
 			path = Terrain;
 			sourceTree = "<group>";

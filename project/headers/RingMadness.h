@@ -60,7 +60,6 @@ private:
     
     /* Ball collision */
     void checkRingCollision(Ring &ring);
-    
     void showScore();
     void initRings(const int nr);
 
@@ -79,13 +78,10 @@ private:
     /* Postprocessing*/
     
     void beginPostprocessing(GLint &defaultFBO);
-    
     void renderPauseScreen(GLint &defaultFBO);
-    
     void endPostprocessing(GLint &defaultFBO);
-    
     void renderBloomEffect(GLint &defaultFBO);
-
+    
 };
 
 #endif /* defined(PROJECT_MAIN_H) */

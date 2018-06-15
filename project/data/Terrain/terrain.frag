@@ -20,7 +20,7 @@ varying float distanceCameraVertex;
 
 vec4 color;
 
-varying vec4 colorVarying;
+varying vec4 normalVarying;
 
 //Fog
 float visibility;
@@ -29,6 +29,8 @@ float gradient = 4.0;
 
 uniform vec4 fogColor;
 
+//For Collision purpose
+varying vec4 pos;
 
 void main()
 {
@@ -39,5 +41,5 @@ void main()
     
     color = (ambientVarying + diffuseVarying) * vec4(Kd,1.0) + specularVarying;
     gl_FragColor = mix(fogColor, color, visibility);
-    //gl_FragColor = colorVarying;
+    //gl_FragColor = pos;
 }

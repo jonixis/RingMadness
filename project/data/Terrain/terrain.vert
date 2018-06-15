@@ -21,7 +21,10 @@ varying vec4 diffuseVarying;
 varying vec4 specularVarying;
 varying float distanceCameraVertex;
 
-varying vec4 colorVarying;
+varying vec4 normalVarying;
+
+//For Collision purposes
+varying vec4 pos;
 
 void main()
 {
@@ -30,7 +33,7 @@ void main()
     
     diffuseVarying = vec4(0.0);
  
-    highp vec3 normal = Normal;
+    highp vec3 normal = normalize(Normal);
     highp vec3 lightDirection = vec3(normalize(sunPosition-(modelMatrix * Position)));
     
     highp float intensity = dot(normal,lightDirection);
@@ -50,11 +53,11 @@ void main()
         
     }
  */
-    
-    //normal colours
-    colorVarying = vec4(vec3(0.5) + normal * 0.5, 1.0);
+    //normal coloring
+    normalVarying = vec4(normal, 1.0);
     
     distanceCameraVertex = length(ModelViewMatrix * Position);
     
+    pos = Position;
     gl_Position = ProjectionMatrix * ModelViewMatrix * Position;
 }
