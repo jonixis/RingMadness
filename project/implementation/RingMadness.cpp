@@ -153,7 +153,7 @@ void RingMadness::initFunction()
     planeModelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.0f)) * vmml::create_rotation(M_PI_F * 0.5f, vmml::Vector3f::UNIT_Y);
     
     // Camera Start Position
-    cameraPosition = vmml::Vector3f(-300.0f,100.0f,0.0f);
+    cameraPosition = vmml::Vector3f(-300.0f,100.0f,20.0f);
     
     // Set sun Positions
     terrainShader->setUniform("sunPosition", sunPosition);
@@ -183,7 +183,7 @@ void RingMadness::initFunction()
     // create camera
     //bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(-33.0, 0.f, -13.0), vmml::Vector3f(0.f, -M_PI_F / 2, 0.f));
     bRenderer().getObjects()->createCamera("camera");
-    bRenderer().getObjects()->getCamera("camera")->lookAt(vmml::Vector3f(-300.0f,100.0f,0.0f), vmml::Vector3f::ZERO, vmml::Vector3f::UNIT_Y);
+    bRenderer().getObjects()->getCamera("camera")->lookAt(vmml::Vector3f(-300.0f,100.0f,20.0f), vmml::Vector3f::ZERO, vmml::Vector3f::UNIT_Y);
     
     /// postprocessing ///
     
@@ -402,11 +402,11 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
             // If touch is on the right half, steer plane
             if (touch.startPositionX > bRenderer().getView()->getWidth() / 2){
                 
-                planeTargetYaw = -(touch.currentPositionX - touch.startPositionX) * 0.0001f;
-                //planeTargetYaw = -std::sin((touch.currentPositionX - touch.startPositionX) * 0.0001f) * (3.1415f/2.0f);
+                //planeTargetYaw = -(touch.currentPositionX - touch.startPositionX) * 0.0001f;
+                planeTargetYaw = -std::sin((touch.currentPositionX - touch.startPositionX) * 0.00005f) * (3.1415f/2.0f);
                 
-                planeTargetPitch = (touch.currentPositionY - touch.startPositionY) * 0.0001f;
-                //planeTargetPitch = std::sin((touch.currentPositionY - touch.startPositionY) * 0.0001f)*(3.1415f/2.0f);
+                //planeTargetPitch = (touch.currentPositionY - touch.startPositionY) * 0.0001f;
+                planeTargetPitch = std::sin((touch.currentPositionY - touch.startPositionY) * 0.00005f)*(3.1415f/2.0f);
                 
             }
             if (++i > 2)
@@ -424,9 +424,9 @@ void RingMadness::updatePlane(const std::string &camera, const double &deltaTime
         //Roll and yaw of plane with automatical leveling of roll not working atm
         if(planeTargetYaw == 0){
             if (planeCurrentRoll > 0) {
-                planeCurrentRoll = planeCurrentRoll - (planeCurrentRoll * 0.1f);
+                planeCurrentRoll = planeCurrentRoll;// - (planeCurrentRoll * 0.1f);
             } else if(planeCurrentRoll < 0){
-                planeCurrentRoll  = planeCurrentRoll - (planeCurrentRoll * 0.1f);
+                planeCurrentRoll  = planeCurrentRoll;// - (planeCurrentRoll * 0.1f);
             } else{
                 planeCurrentRoll = 0;
             }
