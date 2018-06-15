@@ -8,27 +8,27 @@
 class RingMadness : public IRenderProject
 {
 public:
-	/* Constructor and Destructor */
-	RingMadness() : IRenderProject(){}
+    /* Constructor and Destructor */
+    RingMadness() : IRenderProject(){}
     virtual ~RingMadness(){bRenderer::log("RenderProject deleted");}
 
     /* Initialize the Project */
     void init();
     
-	//// RenderProject functions ////
+    //// RenderProject functions ////
 
     void extracted();
     
     /* This function is executed when initializing the renderer */
-	void initFunction();
+    void initFunction();
     
     /* Draw your scene here */
-	void loopFunction(const double &deltaTime, const double &elapsedTime);
+    void loopFunction(const double &deltaTime, const double &elapsedTime);
 
-	/* This function is executed when terminating the renderer */
-	void terminateFunction();
+    /* This function is executed when terminating the renderer */
+    void terminateFunction();
 
-	//// iOS specific ////
+    //// iOS specific ////
 
     /* For iOS only: Handle device rotation */
     void deviceRotated();
@@ -42,7 +42,7 @@ public:
     /* For iOS only: Handle app being terminated */
     void appWillTerminate();
     
-	/* Make renderer accessible to public so we can get the UIView on iOS */
+    /* Make renderer accessible to public so we can get the UIView on iOS */
     Renderer& getProjectRenderer()
     {
         return bRenderer();
@@ -50,30 +50,34 @@ public:
     
 private:
     
-	/* Update render queue */
+    /* Update render queue */
     void makeWorldVivid(const std::string &camera, const double &deltaTime);
-	void updateRenderQueue(const std::string &camera, const double &deltaTime);
+    void updateRenderQueue(const std::string &camera, const double &deltaTime);
 
-	/* Camera movement */
-	void updateCamera(const std::string &camera, const double &deltaTime);
+    /* Camera movement */
+    void updateCamera(const std::string &camera, const double &deltaTime);
     void updatePlane(const std::string &camera, const double &deltaTime);
     
     /* Ball collision */
     void checkRingCollision(Ring &ring);
     void showScore();
     void initRings(const int nr);
+    
+    /* Terrain collision */
+    void checkTerrainCollision(vmml::Vector3f pos, float radius);
+    void checkWaterCollision();
 
-	/* Helper Functions */
-	GLfloat randomNumber(GLfloat min, GLfloat max);
+    /* Helper Functions */
+    GLfloat randomNumber(GLfloat min, GLfloat max);
 
-	/* Variables */
-	GLfloat _randomOffset;
-	GLfloat _offset;
-	GLfloat _cameraSpeed;
-	double _mouseX, _mouseY;
-	bool _running = false; 
-	GLint _lastStateSpaceKey = 0;
-	vmml::Matrix4f _viewMatrixHUD;
+    /* Variables */
+    GLfloat _randomOffset;
+    GLfloat _offset;
+    GLfloat _cameraSpeed;
+    double _mouseX, _mouseY;
+    bool _running = false; 
+    GLint _lastStateSpaceKey = 0;
+    vmml::Matrix4f _viewMatrixHUD;
     
     /* Postprocessing*/
     

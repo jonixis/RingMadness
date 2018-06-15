@@ -33,8 +33,15 @@ const int nrRings = 15;
 Ring rings[nrRings];
 
 const GLfloat mapRadius = 500.f;
-const GLfloat maxHeight = 100.f;
-const float plane_radius = 5.f;
+const GLfloat maxHeight = 90.f;
+float plane_radius = 5.f;
+
+
+//Terrain collision variables
+const float waterHeight = -142.f;
+bool collision = false;
+vmml::Matrix<7, 3> collisionPoints;
+vmml::Vector<7> collisionRadius;
 
 
 //plane Variables
@@ -245,7 +252,6 @@ void RingMadness::loopFunction(const double &deltaTime, const double &elapsedTim
     
     /// Update render queue ///
     updateRenderQueue("camera", deltaTime);
-    
     /// Reset rings, if finnished (in endPostprocessing(defaultFBO);) ///
     if (score == nrRings*10) {
         delay += 1;
@@ -334,6 +340,9 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
     
     
     // Rings
+    //Ring dummyRing = Ring(vmml::Vector3f(-700.f, 550.f, -650.f));
+    //bRenderer().getModelRenderer()->queueModelInstance("ring", "ring_instance" , camera, dummyRing.matrix, std::vector<std::string>({ }), true, true);
+    
     std::ostringstream str;
     
     for(int j = 0; j < nrRings; j++){
@@ -344,6 +353,22 @@ void RingMadness::updateRenderQueue(const std::string &camera, const double &del
         }
     }
     
+    collisionPoints.set_row(0, vmml::Vector3f(-700.f, 550.f, -650.f));
+    collisionPoints.set_row(1, vmml::Vector3f(-730.f, 480.f, -650.f));
+    collisionPoints.set_row(2, vmml::Vector3f(-730.f, 380.f, -650.f));
+    collisionPoints.set_row(3, vmml::Vector3f(-730.f, 250.f, -650.f));
+    collisionPoints.set_row(4, vmml::Vector3f(-730.f, 180.f, -650.f));
+    collisionPoints.set_row(5, vmml::Vector3f(-730.f, 80.f, -650.f));
+    collisionPoints.set_row(6, vmml::Vector3f(-760.f, -300.f, -670.f));
+    
+    collisionRadius[0] = 100.f;
+    collisionRadius[1] = 120.f;
+    collisionRadius[2] = 150.f;
+    collisionRadius[3] = 200.f;
+    collisionRadius[4] = 230.f;
+    collisionRadius[5] = 280.f;
+    collisionRadius[6] = 550.f;
+
     makeWorldVivid(camera, deltaTime);
 }
 
@@ -482,6 +507,28 @@ void RingMadness::checkRingCollision(Ring &ring)
     if(dist <= (ring.radius + plane_radius)){
         score = score + 10;
         ring.hit = true;
+    }
+}
+
+void RingMadness::checkTerrainCollision(vmml::Vector3f pos, float radius){
+    float dx = planePosition.x()-pos.x();
+    float dy = planePosition.y()-pos.y();
+    float dz = planePosition.z()-pos.z();
+    float dist = sqrt(dx*dx + dy*dy + dz*dz);
+    
+    if(dist <= (radius + plane_radius)){
+        collision = true;
+        _running = false;
+        //bRenderer().terminateRenderer();
+    }
+}
+
+void RingMadness::checkWaterCollision(){
+    float dy = abs(planePosition.y()-waterHeight);
+    if(dy <= (plane_radius)){
+        collision = true;
+        _running = false;
+        //bRenderer().terminateRenderer();
     }
 }
 
@@ -680,6 +727,6 @@ void RingMadness::renderBloomEffect(GLint &defaultFBO) {
 
 void RingMadness::initRings(const int nr) {
     for(int i = 0; i < nr; i++){
-        rings[i] = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, maxHeight), randomNumber(-mapRadius, mapRadius)));
+        rings[i] = Ring(vmml::Vector3f(randomNumber(-mapRadius, mapRadius), randomNumber(-maxHeight, 2*maxHeight), randomNumber(-mapRadius, mapRadius)));
     }
 }
