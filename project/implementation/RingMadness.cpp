@@ -214,7 +214,6 @@ void RingMadness::initFunction()
     bRenderer().getObjects()->createFramebuffer("ssao_fbo1");
     bRenderer().getObjects()->createFramebuffer("ssao_fbo2");
     bRenderer().getObjects()->createFramebuffer("ssao_fbo3");
-    bRenderer().getObjects()->createDepthMap("ssao_scene_depth", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
     bRenderer().getObjects()->createTexture("ssao_normal_texture", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
     bRenderer().getObjects()->createTexture("ssao_noise_texture", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
     bRenderer().getObjects()->createTexture("ssao_texture", bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
@@ -663,7 +662,6 @@ void RingMadness::renderBloomEffect(GLint &defaultFBO) {
 void RingMadness::renderSsao(GLint &defaultFBO){
     FramebufferPtr ssaoFBO0 = bRenderer().getObjects()->getFramebuffer("ssao_fbo0");
     ssaoFBO0->bind(false);
-    ssaoFBO0->bindDepthMap(bRenderer().getObjects()->getDepthMap("ssao_scene_depth"), false);
     ssaoFBO0->bindTexture(bRenderer().getObjects()->getTexture("ssao_normal_texture"), false);
     
     vmml::Matrix4f modelMatrix = vmml::create_scaling(vmml::Vector3f(5.0)) * vmml::create_translation(vmml::Vector3f(10.0, 15.0 ,0.0));
@@ -688,7 +686,6 @@ void RingMadness::renderSsao(GLint &defaultFBO){
     FramebufferPtr ssaoFBO2 = bRenderer().getObjects()->getFramebuffer("ssao_fbo2");
     ssaoFBO2->bind(false);
     ssaoFBO2->bindTexture(bRenderer().getObjects()->getTexture("ssao_texture"), false);
-    
 
     vmml::Matrix<16, 3> ssaoKernel;
     float kernelSize = 16.0;
@@ -709,16 +706,12 @@ void RingMadness::renderSsao(GLint &defaultFBO){
     
     modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5)) *
     vmml::create_scaling(vmml::Vector3f(1.0));
-    bRenderer().getObjects()->getMaterial("ssaoMaterial")->setTexture("depthMap", bRenderer().getObjects()->getDepthMap("ssao_scene_depth"));
     bRenderer().getObjects()->getMaterial("ssaoMaterial")->setTexture("normalMap", bRenderer().getObjects()->getTexture("ssao_normal_texture"));
     bRenderer().getObjects()->getMaterial("ssaoMaterial")->setTexture("noiseTex", bRenderer().getObjects()->getTexture("ssao_noise_texture"));
     
     //bRenderer().getModelRenderer()->drawQueue();
     
     ssaoFBO2->unbind(defaultFBO);
-    //bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());
-    
-    //modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5)) * vmml::create_scaling(vmml::Vector3f(1.0));
 }
 
 void RingMadness::initRings(const int nr) {

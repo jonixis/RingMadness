@@ -9,10 +9,10 @@ uniform mat4 ProjectionMatrix;
 attribute vec4 Position;
 attribute vec4 TexCoord;
 
-varying vec4 texCoordVarying;
+varying vec4 texCoords;
 
 void main()
 {
-    texCoordVarying = TexCoord;
+    texCoords = TexCoord;
     gl_Position = ProjectionMatrix * ModelViewMatrix * Position;
 }
